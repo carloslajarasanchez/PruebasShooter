@@ -1,0 +1,74 @@
+using UnityEngine;
+using UnityEngine.InputSystem;
+
+public class InventoryController : MonoBehaviour
+{
+    [SerializeField] private float _raycastDistance = 3f;
+    [SerializeField] private LayerMask _catchableLayer;
+
+    private bool _isCatcheable = false;
+    private ICatchable _itemToCatch;
+    private bool _isDetecting;
+    private PlayerInputActions _input;
+
+    private void OnEnable()
+    {
+        _input = AppContainer.Get<IPlayerInput>().Actions;
+        _input.Player.Interact.performed += CatchItem;
+    }
+
+    private void OnDisable()
+    {
+        if (_input == null) return;
+
+        _input.Player.Interact.performed -= CatchItem;
+    }
+
+    private void Update()
+    {
+        CheckObject();
+    }
+
+    private void CheckObject()
+    {
+        Vector2 _screenCenter = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
+        bool hitSomething = Physics.Raycast(Camera.main.ScreenPointToRay(_screenCenter), out RaycastHit hit, _raycastDistance, _catchableLayer);
+        Ray ray = Camera.main.ScreenPointToRay(_screenCenter);
+        Debug.DrawRay(ray.origin, ray.direction * hit.distance, Color.green);
+
+        ICatchable catchable = hitSomething && hit.collider.TryGetComponent(out ICatchable found) ? found : null;
+
+        if (catchable != null)
+        {
+            _itemToCatch = catchable;
+
+            if (!_isDetecting)
+            {
+                _isDetecting = true;
+                _isCatcheable = true;
+                AppContainer.Get<EventService>().Publish(GameEvents.OnCatchableDetected);
+            }
+        }
+        else
+        {
+            _itemToCatch = null;
+
+            if (_isDetecting)
+            {
+                _isDetecting = false;
+                _isCatcheable = false;
+                AppContainer.Get<EventService>().Publish(GameEvents.OnCatchableLost);
+            }
+        }
+    }
+
+    private void CatchItem(InputAction.CallbackContext context)
+    {
+        Debug.Log("Interact button pressed.");
+        if (_isCatcheable)
+        {
+            Debug.Log("Attempting to catch item...");
+            _itemToCatch.Catch();
+        }  
+    }
+}
