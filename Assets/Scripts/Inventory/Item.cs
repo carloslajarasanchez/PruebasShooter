@@ -6,10 +6,12 @@ public abstract class Item : MonoBehaviour, ICatchable
     protected string _name;
     protected string _description;
     protected Sprite _icon;
+    protected GameObject _modelPrefab;
 
     public string Name => _name;
     public string Description => _description;
     public Sprite Icon => _icon;
+    public GameObject ModelPrefab => _modelPrefab;
 
     private IInventoryService _inventoryService;
 
@@ -18,6 +20,7 @@ public abstract class Item : MonoBehaviour, ICatchable
         this._name = _data.ItemName;
         this._description = _data.Description;
         this._icon = _data.Icon;
+        this._modelPrefab = _data.ModelPrefab;
         _inventoryService = AppContainer.Get<IInventoryService>();
     }
 

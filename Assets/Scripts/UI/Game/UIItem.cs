@@ -5,18 +5,34 @@ using UnityEngine.UI;
 public class UIItem : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _nameText;
-    [SerializeField] private TextMeshProUGUI _descriptionText;
     [SerializeField] private Image _icon;
+    [SerializeField] private Image _selectionHighlight;
 
-    public void SetItem(Item item)
+    private Button _button;
+    private Item _item;
+    private UIInventory _uiInventory;
+
+    public void SetItem(Item item, UIInventory uiInventory)
     {
+        _item = item;
+        _uiInventory = uiInventory;
         _nameText.text = item.Name;
-       // _descriptionText.text = item.Description;
         _icon.sprite = item.Icon;
+        _button = GetComponent<Button>();
+        _button.onClick.AddListener(OnClick);
+        SetSelected(false);
     }
 
-    private void SelectedItem()
+    private void OnClick()
     {
-        // TODO: Implement item selection logic, such as equipping the item or using it and updating the UI accordingly
+        _uiInventory.SelectItem(_item);
+    }
+
+    public void SetSelected(bool selected)
+    {
+        if(_selectionHighlight != null)
+        {
+            _selectionHighlight.enabled = selected;
+        }
     }
 }

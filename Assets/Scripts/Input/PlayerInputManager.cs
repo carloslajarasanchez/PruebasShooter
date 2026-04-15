@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public partial class PlayerInputManager: IPlayerInput
 {
     public PlayerInputActions Actions { get; }
@@ -16,10 +18,14 @@ public partial class PlayerInputManager: IPlayerInput
         {
             case ControlMap.Player:
                 Actions.Player.Enable();
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
                 break;
 
             case ControlMap.UI:
                 Actions.UI.Enable();
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
                 break;
         }
     }

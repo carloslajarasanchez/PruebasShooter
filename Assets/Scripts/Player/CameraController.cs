@@ -48,9 +48,6 @@ public class CameraController : MonoBehaviour
     {
         _events.Subscribe(GameEvents.OnPlayerCrouch, OnCrouch);
         _events.Subscribe(GameEvents.OnPlayerStand, OnStand);
-
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
     }
 
     private void OnDisable()
