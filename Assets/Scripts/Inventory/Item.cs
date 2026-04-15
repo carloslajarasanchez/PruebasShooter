@@ -7,23 +7,30 @@ public abstract class Item : MonoBehaviour, ICatchable
     protected string _description;
     protected Sprite _icon;
 
+    public string Name => _name;
+    public string Description => _description;
+    public Sprite Icon => _icon;
+
+    private IInventoryService _inventoryService;
+
     private void Awake()
     {
         this._name = _data.ItemName;
         this._description = _data.Description;
         this._icon = _data.Icon;
+        _inventoryService = AppContainer.Get<IInventoryService>();
     }
 
     public void Catch()
     {
         Debug.Log("Catching item: " + _name);
-        AppContainer.Get<IPlayer>().AddItem(this);
+        _inventoryService.AddItem(this);
         Destroy(gameObject);
     }
 
     public virtual void Use()
     {
-        AppContainer.Get<IPlayer>().RemoveItem(this);
+        _inventoryService.RemoveItem(this);
     }
 
     public virtual void Equip()

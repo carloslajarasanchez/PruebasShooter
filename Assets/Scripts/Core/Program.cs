@@ -19,6 +19,8 @@ public static class Program
 
         AppContainer.Register<IPlayerInput>(() => new PlayerInputManager());
 
+        AppContainer.Register<IInventoryService>(() => new InventoryService());
+
         AppContainer.Register<IPlayer>(() => new Player());
     }
 }

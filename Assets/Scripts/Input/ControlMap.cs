@@ -1,8 +1,6 @@
-public partial class PlayerInputManager
+
+public enum ControlMap
 {
-    public enum ControlMap
-    {
-        Player,
-        UI
-    }
+    Player,
+    UI
 }
