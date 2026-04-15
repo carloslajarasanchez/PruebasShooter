@@ -46,14 +46,14 @@ public class CameraController : MonoBehaviour
 
     private void OnEnable()
     {
-        _events.Subscribe(GameEvents.OnPlayerCrouch, OnCrouch);
-        _events.Subscribe(GameEvents.OnPlayerStand, OnStand);
+        _events.Subscribe<OnPlayerCrouch>(OnCrouch);
+        _events.Subscribe<OnPlayerStand>(OnStand);
     }
 
     private void OnDisable()
     {
-        _events.Unsubscribe(GameEvents.OnPlayerCrouch, OnCrouch);
-        _events.Unsubscribe(GameEvents.OnPlayerStand, OnStand);
+        _events.Unsubscribe<OnPlayerCrouch>(OnCrouch);
+        _events.Unsubscribe<OnPlayerStand>(OnStand);
     }
 
     private void Update()
@@ -66,13 +66,13 @@ public class CameraController : MonoBehaviour
 
     // ── Eventos de agacharse ─────────────────────────────────────────────────
 
-    private void OnCrouch()
+    private void OnCrouch(OwnEventBase parameters)
     {
         _targetCameraY = crouchCameraY;
         _isTransitioning = true;
     }
 
-    private void OnStand()
+    private void OnStand(OwnEventBase parameters)
     {
         _targetCameraY = standingCameraY;
         _isTransitioning = true;

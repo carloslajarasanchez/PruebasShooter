@@ -13,6 +13,9 @@ public class InventoryController : MonoBehaviour
 
     private IEventService _eventService;
 
+    private OnCatchableDetected _catchableDetectedEvent = new OnCatchableDetected();
+    private OnCatchableLost _catchableLostEvent = new OnCatchableLost();
+
     private void OnEnable()
     {
         _input = AppContainer.Get<IPlayerInput>().Actions;
@@ -49,7 +52,8 @@ public class InventoryController : MonoBehaviour
             {
                 _isDetecting = true;
                 _isCatcheable = true;
-                _eventService.Publish(GameEvents.OnCatchableDetected);
+                //_eventService.Publish(GameEvents.OnCatchableDetected);
+                _eventService.Publish(_catchableDetectedEvent);
             }
         }
         else
@@ -60,7 +64,8 @@ public class InventoryController : MonoBehaviour
             {
                 _isDetecting = false;
                 _isCatcheable = false;
-                _eventService.Publish(GameEvents.OnCatchableLost);
+                //_eventService.Publish(GameEvents.OnCatchableLost);
+                _eventService.Publish(_catchableLostEvent);
             }
         }
     }

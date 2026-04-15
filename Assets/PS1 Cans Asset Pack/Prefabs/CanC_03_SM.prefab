@@ -111,4 +111,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13c580c8bda074946bfb097723b4ef69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthPotion
-  _data: {fileID: 0}
+  _data: {fileID: 11400000, guid: 5ec5a448836ad6240990bc5d3201c5f5, type: 2}

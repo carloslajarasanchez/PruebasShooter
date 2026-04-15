@@ -31,7 +31,8 @@ public class JsonTranslationService : ITranslationService
             this._logService.Add<JsonTranslationService>($"Cambiamos el language a `{language}`");
 
             //Invocamos evento de cambio de lenguage
-            _eventService.Publish(GameEvents.OnLanguageChanged);
+            OnLanguageChanged onLanguageChanged = new OnLanguageChanged() { Language = language };
+            _eventService.Publish(onLanguageChanged);
         }
         catch (Exception ex)
         {

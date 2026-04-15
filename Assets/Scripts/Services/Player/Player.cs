@@ -2,11 +2,14 @@ using System.Collections.Generic;
 
 public class Player: IPlayer
 {
-    public int Lives { get; private set; } = 3;
+    public int Lives { get; private set; } = 100;
 
-    public List<Item> Inventory { get; private set; } = new List<Item>();
+    private IEventService _eventService;
 
-
+    public Player()
+    {
+        _eventService = AppContainer.Get<IEventService>();
+    }   
     /// <summary>
     /// Resta vidas al player
     /// </summary>
@@ -17,10 +20,10 @@ public class Player: IPlayer
 
         if (Lives <= 0)
         {
-            AppContainer.Get<IEventService>().Publish(GameEvents.OnGameOver);
+            _eventService.Publish(new OnGameOver());
         }
 
-        AppContainer.Get<IEventService>().Publish(GameEvents.OnLivesChanged);
+        _eventService.Publish(new OnLivesChanged());
     }
 
     /// <summary>
@@ -30,23 +33,12 @@ public class Player: IPlayer
     public void AddLives(int amount)
     {
         Lives += amount;
-        AppContainer.Get<IEventService>().Publish(GameEvents.OnLivesChanged);
+        _eventService.Publish(new OnLivesChanged());
     }
 
 
     public void ResetPlayer()
     {
         Lives = 100;
-    }
-
-    public void AddItem(Item item)
-    {
-        Inventory.Add(item);
-        AppContainer.Get<IEventService>().Publish(GameEvents.OnInventoryChanged);
-    }
-
-    public void RemoveItem(Item item) {
-        Inventory.Remove(item);
-        AppContainer.Get<IEventService>().Publish(GameEvents.OnInventoryChanged);
     }
 }

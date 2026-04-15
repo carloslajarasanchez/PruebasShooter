@@ -11,12 +11,12 @@ public class UIItemDetail : MonoBehaviour
     [SerializeField] private Button _equipButton;
 
     [Header("3D Preview Setup")]
-    [SerializeField] private Camera _previewCamera;          // Cámara secundaria (Target Texture = RenderTexture)
-    [SerializeField] private Transform _modelSpawnPoint;     // Punto donde instanciar el modelo 3D
-    [SerializeField] private float _rotationSpeed = 45f;     // Grados por segundo
+    [SerializeField] private Camera _previewCamera;          
+    [SerializeField] private Transform _modelSpawnPoint;     
+    [SerializeField] private float _rotationSpeed = 45f;     
 
     [Header("Preview Layer")]
-    [SerializeField] private LayerMask _previewLayer; // Debe existir en Project Settings
+    [SerializeField] private LayerMask _previewLayer; 
 
     private GameObject _detailPanel;
     private GameObject _currentModel;

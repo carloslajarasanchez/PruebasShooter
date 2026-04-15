@@ -485,7 +485,6 @@ GameObject:
   - component: {fileID: 68352578}
   - component: {fileID: 68352577}
   - component: {fileID: 68352576}
-  - component: {fileID: 68352580}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -570,7 +569,7 @@ RectTransform:
   m_Children:
   - {fileID: 1538529398}
   - {fileID: 1573557226}
-  - {fileID: 1554082754}
+  - {fileID: 1178413588}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -578,22 +577,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &68352580
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 68352575}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d9a1f5eb57902544ad448d74bd6cdd4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UIInventory
-  _inventoryPanel: {fileID: 1554082753}
-  _inventoryContainer: {fileID: 784559311}
-  _inventoryItem: {fileID: 291889947304646536, guid: a376fb1a88419594a9e2e7b1e103cad7, type: 3}
-  _itemDetail: {fileID: 1016158564}
 --- !u!114 &96511715
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6576,6 +6559,60 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!1 &1178413587
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1178413588}
+  - component: {fileID: 1178413589}
+  m_Layer: 5
+  m_Name: InventoryContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1178413588
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1178413587}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1554082754}
+  - {fileID: 2055079244}
+  m_Father: {fileID: 68352579}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1178413589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1178413587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d9a1f5eb57902544ad448d74bd6cdd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIInventory
+  _inventoryPanel: {fileID: 1554082753}
+  _inventoryContainer: {fileID: 784559311}
+  _inventoryItem: {fileID: 291889947304646536, guid: a376fb1a88419594a9e2e7b1e103cad7, type: 3}
+  _itemDetail: {fileID: 1016158564}
 --- !u!114 &1200173197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8485,7 +8522,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1554082753}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -8493,7 +8530,7 @@ RectTransform:
   - {fileID: 1528987450}
   - {fileID: 784559312}
   - {fileID: 1016158561}
-  m_Father: {fileID: 68352579}
+  m_Father: {fileID: 1178413588}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -10358,14 +10395,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2055079243}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -40, y: -0, z: -0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1066.2241, y: -540.415, z: 0}
+  m_LocalScale: {x: 2.6556017, y: 2.6556017, z: 2.6556017}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 125053406}
   - {fileID: 398549669}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1178413588}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2080225724
 MonoBehaviour:
@@ -12003,4 +12040,3 @@ SceneRoots:
   - {fileID: 1631201850}
   - {fileID: 1271666260}
   - {fileID: 912781577}
-  - {fileID: 2055079244}

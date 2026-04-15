@@ -15,4 +15,4 @@ MonoBehaviour:
   ItemName: Health Potion
   Description: Cura 20 puntos de vida
   Icon: {fileID: 21300000, guid: e29e2889342d83a46b144fa5272c36a2, type: 3}
-  ModelPrefab: {fileID: 4713655612185854180, guid: 17af492dc5d7e6245a41c2e457f499f8, type: 3}
+  ModelPrefab: {fileID: 6146974646192370788, guid: 1bdcc7d176c4ab44d9268b9b0307ca29, type: 3}
