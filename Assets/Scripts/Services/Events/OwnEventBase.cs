@@ -1,6 +1,4 @@
-using UnityEngine;
-
-public abstract class OwnEventBase : MonoBehaviour
+public abstract class OwnEventBase
 {
 
 }

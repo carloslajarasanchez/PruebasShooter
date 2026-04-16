@@ -21,9 +21,11 @@ public class UIItemDetail : MonoBehaviour
     private GameObject _detailPanel;
     private GameObject _currentModel;
     private Item _currentItem;
+    private ILogService _logService;
 
     private void Awake()
     {
+        _logService = AppContainer.Get<ILogService>();
         _detailPanel = this.gameObject;
         _detailPanel.SetActive(false);
         _equipButton.onClick.AddListener(OnEquipClicked);
@@ -68,7 +70,7 @@ public class UIItemDetail : MonoBehaviour
         GameObject prefab = item.ModelPrefab;
         if (prefab == null)
         {
-            Debug.LogWarning($"El item '{item.Name}' no tiene ModelPrefab asignado en su ItemData.");
+            _logService.Add<UIItemDetail>($"El item '{item.Name}' no tiene ModelPrefab asignado en su ItemData.");
             return;
         }
 
@@ -97,10 +99,13 @@ public class UIItemDetail : MonoBehaviour
 
     private void OnEquipClicked()
     {
+        _logService.Add<UIItemDetail>($"Pulsado boton equipar");
         if (_currentItem != null)
         {
             _currentItem.Equip();
+            _logService.Add<UIItemDetail>($"Equipado: {_currentItem.Name}");
             // Opcional: cerrar el inventario o actualizar el grid tras equipar
+            
         }
     }
 

@@ -15,7 +15,7 @@ public abstract class Item : MonoBehaviour, ICatchable
 
     private IInventoryService _inventoryService;
 
-    private void Awake()
+    public virtual void Awake()
     {
         this._name = _data.ItemName;
         this._description = _data.Description;
@@ -28,7 +28,9 @@ public abstract class Item : MonoBehaviour, ICatchable
     {
         Debug.Log("Catching item: " + _name);
         _inventoryService.AddItem(this);
-        Destroy(gameObject);
+        //Destroy(gameObject);
+        gameObject.SetActive(false);
+        transform.SetParent(null);
     }
 
     public virtual void Use()

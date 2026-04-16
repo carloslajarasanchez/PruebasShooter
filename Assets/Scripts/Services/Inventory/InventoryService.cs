@@ -5,11 +5,12 @@ public class InventoryService : IInventoryService
 {
     public List<Item> Items { get; set; } = new List<Item>();
     private IEventService _eventService;
-    private OnInventoryChanged _inventoryChangedEvent = new OnInventoryChanged();
+    private OnInventoryChanged _inventoryChangedEvent;
 
     public InventoryService()
     {
         _eventService = AppContainer.Get<IEventService>();
+        _inventoryChangedEvent = new OnInventoryChanged();
     }
 
     public void AddItem(Item item)

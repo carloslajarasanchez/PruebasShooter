@@ -85,7 +85,7 @@ public class PlayerController : MonoBehaviour
         _isCrouching = true;
         _controller.height = crouchHeight;
 
-        _events.Publish(GameEvents.OnPlayerCrouch);
+        _events.Publish(new OnPlayerCrouch());
     }
 
     private void TryStand()
@@ -95,7 +95,7 @@ public class PlayerController : MonoBehaviour
         _isCrouching = false;
         _controller.height = standingHeight;
 
-        _events.Publish(GameEvents.OnPlayerStand);
+        _events.Publish(new OnPlayerStand());
     }
 
     private bool CanStandUp()

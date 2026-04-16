@@ -13,11 +13,13 @@ public class InventoryController : MonoBehaviour
 
     private IEventService _eventService;
 
-    private OnCatchableDetected _catchableDetectedEvent = new OnCatchableDetected();
-    private OnCatchableLost _catchableLostEvent = new OnCatchableLost();
+    private OnCatchableDetected _catchableDetectedEvent;
+    private OnCatchableLost _catchableLostEvent;
 
     private void OnEnable()
     {
+        _catchableDetectedEvent = new OnCatchableDetected();
+        _catchableLostEvent = new OnCatchableLost();
         _input = AppContainer.Get<IPlayerInput>().Actions;
         _input.Player.Interact.performed += CatchItem;
         _eventService = AppContainer.Get<IEventService>();

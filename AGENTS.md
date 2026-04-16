@@ -2,7 +2,7 @@
 - Project name: PruebasLoquero
 - Unity version: Unity 6000.3.12f1
 - Active game object:
-  - Name: CanView
+  - Name: GameObject
   - Tag: Untagged
-  - Layer: ItemPreview
+  - Layer: Default
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->
