@@ -271,6 +271,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "SwitchLight",
+                    "type": "Button",
+                    "id": "f5ab5104-0b35-4e64-8cbf-d1a7b876a38f",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -513,6 +522,17 @@
                     "processors": "",
                     "groups": ";Keyboard",
                     "action": "ScrollWeapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e8fb467d-ce32-4b1c-b63b-c9e95ead3a73",
+                    "path": "<Keyboard>/g",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard",
+                    "action": "SwitchLight",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

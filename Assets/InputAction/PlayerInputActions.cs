@@ -357,6 +357,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""SwitchLight"",
+                    ""type"": ""Button"",
+                    ""id"": ""f5ab5104-0b35-4e64-8cbf-d1a7b876a38f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -601,6 +610,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""ScrollWeapon"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e8fb467d-ce32-4b1c-b63b-c9e95ead3a73"",
+                    ""path"": ""<Keyboard>/g"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""SwitchLight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -642,6 +662,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
         m_Player_Reload = m_Player.FindAction("Reload", throwIfNotFound: true);
         m_Player_ScrollWeapon = m_Player.FindAction("ScrollWeapon", throwIfNotFound: true);
+        m_Player_SwitchLight = m_Player.FindAction("SwitchLight", throwIfNotFound: true);
     }
 
     ~@PlayerInputActions()
@@ -862,6 +883,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Fire;
     private readonly InputAction m_Player_Reload;
     private readonly InputAction m_Player_ScrollWeapon;
+    private readonly InputAction m_Player_SwitchLight;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -913,6 +935,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/ScrollWeapon".
         /// </summary>
         public InputAction @ScrollWeapon => m_Wrapper.m_Player_ScrollWeapon;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/SwitchLight".
+        /// </summary>
+        public InputAction @SwitchLight => m_Wrapper.m_Player_SwitchLight;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -969,6 +995,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @ScrollWeapon.started += instance.OnScrollWeapon;
             @ScrollWeapon.performed += instance.OnScrollWeapon;
             @ScrollWeapon.canceled += instance.OnScrollWeapon;
+            @SwitchLight.started += instance.OnSwitchLight;
+            @SwitchLight.performed += instance.OnSwitchLight;
+            @SwitchLight.canceled += instance.OnSwitchLight;
         }
 
         /// <summary>
@@ -1010,6 +1039,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @ScrollWeapon.started -= instance.OnScrollWeapon;
             @ScrollWeapon.performed -= instance.OnScrollWeapon;
             @ScrollWeapon.canceled -= instance.OnScrollWeapon;
+            @SwitchLight.started -= instance.OnSwitchLight;
+            @SwitchLight.performed -= instance.OnSwitchLight;
+            @SwitchLight.canceled -= instance.OnSwitchLight;
         }
 
         /// <summary>
@@ -1182,5 +1214,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnScrollWeapon(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SwitchLight" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSwitchLight(InputAction.CallbackContext context);
     }
 }
