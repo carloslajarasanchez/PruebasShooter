@@ -15,7 +15,7 @@ MonoBehaviour:
   ItemName: 1911
   Description: Arma recortada, con potencia media
   Icon: {fileID: 21300000, guid: d0fbb42bbc2ed79418f1ec6aa2dd17f5, type: 3}
-  ModelPrefab: {fileID: 7742797509372612779, guid: 8a5511778c7091441b857a9543cfc7a6, type: 3}
+  ModelPrefab: {fileID: 6111356370677266196, guid: 5ca6a1da6530d1e4395505425272ac04, type: 3}
   MaxAmmo: 15
   FireRate: 0.2
   ReloadTime: 1.5
@@ -24,5 +24,5 @@ MonoBehaviour:
   IsAutomatic: 0
   PelletCount: 1
   SpreadAngle: 0
-  CasingPrefab: {fileID: 3021584152511096829, guid: bcc5077a6cc07d24eb37b1d90a42bf62, type: 3}
+  CasingPrefab: {fileID: 6312005779837555076, guid: 379413582eceefc4f965fed1234eaf96, type: 3}
   CasingEjectPoint: {fileID: 0}

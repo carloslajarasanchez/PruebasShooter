@@ -4,21 +4,35 @@ public class EquipService : IEquipService
 {
     public Item CurrentItem { get; private set; }
     public Item PreviousItem { get; private set; }
+    public Transform ItemStorage { get; private set; }
+    public Transform Hand { get; private set; }
 
     private IEventService _eventService;
     private IInventoryService _inventoryService;
-    private Transform _handTransform;
-    private GameObject _currentModel;
-    private int _itemLayer;
+    private int _handLayer;
+    private int _defaultLayer;
 
     public EquipService()
     {
         _eventService = AppContainer.Get<IEventService>();
         _inventoryService = AppContainer.Get<IInventoryService>();
-        _itemLayer = LayerMask.NameToLayer("Item");
+        _handLayer = LayerMask.NameToLayer("Hand");
+        _defaultLayer = LayerMask.NameToLayer("Default");
+
+        if (_handLayer == -1)
+            Debug.LogWarning("[EquipService] Layer 'Hand' no existe. Créalo en Project Settings > Tags and Layers.");
     }
 
-    public void SetHandTransform(Transform hand) => _handTransform = hand;
+    /// <summary>
+    /// Llamado desde EquipController.Awake() para inyectar los transforms del Player.
+    /// </summary>
+    public void SetTransforms(Transform itemStorage, Transform hand)
+    {
+        ItemStorage = itemStorage;
+        Hand = hand;
+    }
+
+    // ?? API pública ??????????????????????????????????????????????
 
     public void Equip(Item item)
     {
@@ -29,18 +43,23 @@ public class EquipService : IEquipService
             return;
         }
 
+        // Guardar anterior
         if (CurrentItem != null && CurrentItem != item)
             PreviousItem = CurrentItem;
 
-        DestroyCurrentModel();
-        CurrentItem = item;
-        GameObject model = SpawnModel(item);
+        // Desequipar el actual sin perder su referencia aún
+        UnequipCurrent();
 
-        // Si es un arma, le notificamos el modelo para que obtenga su AudioSource
-        if (item is Weapon weapon && model != null)
-            weapon.OnModelSpawned(model);
+        // Mover el nuevo item de ItemStorage a Hand
+        CurrentItem = item;
+        MoveToHand(item);
+
+        // Si es arma notificar el AudioSource
+        if (item is Weapon weapon)
+            weapon.OnEquipped();
 
         _eventService.Publish(new OnItemEquipped { Item = item });
+        Debug.Log($"[EquipService] Equipado: {item.Name}");
     }
 
     public void SwapWithPrevious()
@@ -57,7 +76,7 @@ public class EquipService : IEquipService
     public void Unequip()
     {
         if (CurrentItem == null) return;
-        DestroyCurrentModel();
+        UnequipCurrent();
         _eventService.Publish(new OnItemUnequipped { Item = CurrentItem });
         CurrentItem = null;
     }
@@ -70,51 +89,58 @@ public class EquipService : IEquipService
         equippable.OnPrimaryAction();
         _eventService.Publish(new OnItemUsed { Item = CurrentItem });
 
+        // Si es consumible, eliminar del inventario y volver al anterior
         if (!equippable.IsReusable)
         {
-            _inventoryService.RemoveItem(CurrentItem);
-            DestroyCurrentModel();
-            Item next = PreviousItem;
+            Item consumed = CurrentItem;
             CurrentItem = null;
-            if (next != null && _inventoryService.Items.Contains(next))
-                Equip(next);
+
+            MoveToStorage(consumed);
+            Object.Destroy(consumed.gameObject);
+            _inventoryService.RemoveItem(consumed);
+
+            if (PreviousItem != null && _inventoryService.Items.Contains(PreviousItem))
+                Equip(PreviousItem);
         }
     }
 
-    private GameObject SpawnModel(Item item)
+    // ?? Movimiento entre transforms ??????????????????????????????
+
+    private void MoveToHand(Item item)
     {
-        if (_handTransform == null)
+        if (Hand == null)
         {
-            Debug.LogError("[EquipService] Hand no asignado. Llama a SetHandTransform primero.");
-            return null;
+            Debug.LogError("[EquipService] Hand no asignado.");
+            return;
         }
 
-        GameObject prefab = item.ModelPrefab;
-        if (prefab == null)
-        {
-            Debug.LogWarning($"[EquipService] '{item.Name}' no tiene ModelPrefab en ItemData.");
-            return null;
-        }
-
-        _currentModel = Object.Instantiate(prefab, _handTransform.position, _handTransform.rotation, _handTransform);
-
-        if (_itemLayer != -1)
-            SetLayerRecursively(_currentModel, _itemLayer);
-
-        return _currentModel;
+        item.transform.SetParent(Hand);
+        item.transform.localPosition = Vector3.zero;
+        item.transform.localRotation = Quaternion.identity;
+        item.gameObject.SetActive(true);
+        SetLayerRecursively(item.gameObject, _handLayer);
     }
 
-    private void DestroyCurrentModel()
+    private void UnequipCurrent()
     {
-        if (_currentModel != null)
-        {
-            Object.Destroy(_currentModel);
-            _currentModel = null;
-        }
+        if (CurrentItem == null) return;
+        MoveToStorage(CurrentItem);
+    }
+
+    private void MoveToStorage(Item item)
+    {
+        if (ItemStorage == null) return;
+
+        item.gameObject.SetActive(false);
+        item.transform.SetParent(ItemStorage);
+        item.transform.localPosition = Vector3.zero;
+        item.transform.localRotation = Quaternion.identity;
+        SetLayerRecursively(item.gameObject, _defaultLayer);
     }
 
     private void SetLayerRecursively(GameObject obj, int layer)
     {
+        if (layer == -1) return;
         obj.layer = layer;
         foreach (Transform child in obj.transform)
             SetLayerRecursively(child.gameObject, layer);

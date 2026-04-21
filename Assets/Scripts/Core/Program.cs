@@ -21,7 +21,9 @@ public static class Program
         AppContainer.Register<IInventoryService>(() => new InventoryService());
 
         AppContainer.Register<IPlayer>(() => new Player());
-        
-        AppContainer.Register<IWeaponService>(() => new WeaponService());
+
+        AppContainer.Register<IEquipService>(() => new EquipService());
+
+        //AppContainer.Register<IWeaponService>(() => new WeaponService());
     }
 }

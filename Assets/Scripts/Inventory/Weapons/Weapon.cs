@@ -1,68 +1,61 @@
 ﻿using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
-public abstract class Weapon : Item, IWeapon, IInventory
+public abstract class Weapon : Item, IEquippable
 {
-    // ── IInventory ───────────────────────────────────────────────
-    public bool IsReusable { get; set; } = true;
+    public bool IsReusable => true;
+    public void OnPrimaryAction() => Shoot();
 
-    // ── IWeapon ──────────────────────────────────────────────────
     public int CurrentAmmo { get; protected set; }
     public int MaxAmmo { get; protected set; }
     public bool IsReloading { get; protected set; }
-    public float FireRate { get; protected set; }
 
     [Header("Weapon Data")]
     [SerializeField] private WeaponData _weaponData;
+    public WeaponData WeaponData => _weaponData;
 
     [Header("References")]
-    [SerializeField] protected Transform _muzzlePoint;
-    [SerializeField] protected Transform _casingEjectPoint;
+    [SerializeField] private Transform _casingEjectPoint;
 
     [Header("Audio")]
     [SerializeField] private AudioClip _shootClip;
     [SerializeField] private AudioClip _reloadClip;
     [SerializeField] private AudioClip _emptyClip;
 
+    // El AudioSource está en el propio GameObject del arma
     private AudioSource _audioSource;
     private IEventService _eventService;
     private float _nextFireTime;
 
-    public WeaponData WeaponData => _weaponData;
-
-    private OnWeaponFired _onWeaponFired = new OnWeaponFired();
-
     protected new void Awake()
     {
         base.Awake();
-        _eventService = AppContainer.Get<IEventService>();
         _audioSource = GetComponent<AudioSource>();
+        _eventService = AppContainer.Get<IEventService>();
 
         if (_weaponData == null)
         {
-            Debug.LogError($"[Weapon] {name}: WeaponData no asignado en el Inspector.");
+            Debug.LogError($"[Weapon] {name}: WeaponData no asignado.");
             return;
         }
 
         MaxAmmo = _weaponData.MaxAmmo;
         CurrentAmmo = MaxAmmo;
-        FireRate = _weaponData.FireRate;
     }
 
-    // ── Item overrides ───────────────────────────────────────────
+    /// <summary>Llamado por EquipService cuando el arma se mueve a Hand.</summary>
+    public void OnEquipped()
+    {
+        // El AudioSource ya está en este mismo GameObject, nada que buscar
+        Debug.Log($"[Weapon] {Name} lista para usar.");
+    }
 
-    /// <summary>Use() en armas dispara. No llama base.Use() para no eliminar el item del inventario.</summary>
+    // ── IEquippable / Item ───────────────────────────────────────
+
     public override void Use() => Shoot();
 
-    public override void Equip()
-    {
-        Debug.Log($"[Weapon] {Name} equipada.");
-        AppContainer.Get<IWeaponService>().EquipWeapon(this);
-    }
-
-    // ── IWeapon ──────────────────────────────────────────────────
+    // ── Disparo ──────────────────────────────────────────────────
 
     public void Shoot()
     {
@@ -75,14 +68,13 @@ public abstract class Weapon : Item, IWeapon, IInventory
             return;
         }
 
-        _nextFireTime = Time.time + FireRate;
+        _nextFireTime = Time.time + _weaponData.FireRate;
         CurrentAmmo--;
         PlayClip(_shootClip);
         EjectCasing();
         PerformRaycast();
 
-        //AppContainer.Get<IEventService>().Publish(GameEvents.OnWeaponFired);
-        _eventService.Publish(_onWeaponFired);
+        _eventService.Publish(new OnWeaponFired());
         _eventService.Publish(new OnAmmoChanged { CurrentAmmo = CurrentAmmo, MaxAmmo = MaxAmmo });
 
         if (CurrentAmmo == 0)
@@ -95,46 +87,44 @@ public abstract class Weapon : Item, IWeapon, IInventory
         StartCoroutine(ReloadCoroutine());
     }
 
-    // ── Raycast ──────────────────────────────────────────────────
+    // ── Raycast desde centro de pantalla ─────────────────────────
 
     protected virtual void PerformRaycast()
     {
-        int pellets = _weaponData.PelletCount;
-        for (int i = 0; i < pellets; i++)
-        {
-            Vector3 dir = GetShotDirection();
-            Ray ray = new Ray(_muzzlePoint.position, dir);
+        Camera cam = Camera.main;
+        if (cam == null) return;
 
-            if (Physics.Raycast(ray, out RaycastHit hit, _weaponData.Range))
+        Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
+
+        for (int i = 0; i < _weaponData.PelletCount; i++)
+        {
+            Vector3 dir = GetShotDirection(ray.direction);
+            if (Physics.Raycast(ray.origin, dir, out RaycastHit hit, _weaponData.Range))
             {
-                Debug.DrawRay(ray.origin, ray.direction * hit.distance, Color.red, 0.5f);
+                Debug.DrawRay(ray.origin, dir * hit.distance, Color.red, 0.5f);
                 OnHit(hit);
             }
             else
             {
-                Debug.DrawRay(ray.origin, ray.direction * _weaponData.Range, Color.yellow, 0.5f);
+                Debug.DrawRay(ray.origin, dir * _weaponData.Range, Color.yellow, 0.5f);
             }
-
         }
     }
 
-    protected virtual Vector3 GetShotDirection()
+    protected virtual Vector3 GetShotDirection(Vector3 baseDirection)
     {
-        if (_weaponData.SpreadAngle <= 0f)
-            return _muzzlePoint.forward;
-
+        if (_weaponData.SpreadAngle <= 0f) return baseDirection;
         float half = _weaponData.SpreadAngle * 0.5f;
         return Quaternion.Euler(
             Random.Range(-half, half),
             Random.Range(-half, half),
             0f
-        ) * _muzzlePoint.forward;
+        ) * baseDirection;
     }
 
-    /// <summary>Sobreescribir para aplicar daño, efectos de impacto, etc.</summary>
     protected virtual void OnHit(RaycastHit hit)
     {
-        Debug.Log($"[Weapon] {Name} impactó '{hit.collider.name}' a {hit.distance:F1}m — daño: {_weaponData.Damage}");
+        Debug.Log($"[Weapon] '{Name}' impactó '{hit.collider.name}' — daño: {_weaponData.Damage}");
     }
 
     // ── VFX ──────────────────────────────────────────────────────
@@ -142,8 +132,25 @@ public abstract class Weapon : Item, IWeapon, IInventory
     private void EjectCasing()
     {
         if (_weaponData.CasingPrefab == null || _casingEjectPoint == null) return;
-        GameObject casing = Instantiate(_weaponData.CasingPrefab, _casingEjectPoint.position, _casingEjectPoint.rotation);
+
+        GameObject casing = Instantiate(
+            _weaponData.CasingPrefab,
+            _casingEjectPoint.position,
+            _casingEjectPoint.rotation
+        );
+
+        //TODO: agregar fuerza de eyección y rotación aleatoria para más realismo
+
+        Debug.Log($"[Weapon] '{Name}' expulsó una vaina. { casing.transform.position}");
         Destroy(casing, 5f);
+    }
+
+    // ── Audio ────────────────────────────────────────────────────
+
+    private void PlayClip(AudioClip clip)
+    {
+        if (clip == null) return;
+        _audioSource.PlayOneShot(clip);
     }
 
     // ── Coroutines ───────────────────────────────────────────────
@@ -152,15 +159,13 @@ public abstract class Weapon : Item, IWeapon, IInventory
     {
         IsReloading = true;
         PlayClip(_reloadClip);
-        //AppContainer.Get<IEventService>().Publish(GameEvents.OnWeaponReloading);
         _eventService.Publish(new OnWeaponReloading { ReloadTime = _weaponData.ReloadTime });
 
         yield return new WaitForSeconds(_weaponData.ReloadTime);
 
         CurrentAmmo = MaxAmmo;
         IsReloading = false;
-        //AppContainer.Get<IEventService>().Publish(GameEvents.OnWeaponReloaded);
-        _eventService.Publish(new OnWeaponReloaded { MaxAmmo = MaxAmmo});
+        _eventService.Publish(new OnWeaponReloaded { MaxAmmo = MaxAmmo });
         _eventService.Publish(new OnAmmoChanged { CurrentAmmo = CurrentAmmo, MaxAmmo = MaxAmmo });
     }
 
@@ -169,11 +174,4 @@ public abstract class Weapon : Item, IWeapon, IInventory
         yield return new WaitForSeconds(0.3f);
         Reload();
     }
-
-    private void PlayClip(AudioClip clip)
-    {
-        if (clip != null && _audioSource != null)
-            _audioSource.PlayOneShot(clip);
-    }
-
 }

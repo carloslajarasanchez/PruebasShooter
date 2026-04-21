@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &756393931599985569
+--- !u!1 &5953631469624104872
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,30 +8,30 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8447944491863613252}
+  - component: {fileID: 5116152026400627362}
   m_Layer: 9
-  m_Name: MuzzlePoint
+  m_Name: CasingEjectPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8447944491863613252
+--- !u!4 &5116152026400627362
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 756393931599985569}
+  m_GameObject: {fileID: 5953631469624104872}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.31, y: 1.66, z: -0.03}
+  m_LocalPosition: {x: 0.06, y: 0.4, z: -0.03}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6933328886576925201}
+  m_Father: {fileID: 6882686131100036526}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &7472202536903126522
+--- !u!1001 &6345167171035122245
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -57,15 +57,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 29e0e1c7c94a31140b5ff107a190e4bb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.804
+      value: 8.377006
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 29e0e1c7c94a31140b5ff107a190e4bb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.5090003
+      value: 3.8132417
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 29e0e1c7c94a31140b5ff107a190e4bb, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.453
+      value: -4.176163
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 29e0e1c7c94a31140b5ff107a190e4bb, type: 3}
       propertyPath: m_LocalRotation.w
@@ -127,43 +127,105 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 29e0e1c7c94a31140b5ff107a190e4bb, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8447944491863613252}
+      addedObject: {fileID: 5116152026400627362}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 29e0e1c7c94a31140b5ff107a190e4bb, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2857491782965957492}
+      addedObject: {fileID: 6643001174072354786}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 29e0e1c7c94a31140b5ff107a190e4bb, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1111837719253993617}
+      addedObject: {fileID: 2770373209256209688}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 29e0e1c7c94a31140b5ff107a190e4bb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2405685322915544887}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 29e0e1c7c94a31140b5ff107a190e4bb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2105689637595649603}
   m_SourcePrefab: {fileID: 100100000, guid: 29e0e1c7c94a31140b5ff107a190e4bb, type: 3}
---- !u!4 &959460859012108316 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -1521609677317800474, guid: 29e0e1c7c94a31140b5ff107a190e4bb, type: 3}
-  m_PrefabInstance: {fileID: 7472202536903126522}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &6933328886576925201 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 29e0e1c7c94a31140b5ff107a190e4bb, type: 3}
-  m_PrefabInstance: {fileID: 7472202536903126522}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &7742797509372612779 stripped
+--- !u!1 &6111356370677266196 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 29e0e1c7c94a31140b5ff107a190e4bb, type: 3}
-  m_PrefabInstance: {fileID: 7472202536903126522}
+  m_PrefabInstance: {fileID: 6345167171035122245}
   m_PrefabAsset: {fileID: 0}
---- !u!82 &2857491782965957492
+--- !u!114 &6643001174072354786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6111356370677266196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7016a5f5eeeee945bb6d60b95191d1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Pistole
+  _data: {fileID: 11400000, guid: 15cec547eb6362249b5434e00882a7a2, type: 2}
+  _weaponData: {fileID: 11400000, guid: 15cec547eb6362249b5434e00882a7a2, type: 2}
+  _casingEjectPoint: {fileID: 5116152026400627362}
+  _shootClip: {fileID: 8300000, guid: d01bc8d599c770840a4ff0a16c0bd7bd, type: 3}
+  _reloadClip: {fileID: 8300000, guid: 3309715c316c8b14a8fef0c846c967ea, type: 3}
+  _emptyClip: {fileID: 8300000, guid: c6ee9b861fc1f8946a1adae0a9ac7d10, type: 3}
+--- !u!54 &2770373209256209688
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6111356370677266196}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &2405685322915544887
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6111356370677266196}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.535221, y: 1.6075325, z: 0.46578318}
+  m_Center: {x: 0.005072652, y: 1.1390448, z: -0.0019759866}
+--- !u!82 &2105689637595649603
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7742797509372612779}
+  m_GameObject: {fileID: 6111356370677266196}
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
-  m_PlayOnAwake: 0
+  m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -248,22 +310,8 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1111837719253993617
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+--- !u!4 &6882686131100036526 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 29e0e1c7c94a31140b5ff107a190e4bb, type: 3}
+  m_PrefabInstance: {fileID: 6345167171035122245}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7742797509372612779}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7016a5f5eeeee945bb6d60b95191d1a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Pistole
-  _data: {fileID: 11400000, guid: 15cec547eb6362249b5434e00882a7a2, type: 2}
-  _weaponData: {fileID: 11400000, guid: 15cec547eb6362249b5434e00882a7a2, type: 2}
-  _muzzlePoint: {fileID: 8447944491863613252}
-  _casingEjectPoint: {fileID: 959460859012108316}
-  _shootClip: {fileID: 8300000, guid: d01bc8d599c770840a4ff0a16c0bd7bd, type: 3}
-  _reloadClip: {fileID: 8300000, guid: 3309715c316c8b14a8fef0c846c967ea, type: 3}
-  _emptyClip: {fileID: 8300000, guid: c6ee9b861fc1f8946a1adae0a9ac7d10, type: 3}

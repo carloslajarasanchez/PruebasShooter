@@ -2,21 +2,18 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
-/// Controlador unificado de equipamiento. Gestiona:
-///   - Click izquierdo: usar el item equipado (disparo, poción, etc.)
-///   - R: recargar si el item es un arma
-///   - Rueda del ratón: swap con el item anteriormente equipado
+/// Controlador unificado de equipamiento.
+/// Pon este script en el GameObject Player.
 ///
 /// ACCIONES en el mapa "Player" de PlayerInputActions:
-///   - Use          → Button → Left Mouse Button
-///   - Reload       → Button → R
-///   - SwapItem     → Value, Vector2 → Mouse/Scroll
-///
-/// Pon este script en el GameObject Player.
+///   Use      → Button → Left Mouse Button
+///   Reload   → Button → R
+///   SwapItem → Value, Vector2 → Mouse/Scroll
 /// </summary>
 public class EquipController : MonoBehaviour
 {
-    [SerializeField] private Transform _hand;
+    [SerializeField] private Transform _itemStorage; // Empty hijo del Player
+    [SerializeField] private Transform _hand;        // Empty hijo de Camera
 
     private IPlayerInput _playerInput;
     private IEquipService _equipService;
@@ -27,11 +24,7 @@ public class EquipController : MonoBehaviour
     {
         _playerInput = AppContainer.Get<IPlayerInput>();
         _equipService = AppContainer.Get<IEquipService>();
-
-        if (_hand != null)
-            _equipService.SetHandTransform(_hand);
-        else
-            Debug.LogWarning("[EquipController] Hand no asignado en el Inspector.");
+        _equipService.SetTransforms(_itemStorage, _hand);
     }
 
     private void OnEnable()
@@ -53,10 +46,8 @@ public class EquipController : MonoBehaviour
 
     private void Update()
     {
-        // Disparo automático para armas que lo sean
         if (!_isPressing) return;
-        Item current = _equipService.CurrentItem;
-        if (current is Weapon w && w.WeaponData != null && w.WeaponData.IsAutomatic)
+        if (_equipService.CurrentItem is Weapon w && w.WeaponData != null && w.WeaponData.IsAutomatic)
             _equipService.UseCurrent();
     }
 
@@ -66,7 +57,6 @@ public class EquipController : MonoBehaviour
         Item current = _equipService.CurrentItem;
         if (current == null) return;
 
-        // Para armas semi-automáticas o consumibles: un solo uso al pulsar
         bool isAutoWeapon = current is Weapon wp && wp.WeaponData != null && wp.WeaponData.IsAutomatic;
         if (!isAutoWeapon)
             _equipService.UseCurrent();

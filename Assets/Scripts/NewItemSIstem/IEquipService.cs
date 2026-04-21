@@ -1,12 +1,13 @@
-/// <summary>
-/// Servicio central de equipamiento. Reemplaza a IWeaponService.
-/// Gestiona qué objeto está en la mano y el historial de los 2 últimos equipados.
-/// </summary>
+using UnityEngine;
+
 public interface IEquipService
 {
     Item CurrentItem { get; }
     Item PreviousItem { get; }
+    Transform ItemStorage { get; }
+    Transform Hand { get; }
 
+    void SetTransforms(Transform itemStorage, Transform hand);
     void Equip(Item item);
     void SwapWithPrevious();
     void Unequip();

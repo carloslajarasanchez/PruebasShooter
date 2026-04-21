@@ -1,11 +1,16 @@
 using UnityEngine;
 
-public class HealthPotion : Item
+public class HealthPotion : Item, IEquippable
 {
-    public override void Use()
+    [SerializeField] private int _healAmount = 20;
+
+    public bool IsReusable => false;
+
+    public void OnPrimaryAction()
     {
-        base.Use();
-        Debug.Log("Health Potion used +20Vida!");
-        AppContainer.Get<IPlayer>().AddLives(20);
+        AppContainer.Get<IPlayer>().AddLives(_healAmount);
+        Debug.Log($"[HealthPotion] +{_healAmount} vida.");
     }
+
+    public override void Use() => OnPrimaryAction();
 }

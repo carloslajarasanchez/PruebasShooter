@@ -3,43 +3,52 @@ using UnityEngine;
 public abstract class Item : MonoBehaviour, ICatchable
 {
     [SerializeField] private ItemData _data;
-    protected string _name;
-    protected string _description;
-    protected Sprite _icon;
-    protected GameObject _modelPrefab;
 
-    public string Name => _name;
-    public string Description => _description;
-    public Sprite Icon => _icon;
-    public GameObject ModelPrefab => _modelPrefab;
+    public string Name { get; private set; }
+    public string Description { get; private set; }
+    public Sprite Icon { get; private set; }
+    public GameObject ModelPrefab { get; private set; }
 
     private IInventoryService _inventoryService;
+    private IEquipService _equipService;
 
-    public virtual void Awake()
+    protected void Awake()
     {
-        this._name = _data.ItemName;
-        this._description = _data.Description;
-        this._icon = _data.Icon;
-        this._modelPrefab = _data.ModelPrefab;
+        Name = _data.ItemName;
+        Description = _data.Description;
+        Icon = _data.Icon;
+        ModelPrefab = _data.ModelPrefab;
         _inventoryService = AppContainer.Get<IInventoryService>();
+        _equipService = AppContainer.Get<IEquipService>();
     }
 
     public void Catch()
     {
-        Debug.Log("Catching item: " + _name);
-        _inventoryService.AddItem(this);
-        //Destroy(gameObject);
-        gameObject.SetActive(false);
-        transform.SetParent(null);
-    }
+        // Desactivar collider y rigidbody para que no interfieran en el Player
+        if (TryGetComponent<Collider>(out var col)) col.enabled = false;
+        if (TryGetComponent<Rigidbody>(out var rb))
+        {
+            rb.isKinematic = true;
+            rb.detectCollisions = false;
+        }
 
-    public virtual void Use()
-    {
-        _inventoryService.RemoveItem(this);
+        // Reparentar al ItemStorage del player y desactivar
+        Transform storage = _equipService.ItemStorage;
+        if (storage != null)
+        {
+            transform.SetParent(storage);
+            transform.localPosition = Vector3.zero;
+            transform.localRotation = Quaternion.identity;
+        }
+
+        gameObject.SetActive(false);
+        _inventoryService.AddItem(this);
     }
 
     public virtual void Equip()
     {
-        Debug.Log("Equipping item: " + _name);
+        _equipService.Equip(this);
     }
+
+    public virtual void Use() { }
 }
