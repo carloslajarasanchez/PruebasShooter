@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PusheableObject : MonoBehaviour ,IPusheable
+public class PusheableObject : MonoBehaviour, IPusheable
 {
     [SerializeField] private bool _canBePushed;
     private Rigidbody _rigidbody;

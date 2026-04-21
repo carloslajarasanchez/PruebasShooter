@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
@@ -113,6 +114,7 @@ public abstract class Weapon : Item, IWeapon, IInventory
             {
                 Debug.DrawRay(ray.origin, ray.direction * _weaponData.Range, Color.yellow, 0.5f);
             }
+
         }
     }
 
@@ -173,4 +175,5 @@ public abstract class Weapon : Item, IWeapon, IInventory
         if (clip != null && _audioSource != null)
             _audioSource.PlayOneShot(clip);
     }
+
 }
