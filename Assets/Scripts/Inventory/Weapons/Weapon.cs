@@ -17,11 +17,16 @@ public abstract class Weapon : Item, IEquippable
 
     [Header("References")]
     [SerializeField] private Transform _casingEjectPoint;
+    [SerializeField] private Transform _muzzlePoint;
 
     [Header("Audio")]
     [SerializeField] private AudioClip _shootClip;
     [SerializeField] private AudioClip _reloadClip;
     [SerializeField] private AudioClip _emptyClip;
+
+    [Header("VFX")]
+    [SerializeField] private LineRenderer _lineRenderer;
+    [SerializeField] private float _rayDuration = 0.05f;
 
     // El AudioSource está en el propio GameObject del arma
     private AudioSource _audioSource;
@@ -99,14 +104,15 @@ public abstract class Weapon : Item, IEquippable
         for (int i = 0; i < _weaponData.PelletCount; i++)
         {
             Vector3 dir = GetShotDirection(ray.direction);
+
             if (Physics.Raycast(ray.origin, dir, out RaycastHit hit, _weaponData.Range))
             {
-                Debug.DrawRay(ray.origin, dir * hit.distance, Color.red, 0.5f);
+                DrawRay(hit.point);
                 OnHit(hit);
             }
             else
             {
-                Debug.DrawRay(ray.origin, dir * _weaponData.Range, Color.yellow, 0.5f);
+                DrawRay(ray.origin + dir * _weaponData.Range);
             }
         }
     }
@@ -173,5 +179,25 @@ public abstract class Weapon : Item, IEquippable
     {
         yield return new WaitForSeconds(0.3f);
         Reload();
+    }
+    private void DrawRay(Vector3 hitPoint)
+    {
+        if (_lineRenderer == null || _muzzlePoint == null) return;
+
+        _lineRenderer.enabled = true;
+
+        _lineRenderer.positionCount = 2;
+        _lineRenderer.SetPosition(0, _muzzlePoint.position);
+        _lineRenderer.SetPosition(1, hitPoint);
+
+        StopCoroutine(nameof(DisableLine));
+        StartCoroutine(DisableLine());
+    }
+    private IEnumerator DisableLine()
+    {
+        yield return new WaitForSeconds(_rayDuration);
+
+        if (_lineRenderer != null)
+            _lineRenderer.enabled = false;
     }
 }
