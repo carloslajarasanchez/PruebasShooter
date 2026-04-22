@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5511471295027753468}
   - component: {fileID: -4137588223623924507}
   - component: {fileID: 3453523573360479163}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: 45ACP_Shell
   m_TagString: Untagged
   m_Icon: {fileID: 0}

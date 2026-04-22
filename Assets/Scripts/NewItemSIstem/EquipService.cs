@@ -9,6 +9,7 @@ public class EquipService : IEquipService
 
     private IEventService _eventService;
     private IInventoryService _inventoryService;
+    private ILogService _logService;
     private int _handLayer;
     private int _defaultLayer;
 
@@ -16,11 +17,12 @@ public class EquipService : IEquipService
     {
         _eventService = AppContainer.Get<IEventService>();
         _inventoryService = AppContainer.Get<IInventoryService>();
+        _logService = AppContainer.Get<ILogService>();
         _handLayer = LayerMask.NameToLayer("Hand");
         _defaultLayer = LayerMask.NameToLayer("Default");
 
         if (_handLayer == -1)
-            Debug.LogWarning("[EquipService] Layer 'Hand' no existe. Créalo en Project Settings > Tags and Layers.");
+            _logService.Add<EquipService>("Layer 'Hand' no existe. Créalo en Project Settings > Tags and Layers.");
     }
 
     /// <summary>
@@ -39,7 +41,7 @@ public class EquipService : IEquipService
         if (item == null) return;
         if (item is not IEquippable)
         {
-            Debug.LogWarning($"[EquipService] '{item.Name}' no implementa IEquippable.");
+            _logService.Add<EquipService>($"'{item.Name}' no implementa IEquippable. No se puede equipar.");
             return;
         }
 
@@ -59,7 +61,7 @@ public class EquipService : IEquipService
             weapon.OnEquipped();
 
         _eventService.Publish(new OnItemEquipped { Item = item });
-        Debug.Log($"[EquipService] Equipado: {item.Name}");
+        _logService.Add<EquipService>($"Equipado: '{item.Name}'.");
     }
 
     public void SwapWithPrevious()
@@ -110,7 +112,7 @@ public class EquipService : IEquipService
     {
         if (Hand == null)
         {
-            Debug.LogError("[EquipService] Hand no asignado.");
+            _logService.Add<EquipService>("Hand no asignado.");
             return;
         }
 
@@ -130,6 +132,8 @@ public class EquipService : IEquipService
     private void MoveToStorage(Item item)
     {
         if (ItemStorage == null) return;
+
+        _logService.Add<EquipService>($"Desequipando '{item.Name}' a ItemStorage.");
 
         item.gameObject.SetActive(false);
         item.transform.SetParent(ItemStorage);
