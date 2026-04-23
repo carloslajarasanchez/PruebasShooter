@@ -144,11 +144,6 @@ public abstract class Weapon : Item, IEquippable
             _casingEjectPoint.position,
             _casingEjectPoint.rotation
         );
-
-        //TODO: agregar fuerza de eyección y rotación aleatoria para más realismo
-
-        Debug.Log($"[Weapon] '{Name}' expulsó una vaina. { casing.transform.position}");
-        Destroy(casing, 5f);
     }
 
     // ── Audio ────────────────────────────────────────────────────

@@ -24,5 +24,5 @@ MonoBehaviour:
   IsAutomatic: 0
   PelletCount: 1
   SpreadAngle: 0
-  CasingPrefab: {fileID: 6312005779837555076, guid: 379413582eceefc4f965fed1234eaf96, type: 3}
+  CasingPrefab: {fileID: 3154108248067609887, guid: 0fbff9debb2908b4ba4d21aae1081c32, type: 3}
   CasingEjectPoint: {fileID: 0}
