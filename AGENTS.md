@@ -2,7 +2,7 @@
 - Project name: PruebasLoquero
 - Unity version: Unity 6000.3.12f1
 - Active game object:
-  - Name: HealthPotion (4)
+  - Name: Case_Door_L
   - Tag: Untagged
-  - Layer: Item
+  - Layer: Default
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->
