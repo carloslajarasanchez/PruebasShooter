@@ -26,6 +26,7 @@ public static class Program
 
         AppContainer.Register<IZoneService>(() => new ZoneService());
 
-        //AppContainer.Register<IWeaponService>(() => new WeaponService());
+        AppContainer.Register<IPoolService>(() => new PoolService());
+
     }
 }

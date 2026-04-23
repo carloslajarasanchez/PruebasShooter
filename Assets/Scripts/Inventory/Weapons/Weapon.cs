@@ -31,6 +31,8 @@ public abstract class Weapon : Item, IEquippable
     // El AudioSource está en el propio GameObject del arma
     private AudioSource _audioSource;
     private IEventService _eventService;
+    private IPoolService _poolService;
+    private ILogService _logService;
     private float _nextFireTime;
 
     protected new void Awake()
@@ -38,10 +40,12 @@ public abstract class Weapon : Item, IEquippable
         base.Awake();
         _audioSource = GetComponent<AudioSource>();
         _eventService = AppContainer.Get<IEventService>();
+        _poolService = AppContainer.Get<IPoolService>();
+        _logService = AppContainer.Get<ILogService>();
 
         if (_weaponData == null)
         {
-            Debug.LogError($"[Weapon] {name}: WeaponData no asignado.");
+            _logService.Add<Weapon>($"WeaponData no asignado en '{name}'");
             return;
         }
 
@@ -53,7 +57,7 @@ public abstract class Weapon : Item, IEquippable
     public void OnEquipped()
     {
         // El AudioSource ya está en este mismo GameObject, nada que buscar
-        Debug.Log($"[Weapon] {Name} lista para usar.");
+        _logService.Add<Weapon>($"'{Name}' equipada y lista para usar.");
     }
 
     // ── IEquippable / Item ───────────────────────────────────────
@@ -130,7 +134,7 @@ public abstract class Weapon : Item, IEquippable
 
     protected virtual void OnHit(RaycastHit hit)
     {
-        Debug.Log($"[Weapon] '{Name}' impactó '{hit.collider.name}' — daño: {_weaponData.Damage}");
+        _logService.Add<Weapon>($"'{Name}' impactó '{hit.collider.name}' — daño: {_weaponData.Damage}");
     }
 
     // ── VFX ──────────────────────────────────────────────────────
@@ -139,11 +143,14 @@ public abstract class Weapon : Item, IEquippable
     {
         if (_weaponData.CasingPrefab == null || _casingEjectPoint == null) return;
 
-        GameObject casing = Instantiate(
+        GameObject casing = _poolService.Get(
             _weaponData.CasingPrefab,
             _casingEjectPoint.position,
             _casingEjectPoint.rotation
         );
+
+        if(casing.TryGetComponent<SkullCap>(out var skullCap))
+            skullCap.Init(_weaponData.CasingPrefab);
     }
 
     // ── Audio ────────────────────────────────────────────────────
