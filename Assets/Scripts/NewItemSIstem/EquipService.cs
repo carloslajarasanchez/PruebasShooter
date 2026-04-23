@@ -51,7 +51,8 @@ public class EquipService : IEquipService
 
         // Desequipar el actual sin perder su referencia aún
         UnequipCurrent();
-
+        if(CurrentItem is Weapon previousWeapon)
+            previousWeapon.OnUnequipped();
         // Mover el nuevo item de ItemStorage a Hand
         CurrentItem = item;
         MoveToHand(item);

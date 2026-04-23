@@ -34,6 +34,7 @@ public abstract class Weapon : Item, IEquippable
     private IPoolService _poolService;
     private ILogService _logService;
     private float _nextFireTime;
+    private bool _isEquipped;
 
     protected new void Awake()
     {
@@ -56,8 +57,26 @@ public abstract class Weapon : Item, IEquippable
     /// <summary>Llamado por EquipService cuando el arma se mueve a Hand.</summary>
     public void OnEquipped()
     {
-        // El AudioSource ya está en este mismo GameObject, nada que buscar
+        _isEquipped = true;
+
+        if (_lineRenderer != null)
+            _lineRenderer.enabled = true;
+
         _logService.Add<Weapon>($"'{Name}' equipada y lista para usar.");
+    }
+    public void OnUnequipped()
+    {
+        _isEquipped = false;
+
+        if (_lineRenderer != null)
+            _lineRenderer.enabled = false;
+    }
+
+    private void Update()
+    {
+        if (!_isEquipped) return;
+
+        UpdateLaser();
     }
 
     // ── IEquippable / Item ───────────────────────────────────────
@@ -111,14 +130,36 @@ public abstract class Weapon : Item, IEquippable
 
             if (Physics.Raycast(ray.origin, dir, out RaycastHit hit, _weaponData.Range))
             {
-                DrawRay(hit.point);
                 OnHit(hit);
             }
-            else
-            {
-                DrawRay(ray.origin + dir * _weaponData.Range);
-            }
         }
+    }
+
+    // ── LASER ───────────────────────────────────────────
+
+    private void UpdateLaser()
+    {
+        if (_lineRenderer == null || _muzzlePoint == null) return;
+
+        Camera cam = Camera.main;
+        if (cam == null) return;
+
+        Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
+
+        Vector3 endPoint;
+
+        if (Physics.Raycast(ray.origin, ray.direction, out RaycastHit hit, _weaponData.Range))
+        {
+            endPoint = hit.point;
+        }
+        else
+        {
+            endPoint = ray.origin + ray.direction * _weaponData.Range;
+        }
+
+        _lineRenderer.positionCount = 2;
+        _lineRenderer.SetPosition(0, _muzzlePoint.position);
+        _lineRenderer.SetPosition(1, endPoint);
     }
 
     protected virtual Vector3 GetShotDirection(Vector3 baseDirection)
@@ -182,24 +223,5 @@ public abstract class Weapon : Item, IEquippable
         yield return new WaitForSeconds(0.3f);
         Reload();
     }
-    private void DrawRay(Vector3 hitPoint)
-    {
-        if (_lineRenderer == null || _muzzlePoint == null) return;
-
-        _lineRenderer.enabled = true;
-
-        _lineRenderer.positionCount = 2;
-        _lineRenderer.SetPosition(0, _muzzlePoint.position);
-        _lineRenderer.SetPosition(1, hitPoint);
-
-        StopCoroutine(nameof(DisableLine));
-        StartCoroutine(DisableLine());
-    }
-    private IEnumerator DisableLine()
-    {
-        yield return new WaitForSeconds(_rayDuration);
-
-        if (_lineRenderer != null)
-            _lineRenderer.enabled = false;
-    }
+    
 }
