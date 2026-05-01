@@ -26,7 +26,7 @@ public abstract class Weapon : Item, IEquippable
 
     [Header("VFX")]
     [SerializeField] private LineRenderer _lineRenderer;
-
+    [SerializeField] private GameObject _hitLight;
     // El AudioSource está en el propio GameObject del arma
     private AudioSource _audioSource;
     private IEventService _eventService;
@@ -59,7 +59,10 @@ public abstract class Weapon : Item, IEquippable
         _isEquipped = true;
 
         if (_lineRenderer != null)
+        {
             _lineRenderer.enabled = true;
+            _hitLight.SetActive(true);
+        }
 
         _logService.Add<Weapon>($"'{Name}' equipada y lista para usar.");
     }
@@ -68,7 +71,10 @@ public abstract class Weapon : Item, IEquippable
         _isEquipped = false;
 
         if (_lineRenderer != null)
+        {
             _lineRenderer.enabled = false;
+            _hitLight.SetActive(false);
+        }
     }
 
     private void Update()
@@ -155,6 +161,9 @@ public abstract class Weapon : Item, IEquippable
         {
             endPoint = ray.origin + ray.direction * _weaponData.Range;
         }
+
+        // Posicionar el hitLight en el punto de impacto o al final del rayo
+        _hitLight.transform.position = hit.point;
 
         _lineRenderer.positionCount = 2;
         _lineRenderer.SetPosition(0, _muzzlePoint.position);
