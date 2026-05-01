@@ -6,5 +6,7 @@ public class InitializeGame : MonoBehaviour
     {
         AppContainer.Get<IPlayerInput>().EnablePlayer();
         AppContainer.Get<IZoneService>().Initialize();
+        AppContainer.Get<ISaveService>().Load();
+        Debug.Log(Application.persistentDataPath);
     }
 }

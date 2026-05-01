@@ -23,4 +23,15 @@ public class PusheableObject : MonoBehaviour, IPusheable
             Debug.Log("This object cannot be pushed.");
         }
     }
+
+    public void MoveObject()
+    {
+        _canBePushed = true;
+        Debug.Log("Door is now open and can be pushed.");
+    }
+    public void NotMoveObject() 
+    {
+        _canBePushed = false;
+        Debug.Log("Door is now closed and cannot be pushed.");
+    }
 }

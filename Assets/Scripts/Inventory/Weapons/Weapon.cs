@@ -26,7 +26,6 @@ public abstract class Weapon : Item, IEquippable
 
     [Header("VFX")]
     [SerializeField] private LineRenderer _lineRenderer;
-    [SerializeField] private float _rayDuration = 0.05f;
 
     // El AudioSource está en el propio GameObject del arma
     private AudioSource _audioSource;
@@ -55,7 +54,7 @@ public abstract class Weapon : Item, IEquippable
     }
 
     /// <summary>Llamado por EquipService cuando el arma se mueve a Hand.</summary>
-    public void OnEquipped()
+    public virtual void OnEquipped()
     {
         _isEquipped = true;
 
@@ -223,5 +222,36 @@ public abstract class Weapon : Item, IEquippable
         yield return new WaitForSeconds(0.3f);
         Reload();
     }
-    
+
+    // ── Save ─────────────────────────────────────────────────────
+    public override void SaveState(bool? isConsumed = null, int? currentAmmo = null)
+    {
+        var saveService = AppContainer.Get<ISaveService>();
+        var state = saveService.GetItemState(SaveId) ?? new ItemState();
+
+        // base item state
+        state.isInInventory = _isInInventory;
+
+        // weapon-specific state
+        state.currentAmmo = currentAmmo ?? CurrentAmmo;
+
+        saveService.SetItemState(SaveId, state);
+    }
+
+    // -─ Load ─────────────────────────────────────────────────────
+    public override void RestoreState(ItemState state)
+    {
+        // base behavior (inventory + destroy logic)
+        base.RestoreState(state);
+
+        // weapon-specific state
+        CurrentAmmo = state.currentAmmo;
+        MaxAmmo = _weaponData != null ? _weaponData.MaxAmmo : MaxAmmo;
+
+        _eventService.Publish(new OnAmmoChanged
+        {
+            CurrentAmmo = CurrentAmmo,
+            MaxAmmo = MaxAmmo
+        });
+    }
 }

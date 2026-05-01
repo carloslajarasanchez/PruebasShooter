@@ -28,5 +28,9 @@ public static class Program
 
         AppContainer.Register<IPoolService>(() => new PoolService());
 
+        AppContainer.Register<IGameState>(() => new GameState());
+
+        AppContainer.Register<ISaveService>(() => new SaveService());
+
     }
 }

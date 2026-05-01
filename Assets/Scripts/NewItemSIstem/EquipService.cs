@@ -96,6 +96,7 @@ public class EquipService : IEquipService
         if (!equippable.IsReusable)
         {
             Item consumed = CurrentItem;
+            consumed.SaveState(isConsumed: true);
             CurrentItem = null;
 
             MoveToStorage(consumed);
@@ -133,7 +134,7 @@ public class EquipService : IEquipService
     private void MoveToStorage(Item item)
     {
         if (ItemStorage == null) return;
-
+       
         _logService.Add<EquipService>($"Desequipando '{item.Name}' a ItemStorage.");
 
         item.gameObject.SetActive(false);
