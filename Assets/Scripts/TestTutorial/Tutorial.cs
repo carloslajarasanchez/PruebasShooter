@@ -42,7 +42,7 @@ public class Tutorial : MonoBehaviour
 
     void CompleteTutorial()
     {
-        door.GetComponent<DoorController>().MoveObject();
+        door.GetComponent<DoorController>().EnablePushing();
 
         state.SetFlag("tutorial_completed", true);
         state.SetFlag("tutorialdoor_opened", true);

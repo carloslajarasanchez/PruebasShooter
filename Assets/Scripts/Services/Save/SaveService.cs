@@ -6,7 +6,7 @@ using UnityEngine;
 public class SaveService : ISaveService
 {
     private SaveData _data = new();
-    private Dictionary<string, ItemState> _itemStates = new();
+    private Dictionary<System.Type, object> _states = new();
 
     private IGameState _gameState;
 
@@ -19,16 +19,21 @@ public class SaveService : ISaveService
 
     // ---------------- SAVE ----------------
 
+
     public void Save()
     {
-        // Flags / Triggers to List
+        // ---------------- FLAGS / TRIGGERS ----------------
+
         _data.flags = ToList(_gameState.GetFlags());
         _data.triggers = ToList(_gameState.GetTriggers());
 
-        // Items to List
+        // ---------------- ITEMS ----------------
+
         _data.items = new List<ItemSaveEntry>();
 
-        foreach (var kvp in _itemStates)
+        var itemStates = GetStateDictionary<ItemState>();
+
+        foreach (var kvp in itemStates)
         {
             _data.items.Add(new ItemSaveEntry
             {
@@ -36,6 +41,23 @@ public class SaveService : ISaveService
                 state = kvp.Value
             });
         }
+
+        // ---------------- DOORS ----------------
+
+        _data.doors = new List<DoorSaveEntry>();
+
+        var doorStates = GetStateDictionary<DoorState>();
+
+        foreach (var kvp in doorStates)
+        {
+            _data.doors.Add(new DoorSaveEntry
+            {
+                id = kvp.Key,
+                state = kvp.Value
+            });
+        }
+
+        // ---------------- WRITE FILE ----------------
 
         string json = JsonUtility.ToJson(_data, true);
         File.WriteAllText(SavePath, json);
@@ -54,59 +76,112 @@ public class SaveService : ISaveService
         }
 
         string json = File.ReadAllText(SavePath);
+
         _data = JsonUtility.FromJson<SaveData>(json);
 
+        // ---------------- FLAGS / TRIGGERS ----------------
 
-        var flags = ToDictionary(_data.flags);
-        var triggers = ToDictionary(_data.triggers);
+        _gameState.SetFlags(ToDictionary(_data.flags));
+        _gameState.SetTriggers(ToDictionary(_data.triggers));
 
-        _gameState.SetFlags(flags);
-        _gameState.SetTriggers(triggers);
+        // ---------------- ITEMS ----------------
 
-        // Items
-        _itemStates = new Dictionary<string, ItemState>();
+        var itemStates = GetStateDictionary<ItemState>();
+        itemStates.Clear();
 
         if (_data.items != null)
         {
             foreach (var item in _data.items)
             {
-                _itemStates[item.id] = item.state;
+                itemStates[item.id] = item.state;
             }
         }
+
+        // ---------------- DOORS ----------------
+
+        var doorStates = GetStateDictionary<DoorState>();
+        doorStates.Clear();
+
+        if (_data.doors != null)
+        {
+            foreach (var door in _data.doors)
+            {
+                doorStates[door.id] = door.state;
+            }
+        }
+
         RestoreScene();
+
         Debug.Log("Game Loaded");
     }
     // ---------------- RESTORE SCENE ----------------
     public void RestoreScene()
     {
+        // ---------------- ITEMS ----------------
+
         var items = Object.FindObjectsByType<Item>(FindObjectsSortMode.None);
 
         foreach (var item in items)
         {
-            if (_itemStates.TryGetValue(item.SaveId, out var state))
+            if (TryGetState<ItemState>(item.SaveId, out var state))
             {
                 item.RestoreState(state);
             }
         }
-    }
 
-    // ---------------- ITEM STATE ----------------
+        // ---------------- DOORS ----------------
 
-    public ItemState GetItemState(string id)
-    {
-        if (!_itemStates.TryGetValue(id, out var state))
+        var doors = Object.FindObjectsByType<DoorController>(FindObjectsSortMode.None);
+
+        foreach (var door in doors)
         {
-            state = new ItemState();
-            _itemStates[id] = state;
+            if (TryGetState<DoorState>(door.SaveId, out var state))
+            {
+                door.RestoreState(state);
+            }
+        }
+    }
+    // ---------------- STATE MANAGEMENT ----------------
+    // SAVE SIDE (crear si no existe)
+    public T GetOrCreateState<T>(string id) where T : new()
+    {
+        var dict = GetStateDictionary<T>();
+
+        if (!dict.TryGetValue(id, out var state))
+        {
+            state = new T();
+            dict[id] = state;
         }
 
         return state;
     }
 
-    public void SetItemState(string id, ItemState state)
+    public void SetState<T>(string id, T state)
     {
-        _itemStates[id] = state;
+        var dict = GetStateDictionary<T>();
+        dict[id] = state;
     }
+
+    // LOAD SIDE (solo leer)
+    public bool TryGetState<T>(string id, out T state)
+    {
+        var dict = GetStateDictionary<T>();
+        return dict.TryGetValue(id, out state);
+    }
+
+    private Dictionary<string, T> GetStateDictionary<T>()
+    {
+        var type = typeof(T);
+
+        if (!_states.ContainsKey(type))
+        {
+            _states[type] = new Dictionary<string, T>();
+        }
+
+        return (Dictionary<string, T>)_states[type];
+    }
+
+
 
     // ---------------- HELPERS ----------------
 

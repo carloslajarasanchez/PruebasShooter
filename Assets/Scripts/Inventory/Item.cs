@@ -15,6 +15,7 @@ public abstract class Item : MonoBehaviour, ICatchable, ISavable<ItemState>
 
     private IInventoryService _inventoryService;
     private IEquipService _equipService;
+    protected ISaveService _saveService;
 
     protected void Awake()
     {
@@ -24,16 +25,17 @@ public abstract class Item : MonoBehaviour, ICatchable, ISavable<ItemState>
         ModelPrefab = _data.ModelPrefab;
         _inventoryService = AppContainer.Get<IInventoryService>();
         _equipService = AppContainer.Get<IEquipService>();
+        _saveService = AppContainer.Get<ISaveService>();
 
-    // Seguridad: si no tiene ID, se asigna uno en editor
-        #if UNITY_EDITOR
-                if (string.IsNullOrEmpty(saveId))
-                {
-                    saveId = System.Guid.NewGuid().ToString();
-                    UnityEditor.EditorUtility.SetDirty(this);
-                }
-        #endif
-    }
+        // Seguridad: si no tiene ID, se asigna uno en editor
+    #if UNITY_EDITOR
+            if (string.IsNullOrEmpty(saveId))
+                    {
+                        saveId = System.Guid.NewGuid().ToString();
+                        UnityEditor.EditorUtility.SetDirty(this);
+                    }
+            #endif
+        }
 
     public void Catch()
     {
@@ -69,8 +71,8 @@ public abstract class Item : MonoBehaviour, ICatchable, ISavable<ItemState>
 
     public virtual void SaveState(bool? isConsumed = null, int? currentAmmo = null)
     {
-        var saveService = AppContainer.Get<ISaveService>();
-        var state = saveService.GetItemState(SaveId) ?? new ItemState();
+
+        var state = _saveService.GetOrCreateState<ItemState>(SaveId);
 
         state.isInInventory = _isInInventory;
 
@@ -80,7 +82,7 @@ public abstract class Item : MonoBehaviour, ICatchable, ISavable<ItemState>
         if (currentAmmo.HasValue)
             state.currentAmmo = currentAmmo.Value;
 
-        saveService.SetItemState(SaveId, state);
+        _saveService.SetState(SaveId, state);
     }
 
     public virtual void RestoreState(ItemState state)

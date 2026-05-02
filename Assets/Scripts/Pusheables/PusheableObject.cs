@@ -24,14 +24,12 @@ public class PusheableObject : MonoBehaviour, IPusheable
         }
     }
 
-    public void MoveObject()
+    public virtual void EnablePushing()
     {
         _canBePushed = true;
-        Debug.Log("Door is now open and can be pushed.");
     }
-    public void NotMoveObject() 
+    public virtual void DisablePushing() 
     {
         _canBePushed = false;
-        Debug.Log("Door is now closed and cannot be pushed.");
     }
 }

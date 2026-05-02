@@ -235,28 +235,24 @@ public abstract class Weapon : Item, IEquippable
     // ── Save ─────────────────────────────────────────────────────
     public override void SaveState(bool? isConsumed = null, int? currentAmmo = null)
     {
-        var saveService = AppContainer.Get<ISaveService>();
-        var state = saveService.GetItemState(SaveId) ?? new ItemState();
+        ItemState state = _saveService.GetOrCreateState<ItemState>(SaveId);
 
-        // base item state
         state.isInInventory = _isInInventory;
 
-        // weapon-specific state
         state.currentAmmo = currentAmmo ?? CurrentAmmo;
 
-        saveService.SetItemState(SaveId, state);
+        _saveService.SetState(SaveId, state);
     }
 
     // -─ Load ─────────────────────────────────────────────────────
     public override void RestoreState(ItemState state)
     {
+        CurrentAmmo = state.currentAmmo;
+        MaxAmmo = _weaponData != null ? _weaponData.MaxAmmo : MaxAmmo;
         // base behavior (inventory + destroy logic)
         base.RestoreState(state);
 
         // weapon-specific state
-        CurrentAmmo = state.currentAmmo;
-        MaxAmmo = _weaponData != null ? _weaponData.MaxAmmo : MaxAmmo;
-
         _eventService.Publish(new OnAmmoChanged
         {
             CurrentAmmo = CurrentAmmo,
