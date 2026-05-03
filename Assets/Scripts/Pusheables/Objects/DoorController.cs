@@ -8,8 +8,9 @@ public class DoorController : PusheableObject, ISavable<DoorState>
 
     private ISaveService _saveService;
 
-    public void Awake()
+    private protected override void Awake()
     {
+        base.Awake();
         _saveService = AppContainer.Get<ISaveService>();
             // Seguridad: si no tiene ID, se asigna uno en editor
     #if UNITY_EDITOR

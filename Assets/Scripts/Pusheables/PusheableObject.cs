@@ -6,7 +6,7 @@ public class PusheableObject : MonoBehaviour, IPusheable
     private Rigidbody _rigidbody;
     public bool CanBePushed => _canBePushed;
 
-    private void Awake()
+    private protected virtual void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
     }
