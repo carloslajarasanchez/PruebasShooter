@@ -56,7 +56,7 @@ public class CameraController : MonoBehaviour
         _events.Unsubscribe<OnPlayerStand>(OnStand);
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         HandleLook();
 

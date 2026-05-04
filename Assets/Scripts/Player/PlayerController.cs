@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour
         _input.Player.Crouch.performed -= OnCrouchPerformed;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         HandleMovement();
         ApplyGravity();

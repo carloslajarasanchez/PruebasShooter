@@ -77,7 +77,7 @@ public abstract class Weapon : Item, IEquippable
         }
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         if (!_isEquipped) return;
 
@@ -149,11 +149,11 @@ public abstract class Weapon : Item, IEquippable
         Camera cam = Camera.main;
         if (cam == null) return;
 
-        Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
+        Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0.5f));
 
         Vector3 endPoint;
 
-        if (Physics.Raycast(ray.origin, ray.direction, out RaycastHit hit, _weaponData.Range))
+        if (Physics.Raycast(ray.origin, ray.direction, out RaycastHit hit, _weaponData.Range, ~0, QueryTriggerInteraction.Ignore))
         {
             endPoint = hit.point;
         }
