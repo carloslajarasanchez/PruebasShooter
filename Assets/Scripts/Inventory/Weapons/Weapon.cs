@@ -129,6 +129,7 @@ public abstract class Weapon : Item, IEquippable
 
         Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
 
+        //TODO: Añadir direccion de disparo con spread para escopetas
         for (int i = 0; i < _weaponData.PelletCount; i++)
         {
             Vector3 dir = GetShotDirection(ray.direction);

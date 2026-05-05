@@ -13,6 +13,7 @@ public class WeaponData : ItemData
     [Header("Shotgun")]
     public int PelletCount = 1; // mas de 1 para escopetas
     public float SpreadAngle = 0f; // ángulo de dispersión para escopetas
+    public WeaponTypeEnum WeaponType;
 
     [Header("VFX")]
     public GameObject CasingPrefab;
