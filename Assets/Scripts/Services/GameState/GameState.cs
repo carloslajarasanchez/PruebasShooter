@@ -27,11 +27,24 @@ public class GameState : IGameState
     }
     public bool GetTrigger(string key)
     {
-        return triggers.TryGetValue(key, out var value) && value;
+        if (!triggers.TryGetValue(key, out var value) || !value)
+            return false;
+
+        triggers[key] = false;
+        return true;
     }
     public void SetTriggers(Dictionary<string, bool> newTriggers)
     {
         triggers = newTriggers;
+
+        foreach (var kvp in triggers)
+        {
+            _events.Publish(new OnTriggerChangedEvent
+            {
+                Key = kvp.Key,
+                Value = kvp.Value
+            });
+        }
     }
 
     public bool GetFlag(string key)
@@ -55,6 +68,15 @@ public class GameState : IGameState
 
     public void SetTrigger(string key, bool value)
     {
-        
+        if (triggers.TryGetValue(key, out var current) && current == value)
+            return;
+
+        triggers[key] = value;
+
+        _events.Publish(new OnTriggerChangedEvent
+        {
+            Key = key,
+            Value = value
+        });
     }
 }
