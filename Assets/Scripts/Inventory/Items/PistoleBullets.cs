@@ -1,6 +1,14 @@
 using UnityEngine;
 
-public class PistoleBullets : Item, IBullet
+public class PistoleBullets : BulletBase, IBullet
 {
-    
+    [SerializeField] private int _bulletAmount = 30;
+
+    public override int BulletAmount
+    {
+        get => _bulletAmount;
+        set => _bulletAmount = value;
+    }
+
+    public override WeaponTypeEnum Type => WeaponTypeEnum.Pistole;
 }

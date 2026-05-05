@@ -27,13 +27,15 @@ public abstract class Weapon : Item, IEquippable
     [Header("VFX")]
     [SerializeField] private LineRenderer _lineRenderer;
     [SerializeField] private GameObject _hitLight;
-    // El AudioSource está en el propio GameObject del arma
+
     private AudioSource _audioSource;
     private IEventService _eventService;
     private IPoolService _poolService;
     private ILogService _logService;
+    private IInventoryService _inventory;        
     private float _nextFireTime;
     private bool _isEquipped;
+    private Coroutine _reloadCoroutine;    
 
     protected new void Awake()
     {
@@ -42,6 +44,7 @@ public abstract class Weapon : Item, IEquippable
         _eventService = AppContainer.Get<IEventService>();
         _poolService = AppContainer.Get<IPoolService>();
         _logService = AppContainer.Get<ILogService>();
+        _inventory = AppContainer.Get<IInventoryService>();
 
         if (_weaponData == null)
         {
@@ -53,7 +56,8 @@ public abstract class Weapon : Item, IEquippable
         CurrentAmmo = MaxAmmo;
     }
 
-    /// <summary>Llamado por EquipService cuando el arma se mueve a Hand.</summary>
+    // ── IEquippable ───────────────────────────────────────────────
+
     public virtual void OnEquipped()
     {
         _isEquipped = true;
@@ -66,9 +70,16 @@ public abstract class Weapon : Item, IEquippable
 
         _logService.Add<Weapon>($"'{Name}' equipada y lista para usar.");
     }
+
     public void OnUnequipped()
     {
         _isEquipped = false;
+
+        // ── Cancelar recarga activa al desequipar ────────────────
+        if (IsReloading)
+        {
+            CancelReload();
+        }
 
         if (_lineRenderer != null)
         {
@@ -80,11 +91,8 @@ public abstract class Weapon : Item, IEquippable
     private void LateUpdate()
     {
         if (!_isEquipped) return;
-
         UpdateLaser();
     }
-
-    // ── IEquippable / Item ───────────────────────────────────────
 
     public override void Use() => Shoot();
 
@@ -106,6 +114,7 @@ public abstract class Weapon : Item, IEquippable
         PlayClip(_shootClip);
         EjectCasing();
         PerformRaycast();
+        SaveState();
 
         _eventService.Publish(new OnWeaponFired());
         _eventService.Publish(new OnAmmoChanged { CurrentAmmo = CurrentAmmo, MaxAmmo = MaxAmmo });
@@ -114,13 +123,38 @@ public abstract class Weapon : Item, IEquippable
             StartCoroutine(AutoReloadCoroutine());
     }
 
+    // ── Recarga con consumo de balas del inventario ───────────────
+
     public void Reload()
     {
         if (IsReloading || CurrentAmmo == MaxAmmo) return;
-        StartCoroutine(ReloadCoroutine());
+
+        IBullet bullets = _inventory?.GetItem<IBullet>(b => b.Type == _weaponData.WeaponType);
+
+        if (bullets == null || bullets.BulletAmount <= 0)
+        {
+            _logService.Add<Weapon>($"'{Name}': sin balas de tipo {_weaponData.WeaponType} en el inventario.");
+            return;
+        }
+
+        _reloadCoroutine = StartCoroutine(ReloadCoroutine(bullets));
     }
 
-    // ── Raycast desde centro de pantalla ─────────────────────────
+    private void CancelReload()
+    {
+        if (_reloadCoroutine != null)
+        {
+            StopCoroutine(_reloadCoroutine);
+            _reloadCoroutine = null;
+        }
+
+        IsReloading = false;
+        // Notificar a la UI que la recarga se canceló
+        _eventService.Publish(new OnAmmoChanged { CurrentAmmo = CurrentAmmo, MaxAmmo = MaxAmmo });
+        _logService.Add<Weapon>($"'{Name}': recarga cancelada al desequipar.");
+    }
+
+    // ── Raycast ───────────────────────────────────────────────────
 
     protected virtual void PerformRaycast()
     {
@@ -129,19 +163,19 @@ public abstract class Weapon : Item, IEquippable
 
         Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
 
-        //TODO: Añadir direccion de disparo con spread para escopetas
         for (int i = 0; i < _weaponData.PelletCount; i++)
         {
             Vector3 dir = GetShotDirection(ray.direction);
 
             if (Physics.Raycast(ray.origin, dir, out RaycastHit hit, _weaponData.Range))
             {
+                Debug.DrawLine(ray.origin, hit.point, Color.red, 1f);
                 OnHit(hit);
             }
         }
     }
 
-    // ── LASER ───────────────────────────────────────────
+    // ── Láser ─────────────────────────────────────────────────────
 
     private void UpdateLaser()
     {
@@ -151,19 +185,14 @@ public abstract class Weapon : Item, IEquippable
         if (cam == null) return;
 
         Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0.5f));
-
+        RaycastHit hit;
         Vector3 endPoint;
 
-        if (Physics.Raycast(ray.origin, ray.direction, out RaycastHit hit, _weaponData.Range, ~0, QueryTriggerInteraction.Ignore))
-        {
+        if (Physics.Raycast(ray.origin, ray.direction, out hit, _weaponData.Range, ~0, QueryTriggerInteraction.Ignore))
             endPoint = hit.point;
-        }
         else
-        {
             endPoint = ray.origin + ray.direction * _weaponData.Range;
-        }
 
-        // Posicionar el hitLight en el punto de impacto o al final del rayo
         _hitLight.transform.position = hit.point;
 
         _lineRenderer.positionCount = 2;
@@ -199,11 +228,11 @@ public abstract class Weapon : Item, IEquippable
             _casingEjectPoint.rotation
         );
 
-        if(casing.TryGetComponent<SkullCap>(out var skullCap))
+        if (casing.TryGetComponent<SkullCap>(out var skullCap))
             skullCap.Init(_weaponData.CasingPrefab);
     }
 
-    // ── Audio ────────────────────────────────────────────────────
+    // ── Audio ─────────────────────────────────────────────────────
 
     private void PlayClip(AudioClip clip)
     {
@@ -211,9 +240,9 @@ public abstract class Weapon : Item, IEquippable
         _audioSource.PlayOneShot(clip);
     }
 
-    // ── Coroutines ───────────────────────────────────────────────
+    // ── Coroutines ────────────────────────────────────────────────
 
-    private IEnumerator ReloadCoroutine()
+    private IEnumerator ReloadCoroutine(IBullet bullets)
     {
         IsReloading = true;
         PlayClip(_reloadClip);
@@ -221,8 +250,22 @@ public abstract class Weapon : Item, IEquippable
 
         yield return new WaitForSeconds(_weaponData.ReloadTime);
 
-        CurrentAmmo = MaxAmmo;
+        int needed = MaxAmmo - CurrentAmmo;
+        int toLoad = Mathf.Min(needed, bullets.BulletAmount);
+
+        bullets.BulletAmount -= toLoad;
+        CurrentAmmo += toLoad;
+
+
+        if (bullets is Item bulletItem)
+            bulletItem.SaveState();
+
+        if (bullets.BulletAmount <= 0)
+            _inventory.RemoveItem(bullets as Item);
+
         IsReloading = false;
+        _reloadCoroutine = null;
+
         _eventService.Publish(new OnWeaponReloaded { MaxAmmo = MaxAmmo });
         _eventService.Publish(new OnAmmoChanged { CurrentAmmo = CurrentAmmo, MaxAmmo = MaxAmmo });
     }
@@ -233,27 +276,22 @@ public abstract class Weapon : Item, IEquippable
         Reload();
     }
 
-    // ── Save ─────────────────────────────────────────────────────
+    // ── Save / Load ───────────────────────────────────────────────
+
     public override void SaveState(bool? isConsumed = null, int? currentAmmo = null)
     {
         ItemState state = _saveService.GetOrCreateState<ItemState>(SaveId);
-
         state.isInInventory = _isInInventory;
-
         state.currentAmmo = currentAmmo ?? CurrentAmmo;
-
         _saveService.SetState(SaveId, state);
     }
 
-    // -─ Load ─────────────────────────────────────────────────────
     public override void RestoreState(ItemState state)
     {
         CurrentAmmo = state.currentAmmo;
         MaxAmmo = _weaponData != null ? _weaponData.MaxAmmo : MaxAmmo;
-        // base behavior (inventory + destroy logic)
         base.RestoreState(state);
 
-        // weapon-specific state
         _eventService.Publish(new OnAmmoChanged
         {
             CurrentAmmo = CurrentAmmo,

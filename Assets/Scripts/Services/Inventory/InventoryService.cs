@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -27,5 +28,19 @@ public class InventoryService : IInventoryService
         _eventService.Publish(_inventoryChangedEvent);
         Debug.Log("Removing item: " + item.name); 
         Items.Remove(item);
+    }
+
+    /// <summary>
+    /// Devuelve el primer item del inventario que sea de tipo T y cumpla el predicado.
+    /// Devuelve null si no encuentra ninguno.
+    /// </summary>
+    public T GetItem<T>(Func<T, bool> predicate) where T : class
+    {
+        foreach (Item item in Items)
+        {
+            if (item is T typed && predicate(typed))
+                return typed;
+        }
+        return null;
     }
 }
