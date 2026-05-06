@@ -129,4 +129,21 @@ public class PlayerController : MonoBehaviour
         _verticalVelocity.y += Gravity * Time.deltaTime;
         _controller.Move(_verticalVelocity * Time.deltaTime);
     }
+
+    public void RestorePosition(Vector3 position, float rotationY, float cameraRotationX)
+    {
+        bool wasEnabled = _controller != null && _controller.enabled;
+        if (_controller != null && wasEnabled) _controller.enabled = false;
+
+        transform.position = position;
+        transform.eulerAngles = new Vector3(0f, rotationY, 0f);
+
+        CameraController cameraCtrl = GetComponentInChildren<CameraController>();
+        if (cameraCtrl != null)
+        {
+            cameraCtrl.SetVerticalRotation(cameraRotationX);
+        }
+
+        if (_controller != null && wasEnabled) _controller.enabled = true;
+    }
 }

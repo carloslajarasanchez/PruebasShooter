@@ -19,7 +19,6 @@ public class SaveService : ISaveService
 
     // ---------------- SAVE ----------------
 
-
     public void Save()
     {
         // ---------------- FLAGS / TRIGGERS ----------------
@@ -55,6 +54,26 @@ public class SaveService : ISaveService
                 id = kvp.Key,
                 state = kvp.Value
             });
+        }
+
+        // ---------------- PLAYER ----------------
+
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            Vector3 pos = player.transform.position;
+
+            CameraController cameraCtrl = player.GetComponentInChildren<CameraController>();
+            float cameraRotationX = cameraCtrl != null ? cameraCtrl.transform.localEulerAngles.x : 0f;
+
+            _data.player = new PlayerSaveEntry
+            {
+                x = pos.x,
+                y = pos.y,
+                z = pos.z,
+                playerRotationY = player.transform.eulerAngles.y,
+                cameraRotationX = cameraRotationX
+            };
         }
 
         // ---------------- WRITE FILE ----------------
@@ -107,6 +126,22 @@ public class SaveService : ISaveService
             foreach (var door in _data.doors)
             {
                 doorStates[door.id] = door.state;
+            }
+        }
+
+        // ---------------- PLAYER ----------------
+
+        if (_data.player != null)
+        {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
+            {
+                PlayerController pc = player.GetComponent<PlayerController>();
+                if (pc != null)
+                {
+                    Vector3 position = new Vector3(_data.player.x, _data.player.y, _data.player.z);
+                    pc.RestorePosition(position, _data.player.playerRotationY, _data.player.cameraRotationX);
+                }
             }
         }
 
@@ -180,8 +215,6 @@ public class SaveService : ISaveService
 
         return (Dictionary<string, T>)_states[type];
     }
-
-
 
     // ---------------- HELPERS ----------------
 

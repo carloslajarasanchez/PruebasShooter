@@ -102,6 +102,12 @@ public class CameraController : MonoBehaviour
         transform.localPosition = pos;
     }
 
+    public void SetVerticalRotation(float angle)
+    {
+        _verticalAngle = angle;
+        transform.localEulerAngles = new Vector3(_verticalAngle, 0f, 0f);
+    }
+
     // ── Look ─────────────────────────────────────────────────────────────────
 
     private void HandleLook()
