@@ -10,18 +10,21 @@ public class MoveCameraStep : IStep
 
     private ILogService _logService;
     private IPlayerInput _playerInput;
+    private IAlertService _alertService;
     private bool _isCompleted = false;
 
     public MoveCameraStep()
     {
         _logService = AppContainer.Get<ILogService>();
         _playerInput = AppContainer.Get<IPlayerInput>();
+        _alertService = AppContainer.Get<IAlertService>();
     }
 
     public void Activate()
     {
         _logService.Add<WalkStep>($"Activando {this.Name}");
         _logService.Add<WalkStep>($"{this.Description}");
+        _alertService.Show(this.Description, this.Name);
         this._playerInput.Actions.Player.Camera.performed += HandleAction;
     }
 

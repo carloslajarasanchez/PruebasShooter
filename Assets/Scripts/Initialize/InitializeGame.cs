@@ -21,6 +21,7 @@ public class InitializeGame : MonoBehaviour
         _zoneService.Initialize();
         _saveService.Load();
         _logService.Add<InitializeGame>($"PersistentDataPath: \n {Application.persistentDataPath}");
+        InitWorkflow();
     }
 
     private void InitWorkflow()
@@ -32,7 +33,7 @@ public class InitializeGame : MonoBehaviour
             new CrouchStep(),
         };
         var workflow = new Workflow(workflowSteps);
-        workflow.OnComplete += WorkFlowFinished;
+        //workflow.OnComplete += WorkFlowFinished;
         workflow.Begin();
     }
 

@@ -8,11 +8,13 @@ public class Workflow
 
     public event Action OnComplete;
     private ILogService _logService;
+    private IAlertService _alertService;
 
     public Workflow(List<IStep> workflowSteps)
     {
         this._steps = workflowSteps;
         _logService = AppContainer.Get<ILogService>();
+        _alertService = AppContainer.Get<IAlertService>();
     }
 
     public void Begin()
@@ -55,8 +57,9 @@ public class Workflow
 
         if(indexOfCurrentStep == this._steps.Count - 1)
         {
-            _logService.Add<Workflow>($"Workflow completo");
+            CompleteWorkflow();
             OnComplete?.Invoke();
+            this.DeactivateCurrentStep();
             return;
         }
 
@@ -64,5 +67,11 @@ public class Workflow
 
         this.DeactivateCurrentStep();
         this.ActivateStep(nextStep);
+    }
+
+    private void CompleteWorkflow()
+    {
+        //_logService.Add<Workflow>($"Workflow completo");
+        _alertService.Show("¡Has completado el tutorial!", "¡Felicidades!");
     }
 }
