@@ -5,11 +5,13 @@ public class InventoryController : MonoBehaviour
 {
     [SerializeField] private float _raycastDistance = 3f;
     [SerializeField] private LayerMask _catchableLayer;
+    [SerializeField] private LayerMask _interactableLayer;
 
     private bool _isCatcheable = false;
     private ICatchable _itemToCatch;
     private bool _isDetecting;
     private PlayerInputActions _input;
+    private SaveMachine _saveMachineToInteract;
 
     private IEventService _eventService;
 
@@ -40,33 +42,47 @@ public class InventoryController : MonoBehaviour
     private void CheckObject()
     {
         Vector2 _screenCenter = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
-        bool hitSomething = Physics.Raycast(Camera.main.ScreenPointToRay(_screenCenter), out RaycastHit hit, _raycastDistance, _catchableLayer);
+        bool hitCatchable = Physics.Raycast(Camera.main.ScreenPointToRay(_screenCenter), out RaycastHit hitCatchableResult, _raycastDistance, _catchableLayer);
+        bool hitInteractable = Physics.Raycast(Camera.main.ScreenPointToRay(_screenCenter), out RaycastHit hitInteractableResult, _raycastDistance, _interactableLayer);
         Ray ray = Camera.main.ScreenPointToRay(_screenCenter);
-        Debug.DrawRay(ray.origin, ray.direction * hit.distance, Color.green);
+        Debug.DrawRay(ray.origin, ray.direction * hitCatchableResult.distance, Color.green);
 
-        ICatchable catchable = hitSomething && hit.collider.TryGetComponent(out ICatchable found) ? found : null;
+        ICatchable catchable = hitCatchable && hitCatchableResult.collider.TryGetComponent(out ICatchable found) ? found : null;
+        SaveMachine saveMachine = hitInteractable && hitInteractableResult.collider.TryGetComponent(out SaveMachine foundMachine) ? foundMachine : null;
 
         if (catchable != null)
         {
             _itemToCatch = catchable;
+            _saveMachineToInteract = null;
 
             if (!_isDetecting)
             {
                 _isDetecting = true;
                 _isCatcheable = true;
-                //_eventService.Publish(GameEvents.OnCatchableDetected);
+                _eventService.Publish(_catchableDetectedEvent);
+            }
+        }
+        else if (saveMachine != null)
+        {
+            _itemToCatch = null;
+            _saveMachineToInteract = saveMachine;
+
+            if (!_isDetecting)
+            {
+                _isDetecting = true;
+                _isCatcheable = true;
                 _eventService.Publish(_catchableDetectedEvent);
             }
         }
         else
         {
             _itemToCatch = null;
+            _saveMachineToInteract = null;
 
             if (_isDetecting)
             {
                 _isDetecting = false;
                 _isCatcheable = false;
-                //_eventService.Publish(GameEvents.OnCatchableLost);
                 _eventService.Publish(_catchableLostEvent);
             }
         }
@@ -77,8 +93,16 @@ public class InventoryController : MonoBehaviour
         Debug.Log("Interact button pressed.");
         if (_isCatcheable)
         {
-            Debug.Log("Attempting to catch item...");
-            _itemToCatch.Catch();
-        }  
+            if (_saveMachineToInteract != null)
+            {
+                Debug.Log("Opening save machine menu...");
+                _saveMachineToInteract.OpenMenu();
+            }
+            else if (_itemToCatch != null)
+            {
+                Debug.Log("Attempting to catch item...");
+                _itemToCatch.Catch();
+            }
+        }
     }
 }

@@ -13,7 +13,7 @@ public abstract class Item : MonoBehaviour, ICatchable, ISavable<ItemState>
     public Sprite Icon { get; private set; }
     public GameObject ModelPrefab { get; private set; }
 
-    private IInventoryService _inventoryService;
+    protected IInventoryService _inventoryService;
     private IEquipService _equipService;
     protected ISaveService _saveService;
 
@@ -27,15 +27,14 @@ public abstract class Item : MonoBehaviour, ICatchable, ISavable<ItemState>
         _equipService = AppContainer.Get<IEquipService>();
         _saveService = AppContainer.Get<ISaveService>();
 
-        // Seguridad: si no tiene ID, se asigna uno en editor
-    #if UNITY_EDITOR
-            if (string.IsNullOrEmpty(saveId))
-                    {
-                        saveId = System.Guid.NewGuid().ToString();
-                        UnityEditor.EditorUtility.SetDirty(this);
-                    }
-            #endif
+#if UNITY_EDITOR
+        if (string.IsNullOrEmpty(saveId))
+        {
+            saveId = System.Guid.NewGuid().ToString();
+            UnityEditor.EditorUtility.SetDirty(this);
         }
+#endif
+    }
 
     public void Catch()
     {
@@ -71,9 +70,7 @@ public abstract class Item : MonoBehaviour, ICatchable, ISavable<ItemState>
 
     public virtual void SaveState(bool? isConsumed = null, int? currentAmmo = null)
     {
-
         var state = _saveService.GetOrCreateState<ItemState>(SaveId);
-
         state.isInInventory = _isInInventory;
 
         if (isConsumed.HasValue)
@@ -96,10 +93,9 @@ public abstract class Item : MonoBehaviour, ICatchable, ISavable<ItemState>
         }
 
         gameObject.SetActive(!_isInInventory);
-        if(_isInInventory)
+        if (_isInInventory)
         {
             Catch();
         }
     }
-
 }

@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4db350a6f3a1a2c4292a463d04ed8bcf, type: 3}
+  m_Name: Save Tape
+  m_EditorClassIdentifier: Assembly-CSharp::ItemData
+  ItemName: Save Tape
+  Description: Tinta para maquinas de escribir sirve para GUARDAR
+  Icon: {fileID: 21300000, guid: d29d46a1c4c79e0498a7f18c6711615c, type: 3}
+  ModelPrefab: {fileID: 3675353008692247433, guid: 6a82ab575b68e9942b96821e5aba99b6, type: 3}
