@@ -214,6 +214,11 @@ public abstract class Weapon : Item, IEquippable
     protected virtual void OnHit(RaycastHit hit)
     {
         _logService.Add<Weapon>($"'{Name}' impactó '{hit.collider.name}' — daño: {_weaponData.Damage}");
+
+        if (hit.collider.TryGetComponent<Hitbox>(out var hitbox))
+            hitbox.ReceiveDamage(_weaponData.Damage);
+        else if (hit.collider.TryGetComponent<EnemigoBase>(out var enemy))
+            enemy.TakeDamage(_weaponData.Damage);
     }
 
     // ── VFX ──────────────────────────────────────────────────────

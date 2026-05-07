@@ -11,7 +11,6 @@ public class EsqueletoEnemigo : EnemigoBase
     [Header("Comportamiento")]
     [SerializeField] private float _lookAtSpeed = 0f;
 
-    private Transform _cameraTransform;
     private bool _playerInRange;
     private BoxCollider _triggerCollider;
 
@@ -23,17 +22,6 @@ public class EsqueletoEnemigo : EnemigoBase
 
         _triggerCollider.isTrigger = true;
         _triggerCollider.size = new Vector3(_detectionRange * 2, 1.5f, _detectionRange * 2);
-    }
-
-    protected override void Start()
-    {
-        base.Start();
-
-        if (player == null)
-            player = GameObject.FindGameObjectWithTag("Player");
-
-        if (Camera.main != null)
-            _cameraTransform = Camera.main.transform;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -59,9 +47,7 @@ public class EsqueletoEnemigo : EnemigoBase
             return;
         }
 
-        bool playerLookingAtMe = IsPlayerLookingAtMe();
-
-        if (playerLookingAtMe)
+        if (IsPlayerLookingAtMe(_fieldOfViewAngle, _checkLineOfSight, _layerMaskObstacles))
         {
             _currentState = EnemyStateMachine.Idle;
             _agent.speed = _lookAtSpeed;
@@ -74,31 +60,5 @@ public class EsqueletoEnemigo : EnemigoBase
             _agent.speed = _speed;
             _agent.destination = player.transform.position;
         }
-    }
-
-    private bool IsPlayerLookingAtMe()
-    {
-        if (_cameraTransform == null)
-            return false;
-
-        Vector3 directionToEnemy = (transform.position - _cameraTransform.position).normalized;
-        float angle = Vector3.Angle(_cameraTransform.forward, directionToEnemy);
-
-        if (angle > _fieldOfViewAngle * 0.5f)
-            return false;
-
-        if (_checkLineOfSight)
-        {
-            Vector3 direction = transform.position - _cameraTransform.position;
-            float distance = direction.magnitude;
-
-            if (Physics.Raycast(_cameraTransform.position, direction.normalized, out RaycastHit hit, distance, _layerMaskObstacles))
-            {
-                if (!hit.collider.TryGetComponent<EsqueletoEnemigo>(out _))
-                    return false;
-            }
-        }
-
-        return true;
     }
 }
