@@ -9,12 +9,14 @@ public class Workflow
     public event Action OnComplete;
     private ILogService _logService;
     private IAlertService _alertService;
+    private IEventService _eventService;
 
     public Workflow(List<IStep> workflowSteps)
     {
         this._steps = workflowSteps;
         _logService = AppContainer.Get<ILogService>();
         _alertService = AppContainer.Get<IAlertService>();
+        _eventService = AppContainer.Get<IEventService>();
     }
 
     public void Begin()
@@ -60,6 +62,8 @@ public class Workflow
             CompleteWorkflow();
             OnComplete?.Invoke();
             this.DeactivateCurrentStep();
+
+            _eventService.Publish(new OnAlertMessageReceived(null, null));
             return;
         }
 

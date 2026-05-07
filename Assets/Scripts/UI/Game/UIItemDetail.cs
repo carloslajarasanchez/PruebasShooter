@@ -22,10 +22,13 @@ public class UIItemDetail : MonoBehaviour
     private GameObject _currentModel;
     private Item _currentItem;
     private ILogService _logService;
+    private IEventService _eventService;
+    private bool _isFirstTime;
 
     private void Awake()
     {
         _logService = AppContainer.Get<ILogService>();
+        _eventService = AppContainer.Get<IEventService>();
         _detailPanel = this.gameObject;
         _detailPanel.SetActive(false);
         _equipButton.onClick.AddListener(OnEquipClicked);
@@ -99,6 +102,11 @@ public class UIItemDetail : MonoBehaviour
 
     private void OnEquipClicked()
     {
+        if (!_isFirstTime)
+        {
+            _eventService.Publish(new OnFirstEquipItem());
+            _isFirstTime = false;
+        }
         _logService.Add<UIItemDetail>($"Pulsado boton equipar");
         if (_currentItem != null)
         {

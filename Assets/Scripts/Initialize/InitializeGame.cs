@@ -8,6 +8,8 @@ public class InitializeGame : MonoBehaviour
     private ISaveService _saveService;
     private ILogService _logService;
 
+    private bool _isFirstTime;
+
     private void Awake()
     {
         _playerInput = AppContainer.Get<IPlayerInput>();
@@ -21,16 +23,24 @@ public class InitializeGame : MonoBehaviour
         _zoneService.Initialize();
         _saveService.Load();
         _logService.Add<InitializeGame>($"PersistentDataPath: \n {Application.persistentDataPath}");
-        InitWorkflow();
+
+        // Espi: Flag
+        if (!_isFirstTime)
+        {
+            Invoke(nameof(InitWorkflow), 3f);
+            _isFirstTime = true;
+        }
+        //InitWorkflow();
     }
 
     private void InitWorkflow()
     {
         var workflowSteps = new List<IStep>()
         {
-            new MoveCameraStep(),
             new WalkStep(),
+            new MoveCameraStep(),
             new CrouchStep(),
+            new RunStep()
         };
         var workflow = new Workflow(workflowSteps);
         //workflow.OnComplete += WorkFlowFinished;

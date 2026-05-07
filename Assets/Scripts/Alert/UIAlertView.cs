@@ -31,6 +31,13 @@ public class UIAlertView : MonoBehaviour
     {
         if (parameters is OnAlertMessageReceived alertMessage)
         {
+            // Si recibimos un mensaje vacío, cerramos el panel
+            if (string.IsNullOrEmpty(alertMessage.Description))
+            {
+                ClosePanel();
+                return;
+            }
+
             _panelContainer.SetActive(true);
             _logService.Add<UIAlertView>($"Recibido mensaje de alerta: {alertMessage.Description}");
 
@@ -45,5 +52,10 @@ public class UIAlertView : MonoBehaviour
                 _titleText.gameObject.SetActive(false);
             }
         }
+    }
+
+    public void ClosePanel()
+    {
+        _panelContainer.SetActive(false);
     }
 }

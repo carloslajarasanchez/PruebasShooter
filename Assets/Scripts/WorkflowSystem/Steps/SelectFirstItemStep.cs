@@ -1,0 +1,42 @@
+using System;
+
+public class SelectFirstItemStep : IStep
+{
+    public string Name => "Seleccionar un objeto";
+
+    public string Description => "Haz clic en la imagen del objeto para selecionarlo";
+
+    public bool IsCompleted { get => this._isCompleted; set => this._isCompleted = value; }
+    public event Action OnCompleted;
+
+    private ILogService _logService;
+    private IAlertService _alertService;
+    private IEventService _eventService;
+    private bool _isCompleted = false;
+
+    public SelectFirstItemStep()
+    {
+        _logService = AppContainer.Get<ILogService>();
+        _alertService = AppContainer.Get<IAlertService>();
+        _eventService = AppContainer.Get<IEventService>();
+    }
+
+    public void Activate()
+    {
+        _logService.Add<SelectFirstItemStep>($"Activando {this.Name}");
+        _logService.Add<SelectFirstItemStep>($"{this.Description}");
+        _alertService.Show(this.Description, this.Name);
+        _eventService.Subscribe<OnFirstSelectedItem>(HandleAction);
+    }
+
+    public void Deactivate()
+    {
+        _eventService.Unsubscribe<OnFirstSelectedItem>(HandleAction);
+    }
+
+    private void HandleAction(OwnEventBase parameters)
+    {
+        this.IsCompleted = true;
+        this.OnCompleted?.Invoke();
+    }
+}
