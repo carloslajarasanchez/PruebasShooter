@@ -20,9 +20,9 @@ MonoBehaviour:
   FireRate: 0.8
   ReloadTime: 3
   Range: 25
-  Damage: 20
+  Damage: 5
   IsAutomatic: 0
-  PelletCount: 5
+  PelletCount: 8
   SpreadAngle: 25
   WeaponType: 1
   CasingPrefab: {fileID: 4624410897263763386, guid: 15ceea7039ad5e547ac261619653bf00, type: 3}
