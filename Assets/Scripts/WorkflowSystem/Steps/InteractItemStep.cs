@@ -1,10 +1,12 @@
 using System;
 using UnityEngine.InputSystem;
 
-public class CrouchStep : IStep
+public class InteractItemStep : IStep
 {
-    public string Name => "Control de agacharse";
-    public string Description => "Presiona control para agacharte, vuelve a presionar control para levantarte";
+    public string Name => "Interactuar con objetos";
+
+    public string Description => "Presiona el botón E para interactuar con objetos y guardarlos en el inventario";
+
     public bool IsCompleted { get => this._isCompleted; set => this._isCompleted = value; }
     public event Action OnCompleted;
 
@@ -13,23 +15,24 @@ public class CrouchStep : IStep
     private IAlertService _alertService;
     private bool _isCompleted = false;
 
-    public CrouchStep()
+    public InteractItemStep()
     {
         _logService = AppContainer.Get<ILogService>();
         _playerInput = AppContainer.Get<IPlayerInput>();
-        _alertService = AppContainer.Get<IAlertService>();  
+        _alertService = AppContainer.Get<IAlertService>();
     }
+
     public void Activate()
     {
-        _logService.Add<WalkStep>($"Activando {this.Name}");
-        _logService.Add<WalkStep>($"{this.Description}");
+        _logService.Add<InteractItemStep>($"Activando {this.Name}");
+        _logService.Add<InteractItemStep>($"{this.Description}");
         _alertService.Show(this.Description, this.Name);
-        this._playerInput.Actions.Player.Crouch.performed += HandleAction;
+        this._playerInput.Actions.Player.Interact.performed += HandleAction;
     }
 
     public void Deactivate()
     {
-        this._playerInput.Actions.Player.Crouch.performed -= HandleAction;
+        this._playerInput.Actions.Player.Interact.performed -= HandleAction;
     }
 
     private void HandleAction(InputAction.CallbackContext context)

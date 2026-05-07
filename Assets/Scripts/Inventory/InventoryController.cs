@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,14 +18,19 @@ public class InventoryController : MonoBehaviour
 
     private OnCatchableDetected _catchableDetectedEvent;
     private OnCatchableLost _catchableLostEvent;
+    private bool _isFirstTime;
+
+    private void Awake()
+    {
+        _eventService = AppContainer.Get<IEventService>();
+        _catchableDetectedEvent = new OnCatchableDetected();
+        _catchableLostEvent = new OnCatchableLost();       
+        _input = AppContainer.Get<IPlayerInput>().Actions;
+    }
 
     private void OnEnable()
     {
-        _catchableDetectedEvent = new OnCatchableDetected();
-        _catchableLostEvent = new OnCatchableLost();
-        _input = AppContainer.Get<IPlayerInput>().Actions;
         _input.Player.Interact.performed += CatchItem;
-        _eventService = AppContainer.Get<IEventService>();
     }
 
     private void OnDisable()
@@ -52,6 +58,13 @@ public class InventoryController : MonoBehaviour
 
         if (catchable != null)
         {
+            //Espi:flag
+            if (!_isFirstTime)
+            {
+                InitWorkflow();
+                _isFirstTime = true;
+            }
+
             _itemToCatch = catchable;
             _saveMachineToInteract = null;
 
@@ -104,5 +117,19 @@ public class InventoryController : MonoBehaviour
                 _itemToCatch.Catch();
             }
         }
+    }
+
+    private void InitWorkflow()
+    {
+        var workflowSteps = new List<IStep>()
+        {
+            new InteractItemStep(),
+            new OpenInventoryStep(),
+            new SelectFirstItemStep(),
+            new EquipItemStep()
+        };
+        var workflow = new Workflow(workflowSteps);
+        //workflow.OnComplete += WorkFlowFinished;
+        workflow.Begin();
     }
 }
