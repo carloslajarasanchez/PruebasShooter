@@ -13,16 +13,17 @@ public class InventoryController : MonoBehaviour
     private bool _isDetecting;
     private PlayerInputActions _input;
     private SaveMachine _saveMachineToInteract;
-
+    private IGameState _gameState;
     private IEventService _eventService;
+
 
     private OnCatchableDetected _catchableDetectedEvent;
     private OnCatchableLost _catchableLostEvent;
-    private bool _isFirstTime;
 
     private void Awake()
     {
         _eventService = AppContainer.Get<IEventService>();
+        _gameState = AppContainer.Get<IGameState>();
         _catchableDetectedEvent = new OnCatchableDetected();
         _catchableLostEvent = new OnCatchableLost();       
         _input = AppContainer.Get<IPlayerInput>().Actions;
@@ -58,11 +59,9 @@ public class InventoryController : MonoBehaviour
 
         if (catchable != null)
         {
-            //Espi:flag
-            if (!_isFirstTime)
+            if (!_gameState.GetFlag("tutorial_inventory"))
             {
                 InitWorkflow();
-                _isFirstTime = true;
             }
 
             _itemToCatch = catchable;
@@ -129,7 +128,12 @@ public class InventoryController : MonoBehaviour
             new EquipItemStep()
         };
         var workflow = new Workflow(workflowSteps);
-        //workflow.OnComplete += WorkFlowFinished;
+        workflow.OnComplete += WorkFlowFinished;
         workflow.Begin();
+    }
+    private void WorkFlowFinished()
+    {
+        _gameState.SetFlag("tutorial_inventory", true);
+
     }
 }

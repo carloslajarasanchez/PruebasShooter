@@ -11,12 +11,13 @@ public class UIItem : MonoBehaviour
     private Button _button;
     private Item _item;
     private UIInventory _uiInventory;
-    private bool _isFirstTime;
     private IEventService _eventService;
+    private IGameState _gameState;
 
     private void Awake()
     {
         _eventService = AppContainer.Get<IEventService>();
+        _gameState = AppContainer.Get<IGameState>();
     }
 
     public void SetItem(Item item, UIInventory uiInventory)
@@ -32,11 +33,9 @@ public class UIItem : MonoBehaviour
 
     private void OnClick()
     {
-        //Espi: Flag
-        if (!_isFirstTime)
+        if (!_gameState.GetFlag("tutorial_inventory"))
         {
             _eventService.Publish(new OnFirstSelectedItem());
-            _isFirstTime = true;
         }
 
         _uiInventory.SelectItem(_item);

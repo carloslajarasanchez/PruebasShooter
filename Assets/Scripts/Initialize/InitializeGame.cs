@@ -7,8 +7,8 @@ public class InitializeGame : MonoBehaviour
     private IZoneService _zoneService;
     private ISaveService _saveService;
     private ILogService _logService;
+    private IGameState _gameState;
 
-    private bool _isFirstTime;
 
     private void Awake()
     {
@@ -16,6 +16,7 @@ public class InitializeGame : MonoBehaviour
         _zoneService = AppContainer.Get<IZoneService>();
         _saveService = AppContainer.Get<ISaveService>();
         _logService = AppContainer.Get<ILogService>();
+        _gameState = AppContainer.Get<IGameState>();
     }
     private void Start()
     {
@@ -24,13 +25,10 @@ public class InitializeGame : MonoBehaviour
         _saveService.Load();
         _logService.Add<InitializeGame>($"PersistentDataPath: \n {Application.persistentDataPath}");
 
-        // Espi: Flag
-        if (!_isFirstTime)
+        if (!_gameState.GetFlag("tutorial_movement"))
         {
-            Invoke(nameof(InitWorkflow), 3f);
-            _isFirstTime = true;
+            Invoke(nameof(InitWorkflow), 1f);
         }
-        //InitWorkflow();
     }
 
     private void InitWorkflow()
@@ -43,12 +41,13 @@ public class InitializeGame : MonoBehaviour
             new RunStep()
         };
         var workflow = new Workflow(workflowSteps);
-        //workflow.OnComplete += WorkFlowFinished;
+        workflow.OnComplete += WorkFlowFinished;
         workflow.Begin();
     }
 
     private void WorkFlowFinished()
     {
+        _gameState.SetFlag("tutorial_movement", true);
         _logService.Add<InitializeGame>($"Workflow completo");
     }
 }
