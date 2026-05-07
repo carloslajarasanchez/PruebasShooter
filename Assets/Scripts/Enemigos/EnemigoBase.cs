@@ -11,6 +11,7 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>
     protected NavMeshAgent _agent;
     public GameObject player;
     protected Transform _cameraTransform;
+    private ISaveService _saveService;
 
     [Header("Patrullaje")]
     [SerializeField] private Transform[] _patrolPoints;
@@ -26,6 +27,19 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>
     protected bool _isChasing;
 
     public string SaveId => _saveId;
+
+    private void Awake()
+    {
+        if (string.IsNullOrEmpty(_saveId))
+        {
+            _saveId = System.Guid.NewGuid().ToString();
+#if UNITY_EDITOR
+            UnityEditor.EditorUtility.SetDirty(this);
+#endif
+        }
+
+        _saveService = AppContainer.Get<ISaveService>();
+    }
 
     protected virtual void Start()
     {
@@ -54,6 +68,7 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>
 
     private void Die()
     {
+        _saveService?.SetState(SaveId, SaveState());
         Destroy(gameObject);
     }
 

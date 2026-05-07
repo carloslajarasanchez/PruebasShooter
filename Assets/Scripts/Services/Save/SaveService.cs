@@ -9,12 +9,16 @@ public class SaveService : ISaveService
     private Dictionary<System.Type, object> _states = new();
 
     private IGameState _gameState;
+    private IInventoryService _inventoryService;
+    private IEquipService _equipService;
 
     private string SavePath => Application.persistentDataPath + "/save.json";
 
     public SaveService()
     {
         _gameState = AppContainer.Get<IGameState>();
+        _inventoryService = AppContainer.Get<IInventoryService>();
+        _equipService = AppContainer.Get<IEquipService>();
     }
 
     // ---------------- SAVE ----------------
@@ -56,6 +60,21 @@ public class SaveService : ISaveService
             });
         }
 
+        // ---------------- ENEMIES ----------------
+
+        _data.enemies = new List<EnemySaveEntry>();
+
+        var enemyStates = GetStateDictionary<EnemyState>();
+
+        foreach (var kvp in enemyStates)
+        {
+            _data.enemies.Add(new EnemySaveEntry
+            {
+                id = kvp.Key,
+                state = kvp.Value
+            });
+        }
+
         // ---------------- PLAYER ----------------
 
         GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -75,6 +94,11 @@ public class SaveService : ISaveService
                 cameraRotationX = cameraRotationX
             };
         }
+
+        // ---------------- EQUIPPED ITEMS ----------------
+
+        _data.equippedItemId = _equipService.CurrentItem?.SaveId;
+        _data.previousItemId = _equipService.PreviousItem?.SaveId;
 
         // ---------------- WRITE FILE ----------------
 
@@ -147,6 +171,8 @@ public class SaveService : ISaveService
 
         RestoreScene();
 
+        RestoreEquippedItems();
+
         Debug.Log("Game Loaded");
     }
     // ---------------- RESTORE SCENE ----------------
@@ -173,6 +199,18 @@ public class SaveService : ISaveService
             if (TryGetState<DoorState>(door.SaveId, out var state))
             {
                 door.RestoreState(state);
+            }
+        }
+
+        // ---------------- ENEMIES ----------------
+
+        var enemies = Object.FindObjectsByType<EnemigoBase>(FindObjectsSortMode.None);
+
+        foreach (var enemy in enemies)
+        {
+            if (TryGetState<EnemyState>(enemy.SaveId, out var state))
+            {
+                enemy.RestoreState(state);
             }
         }
     }
@@ -246,5 +284,19 @@ public class SaveService : ISaveService
         }
 
         return dict;
+    }
+
+    private void RestoreEquippedItems()
+    {
+        if (string.IsNullOrEmpty(_data.equippedItemId)) return;
+
+        Item equipped = _inventoryService.GetItem<Item>(i => i.SaveId == _data.equippedItemId);
+        if (equipped == null)
+        {
+            Debug.Log($"No se encontró el item equipado con ID: {_data.equippedItemId}");
+            return;
+        }
+
+        equipped.Equip();
     }
 }
