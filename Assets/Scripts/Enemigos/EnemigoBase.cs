@@ -31,6 +31,18 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>
 
     private float _loseSightTimer;
     protected bool _isChasing;
+    protected Vector3 _lastKnownPlayerPosition;
+
+    // ── Investigación ─────────────────────────────────────────────
+    [Header("Investigacion")]
+    [SerializeField] private float _investigationSpeed;
+    [SerializeField] private float _investigationLookSpeed = 120f;
+    [SerializeField] private float _investigationDistanceThreshold = 1.5f;
+    [SerializeField] private float _investigationPauseTime = 0.5f;
+
+    private Quaternion _startRotation;
+    private int _investigationLookIndex;
+    private float _lookTimer;
 
     // ── Propiedades ───────────────────────────────────────────────
     public string SaveId => _saveId;
@@ -48,6 +60,9 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>
     {
         _agent = GetComponent<NavMeshAgent>();
         _agent.speed = _speed;
+
+        if (_investigationSpeed <= 0f)
+            _investigationSpeed = _speed * 0.8f;
 
         if (player == null)
             player = GameObject.FindGameObjectWithTag("Player");
@@ -89,7 +104,7 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>
             if (Physics.Raycast(rayOrigin, dirToPlayer, out RaycastHit hit, distance, obstacles))
             {
                 if (!hit.collider.TryGetComponent<EnemigoBase>(out _) && !hit.collider.CompareTag("Player"))
-                    return false;
+                return false;
             }
         }
 
@@ -134,6 +149,7 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>
         {
             _isChasing = true;
             _loseSightTimer = 0f;
+            _lastKnownPlayerPosition = player.transform.position;
         }
 
         if (_isChasing)
@@ -146,12 +162,76 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>
             {
                 _loseSightTimer += Time.deltaTime;
                 if (_loseSightTimer >= _loseSightTime)
+                {
                     _isChasing = false;
+                    _currentState = EnemyStateMachine.Investigating;
+                    _startRotation = transform.rotation;
+                    _investigationLookIndex = 0;
+                    _lookTimer = 0f;
+                    _agent.SetDestination(_lastKnownPlayerPosition);
+                }
             }
+            return;
         }
 
-        if (!_isChasing)
-            Patrol();
+        if (_currentState == EnemyStateMachine.Investigating)
+        {
+            HandleInvestigationState(playerDetected);
+            return;
+        }
+
+        Patrol();
+    }
+
+    private void HandleInvestigationState(bool playerDetected)
+    {
+        if (playerDetected)
+        {
+            _isChasing = true;
+            _loseSightTimer = 0f;
+            _currentState = EnemyStateMachine.Chasing;
+            return;
+        }
+
+        float distanceToLastPos = Vector3.Distance(transform.position, _lastKnownPlayerPosition);
+
+        if (distanceToLastPos > _investigationDistanceThreshold)
+        {
+            _agent.speed = _investigationSpeed;
+            _agent.destination = _lastKnownPlayerPosition;
+            return;
+        }
+
+        _agent.speed = 0f;
+        if (_agent.hasPath) _agent.ResetPath();
+
+        LookAround();
+    }
+
+    private void LookAround()
+    {
+        float[] angles = { 90f, -90f, 180f };
+
+        if (_investigationLookIndex >= angles.Length)
+        {
+            _currentState = EnemyStateMachine.Idle;
+            return;
+        }
+
+        Quaternion targetRot = _startRotation * Quaternion.Euler(0f, angles[_investigationLookIndex], 0f);
+
+        transform.rotation = Quaternion.RotateTowards(
+            transform.rotation, targetRot, _investigationLookSpeed * Time.deltaTime);
+
+        if (Quaternion.Angle(transform.rotation, targetRot) < 2f)
+        {
+            _lookTimer += Time.deltaTime;
+            if (_lookTimer >= _investigationPauseTime)
+            {
+                _investigationLookIndex++;
+                _lookTimer = 0f;
+            }
+        }
     }
 
     private void Patrol()
