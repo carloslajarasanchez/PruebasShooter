@@ -3,40 +3,43 @@ using UnityEngine.AI;
 
 public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>
 {
+    // ── Configuración general ─────────────────────────────────────
     [SerializeField] private float _life;
     [SerializeField] private float _damage;
     [SerializeField] protected float _speed;
-    protected EnemyStateMachine _currentState;
-    private string _saveId;
+    [SerializeField] private string _saveId;
+
+    // ── Referencias ───────────────────────────────────────────────
     protected NavMeshAgent _agent;
-    public GameObject player;
     protected Transform _cameraTransform;
+    protected EnemyStateMachine _currentState;
+    public GameObject player;
     private ISaveService _saveService;
 
+    // ── Patrullaje ────────────────────────────────────────────────
     [Header("Patrullaje")]
     [SerializeField] private Transform[] _patrolPoints;
     [SerializeField] private float _patrolWaitTime = 2f;
     [SerializeField] private float _patrolStopDistance = 1f;
 
+    private int _currentPatrolIndex;
+    private float _patrolWaitTimer;
+
+    // ── Persecución ───────────────────────────────────────────────
     [Header("Persecucion")]
     [SerializeField] private float _loseSightTime = 2f;
 
-    private int _currentPatrolIndex;
-    private float _patrolWaitTimer;
     private float _loseSightTimer;
     protected bool _isChasing;
 
+    // ── Propiedades ───────────────────────────────────────────────
     public string SaveId => _saveId;
 
+    // ── Ciclo de vida Unity ───────────────────────────────────────
     private void Awake()
     {
         if (string.IsNullOrEmpty(_saveId))
-        {
             _saveId = System.Guid.NewGuid().ToString();
-#if UNITY_EDITOR
-            UnityEditor.EditorUtility.SetDirty(this);
-#endif
-        }
 
         _saveService = AppContainer.Get<ISaveService>();
     }
@@ -53,17 +56,14 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>
             _cameraTransform = Camera.main.transform;
     }
 
-    protected virtual void Update()
-    {
-    }
+    protected virtual void Update() { }
 
+    // ── Vida y muerte ─────────────────────────────────────────────
     public virtual void TakeDamage(float damage)
     {
         _life -= damage;
         if (_life <= 0)
-        {
             Die();
-        }
     }
 
     private void Die()
@@ -72,27 +72,21 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>
         Destroy(gameObject);
     }
 
-    // ── Helpers de deteccion ──────────────────────────────────────
-
+    // ── Detección ─────────────────────────────────────────────────
     protected bool IsPlayerInVisionCone(float range, float angle, float height, bool checkLOS, LayerMask obstacles)
     {
         if (player == null) return false;
 
-        Vector3 directionToPlayer = (player.transform.position - transform.position).normalized;
+        Vector3 dirToPlayer = (player.transform.position - transform.position).normalized;
         float distance = Vector3.Distance(transform.position, player.transform.position);
 
-        if (distance > range)
-            return false;
-
-        float angleToPlayer = Vector3.Angle(transform.forward, directionToPlayer);
-        if (angleToPlayer > angle * 0.5f)
-            return false;
+        if (distance > range) return false;
+        if (Vector3.Angle(transform.forward, dirToPlayer) > angle * 0.5f) return false;
 
         if (checkLOS)
         {
             Vector3 rayOrigin = transform.position + Vector3.up * height;
-
-            if (Physics.Raycast(rayOrigin, directionToPlayer, out RaycastHit hit, distance, obstacles))
+            if (Physics.Raycast(rayOrigin, dirToPlayer, out RaycastHit hit, distance, obstacles))
             {
                 if (!hit.collider.TryGetComponent<EnemigoBase>(out _) && !hit.collider.CompareTag("Player"))
                     return false;
@@ -106,30 +100,24 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>
     {
         if (player == null) return false;
 
-        Vector3 directionToPlayer = (player.transform.position - transform.position).normalized;
+        Vector3 dirToPlayer = (player.transform.position - transform.position).normalized;
         float distance = Vector3.Distance(transform.position, player.transform.position);
-        float dot = Vector3.Dot(transform.forward, directionToPlayer);
+        float dot = Vector3.Dot(transform.forward, dirToPlayer);
 
         return dot < 0f && distance <= range;
     }
 
     protected bool IsPlayerLookingAtMe(float fovAngle, bool checkLOS, LayerMask obstacles)
     {
-        if (_cameraTransform == null || player == null)
-            return false;
+        if (_cameraTransform == null || player == null) return false;
 
-        Vector3 directionToEnemy = (transform.position - _cameraTransform.position).normalized;
-        float angle = Vector3.Angle(_cameraTransform.forward, directionToEnemy);
-
-        if (angle > fovAngle * 0.5f)
-            return false;
+        Vector3 dirToEnemy = (transform.position - _cameraTransform.position).normalized;
+        if (Vector3.Angle(_cameraTransform.forward, dirToEnemy) > fovAngle * 0.5f) return false;
 
         if (checkLOS)
         {
             Vector3 direction = transform.position - _cameraTransform.position;
-            float distance = direction.magnitude;
-
-            if (Physics.Raycast(_cameraTransform.position, direction.normalized, out RaycastHit hit, distance, obstacles))
+            if (Physics.Raycast(_cameraTransform.position, direction.normalized, out RaycastHit hit, direction.magnitude, obstacles))
             {
                 if (!hit.collider.TryGetComponent<EnemigoBase>(out _))
                     return false;
@@ -139,8 +127,7 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>
         return true;
     }
 
-    // ── Maquina de estados ─────────────────────────────────────────
-
+    // ── Máquina de estados ────────────────────────────────────────
     protected void HandleChaseState(bool playerDetected)
     {
         if (playerDetected)
@@ -172,8 +159,7 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>
         if (_patrolPoints == null || _patrolPoints.Length == 0)
         {
             _agent.speed = 0f;
-            if (_agent.hasPath)
-                _agent.ResetPath();
+            if (_agent.hasPath) _agent.ResetPath();
             return;
         }
 
@@ -184,11 +170,10 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>
 
         if (distance <= _patrolStopDistance)
         {
-            _patrolWaitTimer += Time.deltaTime;
             _agent.speed = 0f;
-            if (_agent.hasPath)
-                _agent.ResetPath();
+            if (_agent.hasPath) _agent.ResetPath();
 
+            _patrolWaitTimer += Time.deltaTime;
             if (_patrolWaitTimer >= _patrolWaitTime)
             {
                 _currentPatrolIndex = (_currentPatrolIndex + 1) % _patrolPoints.Length;
@@ -203,19 +188,11 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>
         }
     }
 
-    public EnemyState SaveState()
-    {
-        return new EnemyState
-        {
-            IsDead = _life <= 0
-        };
-    }
+    // ── Guardado ──────────────────────────────────────────────────
+    public EnemyState SaveState() => new EnemyState { IsDead = _life <= 0 };
 
     public void RestoreState(EnemyState state)
     {
-        if (state.IsDead)
-        {
-            Die();
-        }
+        if (state.IsDead) Die();
     }
 }

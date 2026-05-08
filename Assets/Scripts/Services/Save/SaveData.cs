@@ -12,10 +12,3 @@ public class SaveData
     public string equippedItemId;
     public string previousItemId;
 }
-
-[System.Serializable]
-public class EnemySaveEntry
-{
-    public string id;
-    public EnemyState state;
-}

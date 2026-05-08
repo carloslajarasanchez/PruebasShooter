@@ -153,6 +153,17 @@ public class SaveService : ISaveService
             }
         }
 
+        // ---------------- ENEMIES ----------------
+        var enemyStates = GetStateDictionary<EnemyState>();
+        enemyStates.Clear();
+        if (_data.enemies != null)
+        {
+            foreach (var enemy in _data.enemies)
+            {
+                enemyStates[enemy.id] = enemy.state;
+            }
+        }
+
         // ---------------- PLAYER ----------------
 
         if (_data.player != null)

@@ -15,11 +15,11 @@ public class InventoryController : MonoBehaviour
     private SaveMachine _saveMachineToInteract;
     private IGameState _gameState;
     private IEventService _eventService;
-
+    private bool _tutorialStarted=false;
 
     private OnCatchableDetected _catchableDetectedEvent;
     private OnCatchableLost _catchableLostEvent;
-
+    
     private void Awake()
     {
         _eventService = AppContainer.Get<IEventService>();
@@ -59,9 +59,10 @@ public class InventoryController : MonoBehaviour
 
         if (catchable != null)
         {
-            if (!_gameState.GetFlag("tutorial_inventory"))
+            if (!_gameState.GetFlag("tutorial_inventory") && !_tutorialStarted)
             {
                 InitWorkflow();
+                _tutorialStarted = true;
             }
 
             _itemToCatch = catchable;

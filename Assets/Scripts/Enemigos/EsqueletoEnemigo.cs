@@ -3,7 +3,6 @@ using UnityEngine;
 public class EsqueletoEnemigo : EnemigoBase
 {
     [Header("Deteccion")]
-    [SerializeField] private float _detectionRange = 10f;
     [SerializeField] private float _fieldOfViewAngle = 60f;
     [SerializeField] private bool _checkLineOfSight = true;
     [SerializeField] private LayerMask _layerMaskObstacles = ~0;
@@ -17,11 +16,6 @@ public class EsqueletoEnemigo : EnemigoBase
     private void Awake()
     {
         _triggerCollider = GetComponent<BoxCollider>();
-        if (_triggerCollider == null)
-            _triggerCollider = gameObject.AddComponent<BoxCollider>();
-
-        _triggerCollider.isTrigger = true;
-        _triggerCollider.size = new Vector3(_detectionRange * 2, 1.5f, _detectionRange * 2);
     }
 
     private void OnTriggerEnter(Collider other)
