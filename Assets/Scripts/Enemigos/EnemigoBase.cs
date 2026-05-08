@@ -76,7 +76,9 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>
     // ── Vida y muerte ─────────────────────────────────────────────
     public virtual void TakeDamage(float damage)
     {
+        Debug.Log($"{name} recibió {damage} de daño.");
         _life -= damage;
+        HandleChaseState(true);
         if (_life <= 0)
             Die();
     }

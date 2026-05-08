@@ -23,7 +23,7 @@ MonoBehaviour:
   Damage: 5
   IsAutomatic: 0
   PelletCount: 8
-  SpreadAngle: 25
+  SpreadAngle: 15
   WeaponType: 1
   CasingPrefab: {fileID: 4624410897263763386, guid: 15ceea7039ad5e547ac261619653bf00, type: 3}
   CasingEjectPoint: {fileID: 0}

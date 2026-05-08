@@ -27,6 +27,7 @@ public abstract class Weapon : Item, IEquippable
     [Header("VFX")]
     [SerializeField] private LineRenderer _lineRenderer;
     [SerializeField] private GameObject _hitLight;
+    [SerializeField] private LayerMask _hitMask;
 
     private AudioSource _audioSource;
     private IEventService _eventService;
@@ -188,7 +189,7 @@ public abstract class Weapon : Item, IEquippable
         RaycastHit hit;
         Vector3 endPoint;
 
-        if (Physics.Raycast(ray.origin, ray.direction, out hit, _weaponData.Range, ~0, QueryTriggerInteraction.Ignore))
+        if (Physics.Raycast(ray.origin, ray.direction, out hit, _weaponData.Range, _hitMask))
             endPoint = hit.point;
         else
             endPoint = ray.origin + ray.direction * _weaponData.Range;
