@@ -24,6 +24,11 @@ public class EnemigoGordo : EnemigoBase
         HandleChaseState(detected);
     }
 
+    private void LateUpdate()
+    {
+        _animator.SetFloat("speed", _agent.velocity.magnitude);
+    }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;

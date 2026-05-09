@@ -8,6 +8,7 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>
     [SerializeField] private float _damage;
     [SerializeField] protected float _speed;
     [SerializeField] private string _saveId;
+    [SerializeField] protected Animator _animator;
 
     // ── Referencias ───────────────────────────────────────────────
     protected NavMeshAgent _agent;
@@ -28,6 +29,7 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>
     // ── Persecución ───────────────────────────────────────────────
     [Header("Persecucion")]
     [SerializeField] private float _loseSightTime = 2f;
+    [SerializeField] private float _chaseSpeedMultiplier = 1.2f;
 
     private float _loseSightTimer;
     protected bool _isChasing;
@@ -39,6 +41,8 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>
     [SerializeField] private float _investigationLookSpeed = 120f;
     [SerializeField] private float _investigationDistanceThreshold = 1.5f;
     [SerializeField] private float _investigationPauseTime = 0.5f;
+    private float _investigationTimer = 0f;
+    [SerializeField] private float _maxInvestigationTime = 5f;
 
     private Quaternion _startRotation;
     private int _investigationLookIndex;
@@ -54,6 +58,7 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>
             _saveId = System.Guid.NewGuid().ToString();
 
         _saveService = AppContainer.Get<ISaveService>();
+        _animator = GetComponent<Animator>();
     }
 
     protected virtual void Start()
@@ -72,6 +77,8 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>
     }
 
     protected virtual void Update() { }
+
+    
 
     // ── Vida y muerte ─────────────────────────────────────────────
     public virtual void TakeDamage(float damage)
@@ -147,58 +154,76 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>
     // ── Máquina de estados ────────────────────────────────────────
     protected void HandleChaseState(bool playerDetected)
     {
+        if (playerDetected && _currentState != EnemyStateMachine.Chasing)
+        {
+            TransitionToChase();
+        }
+        switch (_currentState)
+        {
+            case EnemyStateMachine.Chasing:
+                UpdateChaseState(playerDetected);
+                break;
+            case EnemyStateMachine.Investigating:
+                HandleInvestigationState(playerDetected);
+                break;
+            default:
+                Patrol();
+                break;
+        }
+    }
+
+    private void UpdateChaseState(bool playerDetected)
+    {
         if (playerDetected)
         {
-            _isChasing = true;
             _loseSightTimer = 0f;
             _lastKnownPlayerPosition = player.transform.position;
-        }
-
-        if (_isChasing)
-        {
-            _currentState = EnemyStateMachine.Chasing;
-            _agent.speed = _speed;
+            _agent.speed = _speed * _chaseSpeedMultiplier;
             _agent.destination = player.transform.position;
-
-            if (!playerDetected)
-            {
-                _loseSightTimer += Time.deltaTime;
-                if (_loseSightTimer >= _loseSightTime)
-                {
-                    _isChasing = false;
-                    _currentState = EnemyStateMachine.Investigating;
-                    _startRotation = transform.rotation;
-                    _investigationLookIndex = 0;
-                    _lookTimer = 0f;
-                    _agent.SetDestination(_lastKnownPlayerPosition);
-                }
-            }
             return;
         }
 
-        if (_currentState == EnemyStateMachine.Investigating)
-        {
-            HandleInvestigationState(playerDetected);
-            return;
-        }
+        _loseSightTimer += Time.deltaTime;
+        if (_loseSightTimer >= _loseSightTime)
+            TransitionToInvestigation();
+    }
 
-        Patrol();
+    private void TransitionToInvestigation()
+    {
+        _isChasing = false;
+        _currentState = EnemyStateMachine.Investigating;
+        _startRotation = transform.rotation;
+        _investigationLookIndex = 0;
+        _lookTimer = 0f;
+        _investigationTimer = 0f;
+        _animator.SetBool("isChasing", false);
+        _agent.SetDestination(_lastKnownPlayerPosition);
+    }
+
+    private void TransitionToChase()
+    {
+        _isChasing = true;
+        _loseSightTimer = 0f;
+        _investigationTimer = 0f;
+        _currentState = EnemyStateMachine.Chasing;
+        _animator.SetBool("isChasing", true);
     }
 
     private void HandleInvestigationState(bool playerDetected)
     {
         if (playerDetected)
         {
-            _isChasing = true;
-            _loseSightTimer = 0f;
-            _currentState = EnemyStateMachine.Chasing;
+            TransitionToChase();
             return;
         }
 
         float distanceToLastPos = Vector3.Distance(transform.position, _lastKnownPlayerPosition);
+        bool timedOut = _investigationTimer >= _maxInvestigationTime;
+        bool arrivedAtPoint = distanceToLastPos <= _investigationDistanceThreshold;
 
-        if (distanceToLastPos > _investigationDistanceThreshold)
+        if (!arrivedAtPoint && !timedOut)
         {
+            _investigationTimer += Time.deltaTime;
             _agent.speed = _investigationSpeed;
             _agent.destination = _lastKnownPlayerPosition;
             return;
@@ -206,7 +231,6 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>
 
         _agent.speed = 0f;
         if (_agent.hasPath) _agent.ResetPath();
-
         LookAround();
     }
 

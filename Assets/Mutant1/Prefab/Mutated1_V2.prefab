@@ -484,6 +484,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 20a5e8d2158ec6e49a5f8f3260d12e60, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 27c70984b9f4990489d83faa91f41371, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 8d41e1e4e1b31e3449304bee05afde5d, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -512,9 +516,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 27c70984b9f4990489d83faa91f41371, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5466898510732674698}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 27c70984b9f4990489d83faa91f41371, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2289168947334136572}
     - targetCorrespondingSourceObject: {fileID: -5793421214491646943, guid: 27c70984b9f4990489d83faa91f41371, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1336954190855470174}
@@ -564,6 +565,7 @@ MonoBehaviour:
   _damage: 20
   _speed: 1
   _saveId: 
+  _animator: {fileID: 0}
   player: {fileID: 0}
   _patrolPoints:
   - {fileID: 0}
@@ -577,6 +579,7 @@ MonoBehaviour:
   _patrolWaitTime: 5
   _patrolStopDistance: 1.5
   _loseSightTime: 2
+  _chaseSpeedMultiplier: 1.4
   _investigationSpeed: 0
   _investigationLookSpeed: 120
   _investigationDistanceThreshold: 1.7
@@ -584,7 +587,7 @@ MonoBehaviour:
   _visionRange: 10
   _visionAngle: 45
   _visionHeight: 0
-  _rearDetectionRange: 3
+  _rearDetectionRange: 2
   _checkLineOfSight: 1
   _layerMaskObstacles:
     serializedVersion: 2
@@ -611,33 +614,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!54 &2289168947334136572
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1335532020709064786}
-  serializedVersion: 5
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &2225942200640526497 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 48844973712467362, guid: 27c70984b9f4990489d83faa91f41371, type: 3}
