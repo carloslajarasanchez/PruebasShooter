@@ -38,7 +38,6 @@ public class InitializeGame : MonoBehaviour
             new WalkStep(),
             new MoveCameraStep(),
             new CrouchStep(),
-            new RunStep()
         };
         var workflow = new Workflow(workflowSteps);
         workflow.OnComplete += WorkFlowFinished;

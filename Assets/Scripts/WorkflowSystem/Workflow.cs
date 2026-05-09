@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class Workflow
 {
@@ -23,14 +24,14 @@ public class Workflow
     {
         if (this._currentStep != null)
             return;
-        if(this._steps.Count == 0)
+        if (this._steps.Count == 0)
             return;
         this.ActivateStep(this._steps[0]);
     }
 
     private void ActivateStep(IStep step)
     {
-        if(step == null) return;
+        if (step == null) return;
 
         this._currentStep = step;
 
@@ -51,31 +52,37 @@ public class Workflow
     {
         var indexOfCurrentStep = this._steps.IndexOf(this._currentStep);
 
-        if(indexOfCurrentStep == -1)
+        if (indexOfCurrentStep == -1)
         {
             _logService.Add<Workflow>($"No se encuentra el step {this._currentStep.Name}");
             return;
         }
 
-        if(indexOfCurrentStep == this._steps.Count - 1)
+        this.DeactivateCurrentStep();
+        _eventService.Publish(new OnAlertMessageReceived(null, null)); // cierra el alert actual
+
+        if (indexOfCurrentStep == this._steps.Count - 1)
         {
             CompleteWorkflow();
-            OnComplete?.Invoke();
-            this.DeactivateCurrentStep();
-
-            _eventService.Publish(new OnAlertMessageReceived(null, null));
             return;
         }
 
         var nextStep = this._steps[indexOfCurrentStep + 1];
+        ActivateStepAfterDelay(nextStep);
+    }
 
-        this.DeactivateCurrentStep();
+    private async void ActivateStepAfterDelay(IStep nextStep)
+    {
+        await Task.Delay(TimeSpan.FromSeconds(2f));
         this.ActivateStep(nextStep);
     }
 
-    private void CompleteWorkflow()
+    private async void CompleteWorkflow()
     {
-        //_logService.Add<Workflow>($"Workflow completo");
+        await Task.Delay(TimeSpan.FromSeconds(2f));
         _alertService.Show("¡Has completado el tutorial!", "¡Felicidades!");
+        await Task.Delay(TimeSpan.FromSeconds(3f)); // tiempo para leer el mensaje
+        _eventService.Publish(new OnAlertMessageReceived(null, null)); // cierra el alert
+        OnComplete?.Invoke();
     }
 }

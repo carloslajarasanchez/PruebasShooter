@@ -38,14 +38,7 @@ public class CrouchStep : IStep
 
     private void HandleAction(InputAction.CallbackContext context)
     {
-        CompleteAfterDelay();
-    }
-
-    private async void CompleteAfterDelay()
-    {
-        await Task.Delay(TimeSpan.FromSeconds(2f));
-        _eventService.Publish(new OnAlertMessageReceived(null, null));
-        await Task.Delay(TimeSpan.FromSeconds(2f));
+        //_eventService.Publish(new OnAlertMessageReceived(null, null));
         this.IsCompleted = true;
         this.OnCompleted?.Invoke();
     }
