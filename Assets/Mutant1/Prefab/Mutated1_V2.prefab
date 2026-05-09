@@ -837,7 +837,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   _patrolWaitTime: 5
-  _patrolStopDistance: 1.5
+  _patrolStopDistance: 1.7
   _loseSightTime: 2
   _chaseSpeedMultiplier: 1.4
   _investigationSpeed: 0
