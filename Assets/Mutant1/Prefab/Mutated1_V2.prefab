@@ -844,7 +844,7 @@ MonoBehaviour:
   _investigationLookSpeed: 120
   _investigationDistanceThreshold: 1.8
   _investigationPauseTime: 0.5
-  _maxInvestigationTime: 5
+  _maxInvestigationTime: 3
   _attackRange: 1.9
   _attackCooldown: 2
   _visionRange: 10
