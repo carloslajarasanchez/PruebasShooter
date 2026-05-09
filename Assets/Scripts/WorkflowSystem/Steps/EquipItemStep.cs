@@ -1,5 +1,5 @@
 using System;
-using UnityEngine;
+using System.Threading.Tasks;
 
 public class EquipItemStep : IStep
 {
@@ -37,6 +37,14 @@ public class EquipItemStep : IStep
 
     private void HandleAction(OwnEventBase parameters)
     {
+        CompleteAfterDelay();
+    }
+
+    private async void CompleteAfterDelay()
+    {
+        await Task.Delay(TimeSpan.FromSeconds(2f));
+        _eventService.Publish(new OnAlertMessageReceived(null, null));
+        await Task.Delay(TimeSpan.FromSeconds(2f));
         this.IsCompleted = true;
         this.OnCompleted?.Invoke();
     }

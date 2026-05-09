@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 
 public class SelectFirstItemStep : IStep
 {
@@ -36,6 +37,14 @@ public class SelectFirstItemStep : IStep
 
     private void HandleAction(OwnEventBase parameters)
     {
+        CompleteAfterDelay();
+    }
+
+    private async void CompleteAfterDelay()
+    {
+        await Task.Delay(TimeSpan.FromSeconds(2f));
+        _eventService.Publish(new OnAlertMessageReceived(null, null));
+        await Task.Delay(TimeSpan.FromSeconds(2f));
         this.IsCompleted = true;
         this.OnCompleted?.Invoke();
     }
