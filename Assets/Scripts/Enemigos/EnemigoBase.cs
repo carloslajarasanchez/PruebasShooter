@@ -44,6 +44,11 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>
     private float _investigationTimer = 0f;
     [SerializeField] private float _maxInvestigationTime = 5f;
 
+    [Header("Ataque")]
+    [SerializeField] private float _attackRange = 1.5f;
+    [SerializeField] private float _attackCooldown = 2f;
+    private float _attackTimer = 0f;
+
     private Quaternion _startRotation;
     private int _investigationLookIndex;
     private float _lookTimer;
@@ -109,6 +114,7 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>
 
         if (checkLOS)
         {
+            Debug.DrawLine(transform.position + Vector3.up * height, player.transform.position + Vector3.up * height, Color.red, 0.1f);
             Vector3 rayOrigin = transform.position + Vector3.up * height;
             if (Physics.Raycast(rayOrigin, dirToPlayer, out RaycastHit hit, distance, obstacles))
             {
@@ -123,12 +129,7 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>
     protected bool IsPlayerInRearRange(float range)
     {
         if (player == null) return false;
-
-        Vector3 dirToPlayer = (player.transform.position - transform.position).normalized;
-        float distance = Vector3.Distance(transform.position, player.transform.position);
-        float dot = Vector3.Dot(transform.forward, dirToPlayer);
-
-        return dot < 0f && distance <= range;
+        return Vector3.Distance(transform.position, player.transform.position) <= range;
     }
 
     protected bool IsPlayerLookingAtMe(float fovAngle, bool checkLOS, LayerMask obstacles)
@@ -166,6 +167,9 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>
             case EnemyStateMachine.Investigating:
                 HandleInvestigationState(playerDetected);
                 break;
+            case EnemyStateMachine.Attacking:
+                HandleAttackState(playerDetected);
+                break;
             default:
                 Patrol();
                 break;
@@ -178,6 +182,16 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>
         {
             _loseSightTimer = 0f;
             _lastKnownPlayerPosition = player.transform.position;
+
+            float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+
+            if (distanceToPlayer <= _attackRange && _attackTimer <= 0f)
+            {
+                TransitionToAttack();
+                return;
+            }
+
+            _attackTimer -= Time.deltaTime;
             _agent.speed = _speed * _chaseSpeedMultiplier;
             _agent.destination = player.transform.position;
             return;
@@ -188,6 +202,14 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>
             TransitionToInvestigation();
     }
 
+    private void TransitionToAttack()
+    {
+        _currentState = EnemyStateMachine.Attacking;
+        _agent.speed = 0f;
+        if (_agent.hasPath) _agent.ResetPath();
+        _animator.SetTrigger("attack");
+        _attackTimer = _attackCooldown;
+    }
     private void TransitionToInvestigation()
     {
         _isChasing = false;
@@ -209,6 +231,16 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>
         _animator.SetBool("isChasing", true);
     }
 
+    private void HandleAttackState(bool playerDetected)
+    {
+        _agent.speed = 0f;
+        if (_agent.hasPath) _agent.ResetPath();
+        _attackTimer -= Time.deltaTime;
+
+        // Cuando termina el cooldown vuelve a perseguir
+        if (_attackTimer <= 0f)
+            TransitionToChase();
+    }
     private void HandleInvestigationState(bool playerDetected)
     {
         if (playerDetected)

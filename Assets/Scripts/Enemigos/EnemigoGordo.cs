@@ -37,7 +37,8 @@ public class EnemigoGordo : EnemigoBase
         Gizmos.DrawLine(transform.position, transform.position + forwardLeft);
         Gizmos.DrawLine(transform.position, transform.position + forwardRight);
 
+        // Rango de proximidad
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position - transform.forward * _rearDetectionRange * 0.5f, _rearDetectionRange * 0.5f);
+        Gizmos.DrawWireSphere(transform.position, _rearDetectionRange);
     }
 }
