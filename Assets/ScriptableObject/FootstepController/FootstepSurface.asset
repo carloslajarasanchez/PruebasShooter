@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49a74dc921d270946aaa5fdaae35a102, type: 3}
+  m_Name: FootstepSurface
+  m_EditorClassIdentifier: Assembly-CSharp::FootstepSurface
+  surfaces:
+  - material: {fileID: 13400000, guid: a4c071c16c0819d4c977125a7aedb792, type: 2}
+    soundType: 24
+  - material: {fileID: 13400000, guid: b80974b179b273e4287d45286cccbab0, type: 2}
+    soundType: 21
+  - material: {fileID: 13400000, guid: f3cb2e2e2b2049543b6a819b88f245ad, type: 2}
+    soundType: 23
+  - material: {fileID: 13400000, guid: 090ce6454e8ca2e4685db8c19b428b4e, type: 2}
+    soundType: 22
+  defaultSound: 21
