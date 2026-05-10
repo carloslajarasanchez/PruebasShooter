@@ -119,6 +119,7 @@ public abstract class Weapon : Item, IEquippable
 
         _eventService.Publish(new OnWeaponFired());
         _eventService.Publish(new OnAmmoChanged { CurrentAmmo = CurrentAmmo, MaxAmmo = MaxAmmo });
+        _eventService.Publish(new OnPlayerShoot());
 
         if (CurrentAmmo == 0)
             StartCoroutine(AutoReloadCoroutine());
