@@ -35,4 +35,9 @@ public enum SoundType
     Door,
     Can,
 
+    // Pasos
+    FootstepConcrete,
+    FootstepWood,
+    FootstepWater,
+    FootstepGround,
 }
