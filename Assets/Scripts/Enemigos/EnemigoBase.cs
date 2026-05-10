@@ -362,7 +362,8 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>, IPusheable
         foreach (var rb in GetComponentsInChildren<Rigidbody>())
         {
             if (!rb.isKinematic)
-                rb.AddForce(force, ForceMode.Force);
+                rb.AddForce(force, ForceMode.Impulse);
+                rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, 10f);
         }
     }
 
