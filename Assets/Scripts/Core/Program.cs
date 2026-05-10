@@ -33,5 +33,18 @@ public static class Program
         AppContainer.Register<ISaveService>(() => new SaveService());
 
         AppContainer.Register<IAlertService>(() => new AlertService());
+
+        var library = Resources.Load<SoundLibrary>("SoundLibrary");
+        library.Initialize();
+        AppContainer.Register<ISoundLibrary>(() => library);
+
+        AppContainer.Register<IAudioService>(() =>
+        {
+            var go = new GameObject("AudioService");
+            Object.DontDestroyOnLoad(go);
+            var service = go.AddComponent<AudioService>();
+            service.Initialize(library);
+            return service;
+        });
     }
 }
