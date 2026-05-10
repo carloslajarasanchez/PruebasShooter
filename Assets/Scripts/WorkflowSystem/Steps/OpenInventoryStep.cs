@@ -1,13 +1,10 @@
 using System;
-using System.Threading.Tasks;
 using UnityEngine.InputSystem;
 
 public class OpenInventoryStep : IStep
 {
     public string Name => "Abrir inventario";
-
     public string Description => "Presiona el boton Tab para abrir y cerrar el inventario";
-
     public bool IsCompleted { get => this._isCompleted; set => this._isCompleted = value; }
     public event Action OnCompleted;
 

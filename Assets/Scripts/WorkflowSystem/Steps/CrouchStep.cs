@@ -1,6 +1,4 @@
 using System;
-using System.Threading.Tasks;
-using UnityEditor.MPE;
 using UnityEngine.InputSystem;
 
 public class CrouchStep : IStep

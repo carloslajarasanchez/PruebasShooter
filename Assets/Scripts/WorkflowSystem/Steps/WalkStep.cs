@@ -1,7 +1,4 @@
 using System;
-using System.Threading.Tasks;
-using UnityEditor.MPE;
-using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class WalkStep : IStep

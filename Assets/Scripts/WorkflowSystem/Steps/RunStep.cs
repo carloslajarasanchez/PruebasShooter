@@ -1,14 +1,10 @@
 using System;
-using System.Threading.Tasks;
-using UnityEditor.MPE;
 using UnityEngine.InputSystem;
 
 public class RunStep : IStep
 {
     public string Name => "Control de correr";
-
     public string Description => "Manten el botón Shift para correr";
-
     public bool IsCompleted { get => this._isCompleted; set => this._isCompleted = value; }
     public event Action OnCompleted;
 
