@@ -5780,7 +5780,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.35
+  m_Radius: 0.5
   m_Height: 1.7
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -5896,12 +5896,12 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 3
   m_Height: 1.7
-  m_Radius: 0.5
+  m_Radius: 0.35
   m_SlopeLimit: 45
-  m_StepOffset: 0.3
+  m_StepOffset: 0.25
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0.35}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &978861507
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5914,7 +5914,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d78217b1be99ff44afdc3851c4361f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerPush
-  pushForce: 20
+  pushForce: 10
 --- !u!114 &978861508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8110,7 +8110,7 @@ PrefabInstance:
     - target: {fileID: 3989542457443652721, guid: 275e058f5be6fd7459e80acfdba9addf, type: 3}
       propertyPath: '_patrolPoints.Array.data[4]'
       value: 
-      objectReference: {fileID: 612120879}
+      objectReference: {fileID: 193210794}
     - target: {fileID: 3989542457443652721, guid: 275e058f5be6fd7459e80acfdba9addf, type: 3}
       propertyPath: '_patrolPoints.Array.data[5]'
       value: 
@@ -53930,8 +53930,8 @@ Transform:
   m_GameObject: {fileID: 1164311755708578646}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 1, z: -0.000000021855694, w: 0}
-  m_LocalPosition: {x: -21.932, y: 0.017744862, z: -13.895}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -21.942, y: 0.029, z: -13.81}
+  m_LocalScale: {x: 0.97916, y: 0.99, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1337821271537759909}
@@ -88649,18 +88649,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 8955879549641098, guid: ef650763d5f4fda4fa1ac0311858b1ed, type: 3}
-      propertyPath: m_Color.b
-      value: 0.20392159
-      objectReference: {fileID: 0}
-    - target: {fileID: 8955879549641098, guid: ef650763d5f4fda4fa1ac0311858b1ed, type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8955879549641098, guid: ef650763d5f4fda4fa1ac0311858b1ed, type: 3}
-      propertyPath: m_Color.r
-      value: 0.37254903
-      objectReference: {fileID: 0}
     - target: {fileID: 494666249983996167, guid: ef650763d5f4fda4fa1ac0311858b1ed, type: 3}
       propertyPath: m_LocalPosition.x
       value: 9.134
@@ -88705,26 +88693,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: TacticalShotgun
       objectReference: {fileID: 0}
-    - target: {fileID: 5727361449000773524, guid: ef650763d5f4fda4fa1ac0311858b1ed, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: a72b43694e8a3684a98c468ed5f5bd50, type: 2}
-    - target: {fileID: 7855587913880226753, guid: ef650763d5f4fda4fa1ac0311858b1ed, type: 3}
-      propertyPath: _hitMask.m_Bits
-      value: 16383
-      objectReference: {fileID: 0}
-    - target: {fileID: 9037755093472441530, guid: ef650763d5f4fda4fa1ac0311858b1ed, type: 3}
-      propertyPath: m_Materials.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9037755093472441530, guid: ef650763d5f4fda4fa1ac0311858b1ed, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: a72b43694e8a3684a98c468ed5f5bd50, type: 2}
-    - target: {fileID: 9037755093472441530, guid: ef650763d5f4fda4fa1ac0311858b1ed, type: 3}
-      propertyPath: 'm_Materials.Array.data[1]'
-      value: 
-      objectReference: {fileID: 2100000, guid: a72b43694e8a3684a98c468ed5f5bd50, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -114709,8 +114677,8 @@ Transform:
   m_GameObject: {fileID: 4900640571461596867}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -21.932, y: 0.017744862, z: -13.895}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -21.932, y: 0.029, z: -13.895}
+  m_LocalScale: {x: 1, y: 0.99, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2298217130844260088}
@@ -168164,7 +168132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbe5cfb0139626a44b90c519f49479c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoorController
-  _canBePushed: 1
+  _canBePushed: 0
   saveId: 
 --- !u!114 &8345039277968806396
 MonoBehaviour:

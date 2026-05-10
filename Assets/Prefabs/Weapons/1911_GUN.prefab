@@ -382,7 +382,7 @@ MonoBehaviour:
   _hitLight: {fileID: 7262051359791334196}
   _hitMask:
     serializedVersion: 2
-    m_Bits: 16383
+    m_Bits: 49151
 --- !u!65 &5763751889081089019
 BoxCollider:
   m_ObjectHideFlags: 0

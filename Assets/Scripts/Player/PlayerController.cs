@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 _verticalVelocity;
     private bool _isCrouching;
     private PlayerInputActions _input;
+    private CapsuleCollider _collider;
 
     private float Gravity => Physics.gravity.y * gravityMultiplier;
 
@@ -38,6 +39,7 @@ public class PlayerController : MonoBehaviour
         // Solo ajustamos la altura, el centro lo gestiona Unity según el Inspector
         _controller.height = standingHeight;
         _input = AppContainer.Get<IPlayerInput>().Actions;
+        _collider = GetComponent<CapsuleCollider>();
     }
 
     private void OnEnable()
@@ -84,6 +86,7 @@ public class PlayerController : MonoBehaviour
     {
         _isCrouching = true;
         _controller.height = crouchHeight;
+        _collider.height = crouchHeight; 
 
         _events.Publish(new OnPlayerCrouch());
     }
@@ -94,6 +97,7 @@ public class PlayerController : MonoBehaviour
 
         _isCrouching = false;
         _controller.height = standingHeight;
+        _collider.height = standingHeight;
 
         _events.Publish(new OnPlayerStand());
     }

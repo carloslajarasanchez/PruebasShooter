@@ -11,7 +11,7 @@ public class PlayerPush : MonoBehaviour
         if (rb == null || rb.isKinematic) return;
 
         //comprobar si es una puerta empujable
-        var pusheable = hit.collider.GetComponent<IPusheable>();
+        var pusheable = hit.collider.GetComponentInChildren<IPusheable>();
         Debug.Log("Collided with: " + hit.collider.name);
         if (pusheable == null) return;
 

@@ -1,7 +1,8 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>
+public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>, IPusheable
 {
     // ── Configuración general ─────────────────────────────────────
     [SerializeField] private float _life;
@@ -16,6 +17,7 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>
     protected EnemyStateMachine _currentState;
     public GameObject player;
     private ISaveService _saveService;
+    private IEventService _eventService;
 
     // ── Patrullaje ────────────────────────────────────────────────
     [Header("Patrullaje")]
@@ -52,6 +54,7 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>
     private Quaternion _startRotation;
     private int _investigationLookIndex;
     private float _lookTimer;
+    protected bool _isDead;
 
     // ── Propiedades ───────────────────────────────────────────────
     public string SaveId => _saveId;
@@ -64,11 +67,13 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>
 
         _saveService = AppContainer.Get<ISaveService>();
         _animator = GetComponent<Animator>();
+        _eventService = AppContainer.Get<IEventService>();
     }
 
     protected virtual void Start()
     {
         _agent = GetComponent<NavMeshAgent>();
+        _eventService?.Subscribe<OnPlayerCrouch>(HandlePlayerCrouch);
         _agent.speed = _speed;
 
         if (_investigationSpeed <= 0f)
@@ -83,22 +88,45 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>
 
     protected virtual void Update() { }
 
-    
+
 
     // ── Vida y muerte ─────────────────────────────────────────────
     public virtual void TakeDamage(float damage)
     {
+        if (_isDead) return;
+
         Debug.Log($"{name} recibió {damage} de daño.");
+
         _life -= damage;
+
         HandleChaseState(true);
+
         if (_life <= 0)
             Die();
     }
 
     private void Die()
     {
+        if (_isDead) return;
+
+        _isDead = true;
+
         _saveService?.SetState(SaveId, SaveState());
-        Destroy(gameObject);
+        _animator.enabled = false;
+        _agent.enabled = false;
+        EnableRagdoll();
+    }
+
+
+    private void EnableRagdoll()
+    {
+        // Activa física en todos los rigidbodies de los huesos
+        foreach (var rb in GetComponentsInChildren<Rigidbody>())
+            rb.isKinematic = false;
+
+        // Activa todos los colliders de los huesos
+        foreach (var col in GetComponentsInChildren<Collider>())
+            col.enabled = true;
     }
 
     // ── Detección ─────────────────────────────────────────────────
@@ -108,13 +136,11 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>
 
         Vector3 dirToPlayer = (player.transform.position - transform.position).normalized;
         float distance = Vector3.Distance(transform.position, player.transform.position);
-
         if (distance > range) return false;
         if (Vector3.Angle(transform.forward, dirToPlayer) > angle * 0.5f) return false;
 
         if (checkLOS)
         {
-            Debug.DrawLine(transform.position + Vector3.up * height, player.transform.position + Vector3.up * height, Color.red, 0.1f);
             Vector3 rayOrigin = transform.position + Vector3.up * height;
             if (Physics.Raycast(rayOrigin, dirToPlayer, out RaycastHit hit, distance, obstacles))
             {
@@ -325,6 +351,22 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>
             _agent.destination = target.position;
         }
     }
+
+    public void OnDisable()
+    {
+        _eventService?.Unsubscribe<OnPlayerCrouch>(HandlePlayerCrouch);
+    }
+    public void Push(Vector3 force)
+    {
+        if (!_isDead) return;
+        foreach (var rb in GetComponentsInChildren<Rigidbody>())
+        {
+            if (!rb.isKinematic)
+                rb.AddForce(force, ForceMode.Force);
+        }
+    }
+
+    protected virtual void HandlePlayerCrouch(OwnEventBase eventBase) { }
 
     // ── Guardado ──────────────────────────────────────────────────
     public EnemyState SaveState() => new EnemyState { IsDead = _life <= 0 };

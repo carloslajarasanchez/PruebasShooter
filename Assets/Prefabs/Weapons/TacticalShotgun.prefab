@@ -184,6 +184,9 @@ MonoBehaviour:
   _emptyClip: {fileID: 8300000, guid: c6ee9b861fc1f8946a1adae0a9ac7d10, type: 3}
   _lineRenderer: {fileID: 5727361449000773524}
   _hitLight: {fileID: 3745193501270013779}
+  _hitMask:
+    serializedVersion: 2
+    m_Bits: 49151
 --- !u!65 &2391583751829933004
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -328,7 +331,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a89286e57d233964cb04d9484173bdda, type: 2}
+  - {fileID: 2100000, guid: a72b43694e8a3684a98c468ed5f5bd50, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -512,9 +515,25 @@ PrefabInstance:
       value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 3676485058793529547, guid: 8c6fead09724be0488b60bab8ad7db84, type: 3}
+      propertyPath: m_Color.b
+      value: 0.20392159
+      objectReference: {fileID: 0}
+    - target: {fileID: 3676485058793529547, guid: 8c6fead09724be0488b60bab8ad7db84, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3676485058793529547, guid: 8c6fead09724be0488b60bab8ad7db84, type: 3}
+      propertyPath: m_Color.r
+      value: 0.37254903
+      objectReference: {fileID: 0}
+    - target: {fileID: 3676485058793529547, guid: 8c6fead09724be0488b60bab8ad7db84, type: 3}
       propertyPath: m_Intensity
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 5653742263259936251, guid: 8c6fead09724be0488b60bab8ad7db84, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a72b43694e8a3684a98c468ed5f5bd50, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
