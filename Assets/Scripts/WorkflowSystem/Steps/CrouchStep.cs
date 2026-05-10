@@ -21,6 +21,7 @@ public class CrouchStep : IStep
         _alertService = AppContainer.Get<IAlertService>();  
         _eventService = AppContainer.Get<IEventService>();
     }
+
     public void Activate()
     {
         _logService.Add<WalkStep>($"Activando {this.Name}");
