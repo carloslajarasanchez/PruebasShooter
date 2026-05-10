@@ -914,7 +914,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &176034564
 Transform:
   m_ObjectHideFlags: 0
@@ -1944,7 +1944,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &317961298
 Transform:
   m_ObjectHideFlags: 0
@@ -3886,6 +3886,7 @@ GameObject:
   - component: {fileID: 581049698}
   - component: {fileID: 581049697}
   - component: {fileID: 581049696}
+  - component: {fileID: 581049699}
   m_Layer: 5
   m_Name: EquipButton
   m_TagString: Untagged
@@ -3996,6 +3997,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 581049694}
   m_CullTransparentMesh: 1
+--- !u!114 &581049699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 581049694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4306930d3efab3847abe30a620208b2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonEffect
+  hoverSound: 3
+  clickSound: 2
+  normalColor: {r: 0.9245283, g: 0.9245283, b: 0.9245283, a: 1}
+  glowColor: {r: 1, g: 1, b: 1, a: 1}
+  glowTransitionSpeed: 8
+  shakeStrength: 5
+  shakeDuration: 0.2
+  shakeVibrato: 10
+  hoverScale: 1.05
+  scaleSpeed: 8
 --- !u!1 &612120878
 GameObject:
   m_ObjectHideFlags: 0
@@ -4821,7 +4844,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &825162098
 Transform:
   m_ObjectHideFlags: 0
@@ -7521,7 +7544,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1291785300
 Transform:
   m_ObjectHideFlags: 0
@@ -8248,7 +8271,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1410990109
 Transform:
   m_ObjectHideFlags: 0

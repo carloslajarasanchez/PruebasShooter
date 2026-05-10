@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4520726283470191042}
   - component: {fileID: 5619973343732574029}
   - component: {fileID: 4102660236731598477}
+  - component: {fileID: 5914009932428389316}
   m_Layer: 5
   m_Name: Item
   m_TagString: Untagged
@@ -139,6 +140,28 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5914009932428389316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 291889947304646536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4306930d3efab3847abe30a620208b2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonEffect
+  hoverSound: 3
+  clickSound: 2
+  normalColor: {r: 0.8867924, g: 0.8867924, b: 0.8867924, a: 1}
+  glowColor: {r: 1, g: 1, b: 1, a: 1}
+  glowTransitionSpeed: 8
+  shakeStrength: 5
+  shakeDuration: 0.2
+  shakeVibrato: 10
+  hoverScale: 1.05
+  scaleSpeed: 8
 --- !u!1 &2952190732442642464
 GameObject:
   m_ObjectHideFlags: 0
