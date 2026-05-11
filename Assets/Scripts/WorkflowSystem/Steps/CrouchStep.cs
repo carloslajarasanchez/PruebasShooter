@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class CrouchStep : IStep
 {
-    public string Name => "_tituloAg";
+    public string Name => "_tituloAga";
     public string Description => "_tutoAga";
     public bool IsCompleted { get => this._isCompleted; set => this._isCompleted = value; }
     public event Action OnCompleted;

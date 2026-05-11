@@ -31,6 +31,9 @@
             "key": "_volverMP" , 
 			"value":"Volver al Menú Principal"
         },{
+            "key": "_equip" , 
+			"value":"Equipar"
+        },{
             "key": "_tituloMov" , 
 			"value":"Movimiento"
         },{
@@ -66,6 +69,42 @@
         },{
             "key": "_tutoEquip" , 
 			"value":"Pulsa el boton de EQUIPAR para equipar el objeto."
-        }
+        },{
+            "key": "_pistoleName" , 
+			"value":"1911"
+        },{
+            "key": "_pistoleDescription" , 
+			"value":"Potente semiautomática calibre .45. Un icono veterano que ofrece seguridad frente a lo desconocido. Fiable, ruidosa y de retroceso violento."
+        },{
+            "key": "_shotgunName" , 
+			"value":"Escopeta de Asalto"
+        },{
+            "key": "_shotgunDescription" , 
+			"value":"Devastadora en distancias cortas. Su cañón recortado garantiza que nada permanezca en pie tras el estruendo."
+        },{
+            "key": "_healthPotionName" , 
+			"value":"Master Energy"
+        },{
+            "key": "_healthPotionDescription" , 
+			"value":"Una mezcla dudosa de cafeína y azúcar. Recupera 20 puntos de vida, aunque tu corazón no opine lo mismo."
+        },{
+            "key": "_pistoleBulletsName" , 
+			"value":"Balas de 9mm"
+        },{
+            "key": "_pistoleBulletsDescription" , 
+			"value":"Balas estándar para pistola. Pequeñas y comunes, pero cada disparo es una oportunidad más de ver el amanecer."
+        },{
+            "key": "_saveTapeName" , 
+			"value":"Cinta de Tinta"
+        },{
+            "key": "_saveTapeDescription" , 
+			"value":"Tinta para máquina de escribir. Un recurso escaso necesario para registrar tus progresos y asegurar tu supervivencia."
+        },{
+            "key": "_shotgunBulletsName" , 
+			"value":"Cartuchos de calibre 12"
+        },{
+            "key": "_shotgunBulletsDescription" , 
+			"value":"Munición pesada para escopeta. Tosca y devastadora; la mejor respuesta para lo que acecha en la oscuridad."
+        }	
 	]
 }

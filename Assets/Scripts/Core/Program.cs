@@ -34,6 +34,8 @@ public static class Program
 
         AppContainer.Register<IAlertService>(() => new AlertService());
 
+        AppContainer.Register<IPauseService>(() => new PauseService());
+
         var library = Resources.Load<SoundLibrary>("SoundLibrary");
         library.Initialize();
         AppContainer.Register<ISoundLibrary>(() => library);

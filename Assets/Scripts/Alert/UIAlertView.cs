@@ -9,7 +9,7 @@ public class UIAlertView : MonoBehaviour
 
     private IEventService _eventService;
     private ILogService _logService;
-    private JsonTranslationService _translationService;
+    private ITranslationService _translationService;
     private TranslatableItem _translatableTitle;
     private TranslatableItem _translatableDescription;
 
@@ -17,7 +17,7 @@ public class UIAlertView : MonoBehaviour
     {
         _eventService = AppContainer.Get<IEventService>();
         _logService = AppContainer.Get<ILogService>();
-        _translationService = AppContainer.Get<JsonTranslationService>();
+        _translationService = AppContainer.Get<ITranslationService>();
         _translatableTitle = _titleText.GetComponent<TranslatableItem>();
         _translatableDescription = _descriptionText.GetComponent<TranslatableItem>();
         _panelContainer.SetActive(false);

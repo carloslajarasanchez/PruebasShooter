@@ -31,6 +31,9 @@
             "key": "_volverMP" , 
 			"value":"Return to Main Menu"
         },{
+            "key": "_equip" , 
+			"value":"Equip"
+        },{
             "key": "_tituloMov" , 
 			"value":"Movement Tutorial"
         },{
@@ -66,6 +69,39 @@
         },{
             "key": "_tutoEquip" , 
 			"value":"Use the EQUIP button to equip the item"
-        }		
+        },{
+            "key": "_pistoleName" , 
+			"value":"1911"
+        },{
+            "key": "_pistoleDescription" , 
+			"value":"Powerful .45 semi-automatic. A seasoned icon providing security against the unknown. Reliable, loud, and boasting a violent recoil."
+        },{
+            "key": "_shotgunName" , 
+			"value":"Assault Shotgun"
+        },{
+            "key": "_healthPotionName" , 
+			"value":"Master Energy"
+        },{
+            "key": "_healthPotionDescription" , 
+			"value":"A questionable blend of caffeine and sugar. Restores 20 health points, though your heart might disagree."
+        },{
+            "key": "_pistoleBulletsName" , 
+			"value":"9mm Rounds"
+        },{
+            "key": "_pistoleBulletsDescription" , 
+			"value":"Standard handgun rounds. Small and common, but every shot is one more chance to see the sunrise."
+        },{
+            "key": "_saveTapeName" , 
+			"value":"Ink Ribbon"
+        },{
+            "key": "_saveTapeDescription" , 
+			"value":"Typewriter ribbon. A scarce resource required to record your progress and ensure your survival."
+        },{
+            "key": "_shotgunBulletsName" , 
+			"value":"12-Gauge Shells"
+        },{
+            "key": "_shotgunBulletsDescription" , 
+			"value":"Heavy shotgun ammunition. Crude and devastating; the best answer for whatever lurks in the dark."
+        }			
     ]
 }
