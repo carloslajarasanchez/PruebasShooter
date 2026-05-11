@@ -381,13 +381,18 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>, IPusheable
 
         _hitBone = bone;
         Vector3 localForce = transform.InverseTransformDirection(-force.normalized);
-        float forceNormalized = Mathf.Clamp01(force.magnitude / 20f);
-        float angle = Mathf.Lerp(30f, 90f, forceNormalized); 
 
-        _hitRotation = Quaternion.Slerp(Quaternion.identity,
-            Quaternion.FromToRotation(Vector3.forward, localForce),
-            angle / 90f);
-        Debug.Log($"Reacción de impacto en {_hitRotation.eulerAngles} con fuerza {force.magnitude}");
+        float maxDegrees = 50f;   // techo absoluto
+        float minForce = 1f;    // fuerza mínima para reaccionar
+        float maxForce = 20f;   // fuerza a partir de la cual ya es rotación máxima
+
+        float t = Mathf.InverseLerp(minForce, maxForce, force.magnitude); // 0..1 según fuerza
+        float degrees = Mathf.Lerp(0f, maxDegrees, t);                    // escala el ángulo
+
+        Quaternion fullRotation = Quaternion.FromToRotation(Vector3.forward, localForce); 
+        fullRotation.ToAngleAxis(out float originalAngle, out Vector3 axis);
+        _hitRotation = Quaternion.AngleAxis(Mathf.Min(originalAngle, degrees), axis);
+        Debug.Log($"Fuerza: {force.magnitude:F1}, Ángulo original: {originalAngle:F1}, Ángulo aplicado: {degrees:F1}");
         if (_hitReactionCoroutine != null)
             StopCoroutine(_hitReactionCoroutine);
 

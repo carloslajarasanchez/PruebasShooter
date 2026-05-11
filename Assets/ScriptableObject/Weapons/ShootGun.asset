@@ -22,7 +22,7 @@ MonoBehaviour:
   Range: 25
   Damage: 5
   IsAutomatic: 0
-  HitForce: 7
+  HitForce: 10
   PelletCount: 8
   SpreadAngle: 15
   WeaponType: 1
