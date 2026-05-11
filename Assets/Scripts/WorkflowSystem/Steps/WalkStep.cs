@@ -3,8 +3,8 @@ using UnityEngine.InputSystem;
 
 public class WalkStep : IStep
 {
-    public string Name => "Controles de movimiento";
-    public string Description => "Presiona WASD para moverte por el espacio";
+    public string Name => "_tituloMov";
+    public string Description => "_tutoMov";
     public bool IsCompleted { get => this._isCompleted; set => this._isCompleted = value; }
     public event Action OnCompleted;
 

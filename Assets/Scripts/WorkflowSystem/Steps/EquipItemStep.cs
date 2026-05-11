@@ -2,8 +2,8 @@ using System;
 
 public class EquipItemStep : IStep
 {
-    public string Name => "Equipar objetos";
-    public string Description => "Haz clic en el boton de equipar para equiparlo";
+    public string Name => null;
+    public string Description => "_tutoEquip";
     public bool IsCompleted { get => this._isCompleted; set => this._isCompleted = value; }
     public event Action OnCompleted;
 

@@ -32,7 +32,8 @@ public enum SoundType
 
     //Objetos
     Light,
-    Door,
+    OpenDoor,
+    CloseDoor,
     Can,
 
     // Pasos

@@ -2,8 +2,8 @@ using System;
 
 public class SelectFirstItemStep : IStep
 {
-    public string Name => "Seleccionar un objeto";
-    public string Description => "Haz clic en la imagen del objeto para selecionarlo";
+    public string Name => null;
+    public string Description => "_tutoSelec";
     public bool IsCompleted { get => this._isCompleted; set => this._isCompleted = value; }
     public event Action OnCompleted;
 

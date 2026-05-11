@@ -1,0 +1,71 @@
+{"translations": 
+    [     
+		{
+            "key": "_opciones" , 
+			"value":"Opciones"
+        },{
+            "key": "_jugar",
+            "value": "Jugar"
+        },{
+            "key": "_salir" , 
+			"value":"Salir"
+        },{
+            "key": "_idioma" , 
+			"value":"Idioma"
+        },{
+            "key": "_esp" , 
+			"value":"Espanol"
+        },{
+            "key": "_ing" , 
+			"value":"Inglés"
+        },{
+            "key": "_continuar" , 
+			"value":"Continuar"
+        },{
+            "key": "_fin" , 
+			"value":"Fin del Juego"
+        },{
+            "key": "_principal" , 
+			"value":"Menú Principal"
+        },{
+            "key": "_volverMP" , 
+			"value":"Volver al Menú Principal"
+        },{
+            "key": "_tituloMov" , 
+			"value":"Movimiento"
+        },{
+            "key": "_tutoMov" , 
+			"value":"Usa WASD para moverte. Cuidado por dónde pisas..."
+        },{
+            "key": "_tituloCam" , 
+			"value":"Movimiento de Cámara"
+        },{
+            "key": "_tutoCam" , 
+			"value":"Mueve el ratón para mirar alrededor"
+        },{
+            "key": "_tituloAga" , 
+			"value":"Agacharse"
+        },{
+            "key": "_tutoAga" , 
+			"value":"Usa CTRL para agacharte. Vuelve a presionar para levantarte."
+        },{
+            "key": "_tituloInteract" , 
+			"value":"Interactuar con Objetos"
+        },{
+            "key": "_tutoInteract" , 
+			"value":"Pulsa E para interactuar con objetos y guardarlos en el inventario."
+        },{
+            "key": "_tituloInvent" , 
+			"value":"Tutorial de inventario"
+        },{
+            "key": "_tutoInvent" , 
+			"value":"Presiona TAB para abrir y cerrar el inventario."
+        },{
+            "key": "_tutoSelec" , 
+			"value":"Usa el CLICK IZQUIERDO en la imagen para seleccionar el objeto."
+        },{
+            "key": "_tutoEquip" , 
+			"value":"Pulsa el boton de EQUIPAR para equipar el objeto."
+        }
+	]
+}
