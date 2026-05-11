@@ -1,0 +1,71 @@
+{"translations": 
+    [      
+        {
+            "key": "_opciones",
+            "value": "Options"
+        },{
+            "key": "_jugar",
+            "value": "Play"
+        },{
+            "key": "_salir",
+            "value": "Exit"
+        },{
+            "key": "_idioma",
+            "value": "Language"
+        },{
+            "key": "_esp",
+            "value": "Spanish"
+        },{
+            "key": "_ing",
+            "value": "English"
+        },{
+            "key": "_continuar" , 
+			"value":"Resume"
+        },{
+            "key": "_fin" , 
+			"value":"Game Over"
+        },{
+            "key": "_principal" , 
+			"value":"Main Menu"
+        },{
+            "key": "_volverMP" , 
+			"value":"Return to Main Menu"
+        },{
+            "key": "_tituloMov" , 
+			"value":"Movement Tutorial"
+        },{
+            "key": "_tutoMov" , 
+			"value":"Press WASD to move. Watch where you step..."
+        },{
+            "key": "_tituloCam" , 
+			"value":"Camera Movement"
+        },{
+            "key": "_tutoCam" , 
+			"value":"Move the mouse to look around."
+        },{
+            "key": "_tituloAga" , 
+			"value":"Crouch Tutorial"
+        },{
+            "key": "_tutoAga" , 
+			"value":"Use CTRL to crouch. Press again to stand."
+        },{
+            "key": "_tituloInteract" , 
+			"value":"Interaction"
+        },{
+            "key": "_tutoInteract" , 
+			"value":"Press E to interact with objects and store them in the inventory."
+        },{
+            "key": "_tituloInvent" , 
+			"value":"Open the Inventory"
+        },{
+            "key": "_tutoInvent" , 
+			"value":"Press TAB to open and close the inventory."
+        },{
+            "key": "_tutoSelec" , 
+			"value":"Use LEFT CLICK on the picture to select an item."
+        },{
+            "key": "_tutoEquip" , 
+			"value":"Use the EQUIP button to equip the item"
+        }		
+    ]
+}

@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f954af36a636994997a3ad11cdc9a66, type: 3}
-  m_Name: ShootgunShootData
+  m_Name: OpenDoorData
   m_EditorClassIdentifier: Assembly-CSharp::SoundData
-  type: 7
+  type: 19
   clips:
-  - {fileID: 8300000, guid: 2dc71e231f39ff3459d5b842fa2e9dff, type: 3}
-  volume: 1
+  - {fileID: 8300000, guid: 2c1e211d102af2243971ecfbce6e8891, type: 3}
+  volume: 0.7
   pitch: 1
-  pitchVariation: 0.05
+  pitchVariation: 0.1
   loop: 0
