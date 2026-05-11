@@ -9,11 +9,17 @@ public class UIAlertView : MonoBehaviour
 
     private IEventService _eventService;
     private ILogService _logService;
+    private JsonTranslationService _translationService;
+    private TranslatableItem _translatableTitle;
+    private TranslatableItem _translatableDescription;
 
     private void Awake()
     {
         _eventService = AppContainer.Get<IEventService>();
         _logService = AppContainer.Get<ILogService>();
+        _translationService = AppContainer.Get<JsonTranslationService>();
+        _translatableTitle = _titleText.GetComponent<TranslatableItem>();
+        _translatableDescription = _descriptionText.GetComponent<TranslatableItem>();
         _panelContainer.SetActive(false);
     }
 
@@ -41,11 +47,13 @@ public class UIAlertView : MonoBehaviour
             _panelContainer.SetActive(true);
             _logService.Add<UIAlertView>($"Recibido mensaje de alerta: {alertMessage.Description}");
 
-            _descriptionText.text = alertMessage.Description;
+            //_descriptionText.text = alertMessage.Description;
+            _descriptionText.text = _translationService.Get(alertMessage.Description);
             if (alertMessage.ShowTitle)
             {
                 _titleText.gameObject.SetActive(true);
-                _titleText.text = alertMessage.Title;
+                //_titleText.text = alertMessage.Title;
+                _titleText.text = _translationService.Get(alertMessage.Title);
             }
             else
             {

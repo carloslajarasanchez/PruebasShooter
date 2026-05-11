@@ -3,8 +3,8 @@ using UnityEngine.InputSystem;
 
 public class CrouchStep : IStep
 {
-    public string Name => "Control de agacharse";
-    public string Description => "Presiona control para agacharte, vuelve a presionar control para levantarte";
+    public string Name => "_tituloAg";
+    public string Description => "_tutoAga";
     public bool IsCompleted { get => this._isCompleted; set => this._isCompleted = value; }
     public event Action OnCompleted;
 

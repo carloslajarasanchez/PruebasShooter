@@ -3,8 +3,8 @@ using UnityEngine.InputSystem;
 
 public class MoveCameraStep : IStep
 {
-    public string Name => "Controles de la cámara";
-    public string Description => "Mueve el ratón para girar la cámara";
+    public string Name => "_tituloCam";
+    public string Description => "_tutoCam";
     public bool IsCompleted { get => this._isCompleted; set => this._isCompleted = value; }
     public event Action OnCompleted;
 

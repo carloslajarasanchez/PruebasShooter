@@ -3,8 +3,8 @@ using UnityEngine.InputSystem;
 
 public class InteractItemStep : IStep
 {
-    public string Name => "Interactuar con objetos";
-    public string Description => "Presiona el botón E para interactuar con objetos y guardarlos en el inventario";
+    public string Name => "_tituloInteract";
+    public string Description => "_tutoInteract";
     public bool IsCompleted { get => this._isCompleted; set => this._isCompleted = value; }
     public event Action OnCompleted;
 
