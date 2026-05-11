@@ -9,6 +9,7 @@ public class WeaponData : ItemData
     public float Range = 50f;
     public float Damage = 10f;
     public bool IsAutomatic = false;
+    public float HitForce = 5f;
 
     [Header("Shotgun")]
     public int PelletCount = 1; // mas de 1 para escopetas

@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
@@ -56,6 +57,7 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>, IPusheable
     private float _lookTimer;
     protected bool _isDead;
 
+
     // ── Propiedades ───────────────────────────────────────────────
     public string SaveId => _saveId;
 
@@ -110,7 +112,7 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>, IPusheable
         if (_isDead) return;
 
         _isDead = true;
-
+        StopAllCoroutines();
         _saveService?.SetState(SaveId, SaveState());
         _animator.enabled = false;
         _agent.enabled = false;
@@ -365,6 +367,59 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>, IPusheable
                 rb.AddForce(force, ForceMode.Impulse);
                 rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, 10f);
         }
+    }
+
+    // ── Reacción a impactos ───────────────────────────────────────
+    private float _hitWeight;
+    private Quaternion _hitRotation;
+    private HumanBodyBones _hitBone;
+
+    private Coroutine _hitReactionCoroutine;
+    public void OnHitReaction(HumanBodyBones bone, Vector3 force, Rigidbody boneRb)
+    {
+        if (_isDead) return;
+
+        _hitBone = bone;
+        Vector3 localForce = transform.InverseTransformDirection(-force.normalized);
+        float forceNormalized = Mathf.Clamp01(force.magnitude / 20f);
+        float angle = Mathf.Lerp(30f, 90f, forceNormalized); 
+
+        _hitRotation = Quaternion.Slerp(Quaternion.identity,
+            Quaternion.FromToRotation(Vector3.forward, localForce),
+            angle / 90f);
+        Debug.Log($"Reacción de impacto en {_hitRotation.eulerAngles} con fuerza {force.magnitude}");
+        if (_hitReactionCoroutine != null)
+            StopCoroutine(_hitReactionCoroutine);
+
+        _hitWeight = 0f;
+        _hitReactionCoroutine = StartCoroutine(HitReactionCoroutine(boneRb, force));
+    }
+
+    private IEnumerator HitReactionCoroutine(Rigidbody boneRb, Vector3 force)
+    {
+        boneRb.isKinematic = false;
+        boneRb.AddForce(force, ForceMode.Impulse);
+
+        while (_hitWeight < 1f)
+        {
+            _hitWeight += Time.deltaTime * 15f;
+            yield return null;
+        }
+        while (_hitWeight > 0f)
+        {
+            _hitWeight -= Time.deltaTime * 5f;
+            yield return null;
+        }
+
+        _hitWeight = 0f;
+        boneRb.isKinematic = true;
+    }
+
+    private void OnAnimatorIK(int layerIndex)
+    {
+        if (_hitWeight <= 0f || _hitBone == HumanBodyBones.LastBone) return;
+        _animator.SetBoneLocalRotation(_hitBone,
+            Quaternion.Slerp(Quaternion.identity, _hitRotation, _hitWeight));
     }
 
     protected virtual void HandlePlayerCrouch(OwnEventBase eventBase) { }

@@ -172,7 +172,7 @@ public abstract class Weapon : Item, IEquippable
             if (Physics.Raycast(ray.origin, dir, out RaycastHit hit, _weaponData.Range))
             {
                 Debug.DrawLine(ray.origin, hit.point, Color.red, 1f);
-                OnHit(hit);
+                OnHit(hit, dir);
             }
         }
     }
@@ -213,12 +213,14 @@ public abstract class Weapon : Item, IEquippable
         ) * baseDirection;
     }
 
-    protected virtual void OnHit(RaycastHit hit)
+    protected virtual void OnHit(RaycastHit hit, Vector3 shotDirection)
     {
         _logService.Add<Weapon>($"'{Name}' impactó '{hit.collider.name}' — daño: {_weaponData.Damage}");
 
+        Vector3 hitForce = shotDirection * _weaponData.HitForce;
+
         if (hit.collider.TryGetComponent<Hitbox>(out var hitbox))
-            hitbox.ReceiveDamage(_weaponData.Damage);
+            hitbox.ReceiveDamage(_weaponData.Damage, hitForce);
         else if (hit.collider.TryGetComponent<EnemigoBase>(out var enemy))
             enemy.TakeDamage(_weaponData.Damage);
     }

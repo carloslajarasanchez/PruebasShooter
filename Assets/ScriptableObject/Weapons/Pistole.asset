@@ -22,6 +22,7 @@ MonoBehaviour:
   Range: 50
   Damage: 3
   IsAutomatic: 0
+  HitForce: 3
   PelletCount: 1
   SpreadAngle: 0
   WeaponType: 0
