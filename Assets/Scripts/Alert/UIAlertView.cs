@@ -1,38 +1,30 @@
 using TMPro;
 using UnityEngine;
-
 public class UIAlertView : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _titleText;
     [SerializeField] private TextMeshProUGUI _descriptionText;
     [SerializeField] private GameObject _panelContainer;
-
     private IEventService _eventService;
     private ILogService _logService;
-    private ITranslationService _translationService;
     private TranslatableItem _translatableTitle;
     private TranslatableItem _translatableDescription;
-
     private void Awake()
     {
         _eventService = AppContainer.Get<IEventService>();
         _logService = AppContainer.Get<ILogService>();
-        _translationService = AppContainer.Get<ITranslationService>();
         _translatableTitle = _titleText.GetComponent<TranslatableItem>();
         _translatableDescription = _descriptionText.GetComponent<TranslatableItem>();
         _panelContainer.SetActive(false);
     }
-
     private void OnEnable()
     {
         _eventService.Subscribe<OnAlertMessageReceived>(OnAlertReceived);
     }
-
     private void OnDisable()
     {
         _eventService.Unsubscribe<OnAlertMessageReceived>(OnAlertReceived);
     }
-
     private void OnAlertReceived(OwnEventBase parameters)
     {
         if (parameters is OnAlertMessageReceived alertMessage)
@@ -43,17 +35,13 @@ public class UIAlertView : MonoBehaviour
                 ClosePanel();
                 return;
             }
-
             _panelContainer.SetActive(true);
             _logService.Add<UIAlertView>($"Recibido mensaje de alerta: {alertMessage.Description}");
-
-            //_descriptionText.text = alertMessage.Description;
-            _descriptionText.text = _translationService.Get(alertMessage.Description);
+            _translatableDescription.Key = alertMessage.Description;
             if (alertMessage.ShowTitle)
             {
                 _titleText.gameObject.SetActive(true);
-                //_titleText.text = alertMessage.Title;
-                _titleText.text = _translationService.Get(alertMessage.Title);
+                _translatableTitle.Key = alertMessage.Title;
             }
             else
             {
@@ -61,7 +49,6 @@ public class UIAlertView : MonoBehaviour
             }
         }
     }
-
     public void ClosePanel()
     {
         _panelContainer.SetActive(false);

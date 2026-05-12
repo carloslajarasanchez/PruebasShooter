@@ -128,7 +128,12 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>, IPusheable
 
         // Activa todos los colliders de los huesos
         foreach (var col in GetComponentsInChildren<Collider>())
+        {
             col.enabled = true;
+            col.isTrigger = false;
+        }
+            
+            
     }
 
     // ── Detección ─────────────────────────────────────────────────
