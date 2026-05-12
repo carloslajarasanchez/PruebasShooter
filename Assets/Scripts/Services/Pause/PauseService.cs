@@ -11,6 +11,7 @@ public class PauseService : IPauseService
         _eventService = AppContainer.Get<IEventService>();
     }
 
+    //ScriptableObject para el prefab de la UI que sea el pausePrefab, al servicio al crearlo le pasamos ese scriptable objet que esta en la carpeta resources con Resoruces.Load(Ese scriptableObject) y en el program le pasas eso (Servicio necesitan clases de configuracion que en este caso es un scriptableObject)
     public void Pause()
     {
         if (IsPaused) return;

@@ -23,6 +23,8 @@ public class UIItemDetail : MonoBehaviour
     private Item _currentItem;
     private ILogService _logService;
     private IEventService _eventService;
+    private TranslatableItem _translatableItemName;
+    private TranslatableItem _translatableItemDescription;
     private bool _isFirstTime;
 
     private void Awake()
@@ -32,6 +34,8 @@ public class UIItemDetail : MonoBehaviour
         _detailPanel = this.gameObject;
         _detailPanel.SetActive(false);
         _equipButton.onClick.AddListener(OnEquipClicked);
+        _translatableItemName = _nameText.gameObject.GetComponent<TranslatableItem>();
+        _translatableItemDescription = _descriptionText.gameObject.GetComponent<TranslatableItem>();
     }
 
     private void Update()
@@ -48,8 +52,10 @@ public class UIItemDetail : MonoBehaviour
         _currentItem = item;
         _detailPanel.SetActive(true);
 
-        _nameText.text = item.Name;
-        _descriptionText.text = item.Description;
+        //_nameText.text = item.Name;
+        _translatableItemName.Key = item.Name; // Actualiza la clave para la traducción
+        _translatableItemDescription.Key = item.Description; // Actualiza la clave para la traducción
+        //_descriptionText.text = item.Description;
 
         SpawnPreviewModel(item);
     }

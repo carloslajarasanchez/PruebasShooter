@@ -13,18 +13,21 @@ public class UIItem : MonoBehaviour
     private UIInventory _uiInventory;
     private IEventService _eventService;
     private IGameState _gameState;
+    private TranslatableItem _translatableItem;
 
     private void Awake()
     {
         _eventService = AppContainer.Get<IEventService>();
         _gameState = AppContainer.Get<IGameState>();
+        _translatableItem = _nameText.gameObject.GetComponent<TranslatableItem>();
     }
 
     public void SetItem(Item item, UIInventory uiInventory)
     {
         _item = item;
         _uiInventory = uiInventory;
-        _nameText.text = item.Name;
+        _translatableItem.Key = item.Name;
+        //_nameText.text = item.Name;
         _icon.sprite = item.Icon;
         _button = GetComponent<Button>();
         _button.onClick.AddListener(OnClick);

@@ -77,7 +77,10 @@
 			"value":"Powerful .45 semi-automatic. A seasoned icon providing security against the unknown. Reliable, loud, and boasting a violent recoil."
         },{
             "key": "_shotgunName" , 
-			"value":"Assault Shotgun"
+			"value":"Shotgun"
+        },{
+            "key": "_shotgunDescription" , 
+			"value":"Devastating at close range. Its sawn-off barrel ensures nothing remains standing after the thunderous blast."
         },{
             "key": "_healthPotionName" , 
 			"value":"Master Energy"

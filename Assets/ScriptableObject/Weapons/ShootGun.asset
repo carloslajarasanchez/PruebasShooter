@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0fa2130e12f68f4a94d52a6a32a4c71, type: 3}
   m_Name: ShootGun
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
-  ItemName: Olympia
+  ItemName: _shotgunName
   Description: "arma de fuego de dise\xF1o con dos ca\xF1ones horizontales"
   Icon: {fileID: 21300000, guid: 94a5b5b192be6e249b8cc767e17db86e, type: 3}
   ModelPrefab: {fileID: 4694857792581119042, guid: ef650763d5f4fda4fa1ac0311858b1ed, type: 3}

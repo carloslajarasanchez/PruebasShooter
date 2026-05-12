@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4db350a6f3a1a2c4292a463d04ed8bcf, type: 3}
   m_Name: PistoleBullets
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  ItemName: 9mm Ammo
-  Description: Balas de Calibre 9mm para pistola
+  ItemName: _pistoleBulletsName
+  Description: _pistoleBulletsDescription
   Icon: {fileID: 21300000, guid: 124b855c1934fc3438036b6633ad1cdb, type: 3}
   ModelPrefab: {fileID: 4236848172091843753, guid: ddeeedb8b07ebb94a97a8a19abbc3042, type: 3}
