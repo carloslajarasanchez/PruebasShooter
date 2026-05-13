@@ -389,7 +389,7 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>, IPusheable
 
     private HitReactionRig _hitRig;
 
-    public void OnHitReaction(HumanBodyBones bone, Vector3 force, Rigidbody boneRb)
+    public virtual void OnHitReaction(HumanBodyBones bone, Vector3 force, Rigidbody boneRb)
     {
         if (_isDead) return;
         _hitRig?.TriggerHit(bone, force);

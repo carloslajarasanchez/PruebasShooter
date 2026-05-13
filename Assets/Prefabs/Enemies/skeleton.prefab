@@ -77,9 +77,6 @@ PrefabInstance:
       addedObject: {fileID: 2337078998532333196}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 51966d513c3d4bd4bb538df27e8965be, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4502339960354027064}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 51966d513c3d4bd4bb538df27e8965be, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 4434993198985692178}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 51966d513c3d4bd4bb538df27e8965be, type: 3}
       insertIndex: -1
@@ -115,27 +112,6 @@ NavMeshAgent:
   m_BaseOffset: 2
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!65 &4502339960354027064
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5357847177571716151}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 39.56681, y: 2, z: 69.178055}
-  m_Center: {x: -0.084458984, y: 0, z: -0.041885376}
 --- !u!114 &4434993198985692178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,11 +128,23 @@ MonoBehaviour:
   _damage: 100
   _speed: 4
   _saveId: 
+  _animator: {fileID: 0}
   player: {fileID: 0}
+  _headTransform: {fileID: 0}
+  _headAim: {fileID: 0}
   _patrolPoints: []
   _patrolWaitTime: 2
   _patrolStopDistance: 1
   _loseSightTime: 2
+  _chaseSpeedMultiplier: 1.2
+  _investigationSpeed: 0
+  _investigationLookSpeed: 120
+  _investigationDistanceThreshold: 1.5
+  _investigationPauseTime: 0.5
+  _maxInvestigationTime: 5
+  _attackRange: 1.5
+  _attackCooldown: 2
+  _detectionRange: 10
   _fieldOfViewAngle: 60
   _checkLineOfSight: 1
   _layerMaskObstacles:
@@ -197,3 +185,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Hitbox
   _damageMultiplier: 1
+  _bone: 0

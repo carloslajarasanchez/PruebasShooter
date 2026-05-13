@@ -3,6 +3,9 @@ using UnityEngine;
 public class EsqueletoEnemigo : EnemigoBase
 {
     [Header("Deteccion")]
+    [SerializeField] private Vector3 _detectionBoxSize = new Vector3(8f, 3f, 8f);
+    [SerializeField] private LayerMask _playerLayer;
+
     [SerializeField] private float _fieldOfViewAngle = 60f;
     [SerializeField] private bool _checkLineOfSight = true;
     [SerializeField] private LayerMask _layerMaskObstacles = ~0;
@@ -10,49 +13,71 @@ public class EsqueletoEnemigo : EnemigoBase
     [Header("Comportamiento")]
     [SerializeField] private float _lookAtSpeed = 0f;
 
-    private bool _playerInRange;
-    private BoxCollider _triggerCollider;
-
-    private void Awake()
-    {
-        _triggerCollider = GetComponent<BoxCollider>();
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-            _playerInRange = true;
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-            _playerInRange = false;
-    }
-
     protected override void Update()
     {
-        if (!_playerInRange || player == null)
+        if (player == null)
+            return;
+
+        // Centro de la caja
+        Vector3 boxCenter = transform.position + Vector3.up * (_detectionBoxSize.y * 0.5f);
+
+        // Detectar jugador dentro del cubo
+        bool playerInRange = Physics.CheckBox(
+            boxCenter,
+            _detectionBoxSize * 0.5f,
+            Quaternion.identity,
+            _playerLayer
+        );
+
+        // Si no esta dentro del rango
+        if (!playerInRange)
         {
             _currentState = EnemyStateMachine.Idle;
             _agent.speed = 0f;
+
             if (_agent.hasPath)
                 _agent.ResetPath();
+
             return;
         }
 
-        if (IsPlayerLookingAtMe(_fieldOfViewAngle, _checkLineOfSight, _layerMaskObstacles))
+        // Si el jugador mira al enemigo
+        if (IsPlayerLookingAtMe(
+            _fieldOfViewAngle,
+            _checkLineOfSight,
+            _layerMaskObstacles))
         {
             _currentState = EnemyStateMachine.Idle;
             _agent.speed = _lookAtSpeed;
+
             if (_agent.hasPath)
                 _agent.ResetPath();
+
+            return;
         }
-        else
-        {
-            _currentState = EnemyStateMachine.Chasing;
-            _agent.speed = _speed;
-            _agent.destination = player.transform.position;
-        }
+
+        // Perseguir jugador
+        _currentState = EnemyStateMachine.Chasing;
+        _agent.speed = _speed;
+        _agent.destination = player.transform.position;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+
+        Vector3 boxCenter = transform.position + Vector3.up * (_detectionBoxSize.y * 0.5f);
+
+        Gizmos.matrix = Matrix4x4.TRS(
+            boxCenter,
+            Quaternion.identity,
+            Vector3.one
+        );
+
+        Gizmos.DrawWireCube(Vector3.zero, _detectionBoxSize);
+    }
+    public override void OnHitReaction(HumanBodyBones bone, Vector3 force, Rigidbody boneRb)
+    {
+        
     }
 }

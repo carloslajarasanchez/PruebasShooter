@@ -13140,6 +13140,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 30, y: 7, z: 30}
   m_Center: {x: 0, y: 0, z: -5}
+--- !u!1 &1939750225 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5357847177571716151, guid: aaf2bd88298ede54c9500997cab217c6, type: 3}
+  m_PrefabInstance: {fileID: 3394814623738823971}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1939750232
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1939750225}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 51966d513c3d4bd4bb538df27e8965be, type: 3}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1951309681
 GameObject:
   m_ObjectHideFlags: 0
@@ -24058,6 +24085,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1695840346990680756, guid: 583088178b985c240ae07dbdb883c84d, type: 3}
+      propertyPath: _saveId
+      value: gei
+      objectReference: {fileID: 0}
     - target: {fileID: 5661261544942206479, guid: 583088178b985c240ae07dbdb883c84d, type: 3}
       propertyPath: m_Name
       value: Ghoul@Animations
@@ -75815,6 +75846,26 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 978861500}
+    - target: {fileID: 4434993198985692178, guid: aaf2bd88298ede54c9500997cab217c6, type: 3}
+      propertyPath: _detectionRadius
+      value: 6.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 4434993198985692178, guid: aaf2bd88298ede54c9500997cab217c6, type: 3}
+      propertyPath: _detectionBoxSize.x
+      value: 29.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4434993198985692178, guid: aaf2bd88298ede54c9500997cab217c6, type: 3}
+      propertyPath: _detectionBoxSize.y
+      value: -1.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 4434993198985692178, guid: aaf2bd88298ede54c9500997cab217c6, type: 3}
+      propertyPath: _detectionBoxSize.z
+      value: 12.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4434993198985692178, guid: aaf2bd88298ede54c9500997cab217c6, type: 3}
+      propertyPath: _playerLayer.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 4688587177700726413, guid: aaf2bd88298ede54c9500997cab217c6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 31.08
@@ -75862,7 +75913,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5357847177571716151, guid: aaf2bd88298ede54c9500997cab217c6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1939750232}
   m_SourcePrefab: {fileID: 100100000, guid: aaf2bd88298ede54c9500997cab217c6, type: 3}
 --- !u!33 &3396001564071564611
 MeshFilter:
@@ -90202,6 +90256,10 @@ PrefabInstance:
     - target: {fileID: 4694857792581119042, guid: ef650763d5f4fda4fa1ac0311858b1ed, type: 3}
       propertyPath: m_Name
       value: TacticalShotgun
+      objectReference: {fileID: 0}
+    - target: {fileID: 7855587913880226753, guid: ef650763d5f4fda4fa1ac0311858b1ed, type: 3}
+      propertyPath: saveId
+      value: escopetinga
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
