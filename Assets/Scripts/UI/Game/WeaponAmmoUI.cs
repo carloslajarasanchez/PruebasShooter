@@ -25,11 +25,13 @@ public class WeaponAmmoUI : MonoBehaviour
 
     private IEventService _eventService;
     private IEquipService _equipService;
+    private IInventoryService _inventoryService;
 
     private void Awake()
     {
         _eventService = AppContainer.Get<IEventService>();
         _equipService = AppContainer.Get<IEquipService>();
+        _inventoryService = AppContainer.Get<IInventoryService>();
 
         // Ocultar panel al inicio
         if (_ammoPanel != null)
