@@ -147,7 +147,7 @@ public class HitReactionRig : MonoBehaviour
         _boneToGroupRoot[HumanBodyBones.RightToes] = HumanBodyBones.RightUpperLeg;
     }
 
-    public void TriggerHit(HumanBodyBones hitBone, Vector3 force)
+    public virtual void TriggerHit(HumanBodyBones hitBone, Vector3 force)
     {
         if (!_boneToGroupRoot.TryGetValue(hitBone, out var groupRoot))
             groupRoot = HumanBodyBones.UpperChest;
