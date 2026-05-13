@@ -45,7 +45,7 @@ public static class Program
             var go = new GameObject("AudioService");
             Object.DontDestroyOnLoad(go);
             var service = go.AddComponent<AudioService>();
-            service.Initialize(library);
+            service.Initialize(library,go);
             return service;
         });
     }

@@ -8,6 +8,7 @@ public class InitializeGame : MonoBehaviour
     private ISaveService _saveService;
     private ILogService _logService;
     private IGameState _gameState;
+    private IAudioService _audioService;
 
 
     private void Awake()
@@ -17,6 +18,7 @@ public class InitializeGame : MonoBehaviour
         _saveService = AppContainer.Get<ISaveService>();
         _logService = AppContainer.Get<ILogService>();
         _gameState = AppContainer.Get<IGameState>();
+        _audioService = AppContainer.Get<IAudioService>();
     }
     private void Start()
     {
@@ -24,6 +26,8 @@ public class InitializeGame : MonoBehaviour
         _zoneService.Initialize();
         _saveService.Load();
         _logService.Add<InitializeGame>($"PersistentDataPath: \n {Application.persistentDataPath}");
+
+        _audioService.PlayBackgroundMusic(SoundType.Asylum);
 
         if (!_gameState.GetFlag("tutorial_movement"))
         {

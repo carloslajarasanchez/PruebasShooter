@@ -41,4 +41,12 @@ public enum SoundType
     FootstepWood,
     FootstepWater,
     FootstepGround,
+
+    //Ambientales
+    Arrives,
+    Dungeon,
+    Asylum,
+    WasteLand,
+    Street
+
 }
