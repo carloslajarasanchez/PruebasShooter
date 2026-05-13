@@ -84,6 +84,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 51966d513c3d4bd4bb538df27e8965be, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6630092613849087452}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 51966d513c3d4bd4bb538df27e8965be, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1332384410321746000}
   m_SourcePrefab: {fileID: 100100000, guid: 51966d513c3d4bd4bb538df27e8965be, type: 3}
 --- !u!1 &5357847177571716151 stripped
 GameObject:
@@ -144,7 +147,10 @@ MonoBehaviour:
   _maxInvestigationTime: 5
   _attackRange: 1.5
   _attackCooldown: 2
-  _detectionRange: 10
+  _detectionBoxSize: {x: 29.5, y: -1.36, z: 12.5}
+  _playerLayer:
+    serializedVersion: 2
+    m_Bits: 8
   _fieldOfViewAngle: 60
   _checkLineOfSight: 1
   _layerMaskObstacles:
@@ -186,3 +192,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Hitbox
   _damageMultiplier: 1
   _bone: 0
+--- !u!95 &1332384410321746000
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5357847177571716151}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: ce65fa103f0e84b4289374b2a4bf93f8, type: 3}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

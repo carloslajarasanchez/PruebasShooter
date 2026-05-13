@@ -2250,6 +2250,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 908540363729853549, guid: 9767cc876706ffc43999a86b15e04f0b, type: 3}
+      propertyPath: m_Range
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 908540363729853549, guid: 9767cc876706ffc43999a86b15e04f0b, type: 3}
       propertyPath: m_Cookie
       value: 
       objectReference: {fileID: 2800000, guid: 6436a69348f739f409b4072e899c5f9a, type: 3}
@@ -2779,6 +2783,37 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!1 &418693644
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 418693645}
+  m_Layer: 0
+  m_Name: PuntoPatrulla (5)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &418693645
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 418693644}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.00000003774895, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 10.35, y: 0, z: -8.772}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1202301657}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &423175301
 GameObject:
   m_ObjectHideFlags: 0
@@ -4254,6 +4289,37 @@ MonoBehaviour:
   shakeVibrato: 10
   hoverScale: 1.05
   scaleSpeed: 8
+--- !u!1 &610606664
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 610606665}
+  m_Layer: 0
+  m_Name: PuntoPatrulla (4)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &610606665
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 610606664}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.00000003774895, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 16.521, y: -0, z: -4.81}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1202301657}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &612120878
 GameObject:
   m_ObjectHideFlags: 0
@@ -4521,6 +4587,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1291821140}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &619345057
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 619345058}
+  m_Layer: 0
+  m_Name: PuntoPatrulla (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &619345058
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 619345057}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.00000003774895, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 11.030001, y: 0, z: -2.1020002}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1202301657}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &633321129
 GameObject:
@@ -7903,6 +8000,44 @@ Transform:
   - {fileID: 3054730676856443936}
   m_Father: {fileID: 6059620641743882814}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1202301656
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1202301657}
+  m_Layer: 0
+  m_Name: PuntoPatrulla
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1202301657
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1202301656}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.00000003774895, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 11.58, y: 0.2600001, z: -1.578}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1777962626}
+  - {fileID: 1882724036}
+  - {fileID: 1585505173}
+  - {fileID: 619345058}
+  - {fileID: 610606665}
+  - {fileID: 418693645}
+  - {fileID: 1942853438}
+  m_Father: {fileID: 4409487729564351007}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1203135719
 GameObject:
   m_ObjectHideFlags: 0
@@ -10836,6 +10971,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1573557225}
   m_CullTransparentMesh: 1
+--- !u!1 &1585505172
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1585505173}
+  m_Layer: 0
+  m_Name: PuntoPatrulla (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1585505173
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1585505172}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.00000003774895, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 6.3740005, y: 0, z: -2.1020002}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1202301657}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1590128141
 GameObject:
   m_ObjectHideFlags: 0
@@ -12371,6 +12537,37 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!1 &1777962625
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1777962626}
+  m_Layer: 0
+  m_Name: PuntoPatrulla
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1777962626
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1777962625}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.00000003774895, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1202301657}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1784953925
 GameObject:
   m_ObjectHideFlags: 0
@@ -12912,6 +13109,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1870582943}
   m_CullTransparentMesh: 1
+--- !u!1 &1882724035
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1882724036}
+  m_Layer: 0
+  m_Name: PuntoPatrulla (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1882724036
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1882724035}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.00000003774895, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -2.1020002}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1202301657}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1883703469
 GameObject:
   m_ObjectHideFlags: 0
@@ -13757,33 +13985,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 30, y: 7, z: 30}
   m_Center: {x: 0, y: 0, z: -5}
---- !u!1 &1939750225 stripped
+--- !u!1 &1942853437
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 5357847177571716151, guid: aaf2bd88298ede54c9500997cab217c6, type: 3}
-  m_PrefabInstance: {fileID: 3394814623738823971}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &1939750232
-Animator:
-  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1939750225}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: ce65fa103f0e84b4289374b2a4bf93f8, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1942853438}
+  m_Layer: 0
+  m_Name: PuntoPatrulla (6)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1942853438
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942853437}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.00000003774895, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 7.451, y: 0, z: -4.231}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1202301657}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1951309681
 GameObject:
   m_ObjectHideFlags: 0
@@ -17045,7 +17277,7 @@ GameObject:
   - component: {fileID: 2298217130844260088}
   - component: {fileID: 3138745005417132607}
   - component: {fileID: 7754151286181214918}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: DoorD_V2_WindowL_DinningRoom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23312,7 +23544,7 @@ GameObject:
   - component: {fileID: 7242864596270889873}
   - component: {fileID: 5407222960103490356}
   - component: {fileID: 8019219987045566800}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: DoorD_V2_Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24703,9 +24935,33 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1695840346990680756, guid: 583088178b985c240ae07dbdb883c84d, type: 3}
-      propertyPath: _saveId
-      value: gei
-      objectReference: {fileID: 0}
+      propertyPath: '_patrolPoints.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1777962626}
+    - target: {fileID: 1695840346990680756, guid: 583088178b985c240ae07dbdb883c84d, type: 3}
+      propertyPath: '_patrolPoints.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1882724036}
+    - target: {fileID: 1695840346990680756, guid: 583088178b985c240ae07dbdb883c84d, type: 3}
+      propertyPath: '_patrolPoints.Array.data[2]'
+      value: 
+      objectReference: {fileID: 1585505173}
+    - target: {fileID: 1695840346990680756, guid: 583088178b985c240ae07dbdb883c84d, type: 3}
+      propertyPath: '_patrolPoints.Array.data[3]'
+      value: 
+      objectReference: {fileID: 619345058}
+    - target: {fileID: 1695840346990680756, guid: 583088178b985c240ae07dbdb883c84d, type: 3}
+      propertyPath: '_patrolPoints.Array.data[4]'
+      value: 
+      objectReference: {fileID: 610606665}
+    - target: {fileID: 1695840346990680756, guid: 583088178b985c240ae07dbdb883c84d, type: 3}
+      propertyPath: '_patrolPoints.Array.data[5]'
+      value: 
+      objectReference: {fileID: 418693645}
+    - target: {fileID: 1695840346990680756, guid: 583088178b985c240ae07dbdb883c84d, type: 3}
+      propertyPath: '_patrolPoints.Array.data[6]'
+      value: 
+      objectReference: {fileID: 1942853438}
     - target: {fileID: 5661261544942206479, guid: 583088178b985c240ae07dbdb883c84d, type: 3}
       propertyPath: m_Name
       value: Ghoul@Animations
@@ -25800,7 +26056,7 @@ GameObject:
   - component: {fileID: 3276308289504466184}
   - component: {fileID: 7577511594168056098}
   - component: {fileID: 7577511594168056099}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: DoorD_V2_Window2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26938,7 +27194,7 @@ GameObject:
   - component: {fileID: 6881684997355473270}
   - component: {fileID: 6881684997355473272}
   - component: {fileID: 6881684997355473271}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: DoorD_V2_Right_BedRoom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36582,7 +36838,7 @@ GameObject:
   - component: {fileID: 5906666295636298204}
   - component: {fileID: 5906666295636298206}
   - component: {fileID: 5906666295636298205}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: DoorD_V2_Right_DinningRoom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39457,7 +39713,7 @@ GameObject:
   - component: {fileID: 3873455924571784113}
   - component: {fileID: 3873455924571784115}
   - component: {fileID: 3873455924571784114}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: DoorD_V2_Left_DayRoom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -65909,7 +66165,7 @@ GameObject:
   - component: {fileID: 5713330899657948431}
   - component: {fileID: 8597694548629126543}
   - component: {fileID: 61265010992884523}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: DoorD_V2_WindowR_DayRoom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -76463,26 +76719,6 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 978861500}
-    - target: {fileID: 4434993198985692178, guid: aaf2bd88298ede54c9500997cab217c6, type: 3}
-      propertyPath: _detectionRadius
-      value: 6.03
-      objectReference: {fileID: 0}
-    - target: {fileID: 4434993198985692178, guid: aaf2bd88298ede54c9500997cab217c6, type: 3}
-      propertyPath: _detectionBoxSize.x
-      value: 29.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4434993198985692178, guid: aaf2bd88298ede54c9500997cab217c6, type: 3}
-      propertyPath: _detectionBoxSize.y
-      value: -1.36
-      objectReference: {fileID: 0}
-    - target: {fileID: 4434993198985692178, guid: aaf2bd88298ede54c9500997cab217c6, type: 3}
-      propertyPath: _detectionBoxSize.z
-      value: 12.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4434993198985692178, guid: aaf2bd88298ede54c9500997cab217c6, type: 3}
-      propertyPath: _playerLayer.m_Bits
-      value: 8
-      objectReference: {fileID: 0}
     - target: {fileID: 4688587177700726413, guid: aaf2bd88298ede54c9500997cab217c6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 31.08
@@ -76530,10 +76766,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5357847177571716151, guid: aaf2bd88298ede54c9500997cab217c6, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1939750232}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aaf2bd88298ede54c9500997cab217c6, type: 3}
 --- !u!33 &3396001564071564611
 MeshFilter:
@@ -80690,7 +80923,7 @@ GameObject:
   - component: {fileID: 6672990648934178541}
   - component: {fileID: 6672990648934178543}
   - component: {fileID: 6672990648934178542}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Door_ToiletsManA
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92929,7 +93162,7 @@ GameObject:
   - component: {fileID: 8624616192988649870}
   - component: {fileID: 8624616192988649872}
   - component: {fileID: 8624616192988649871}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: DoorD_V2_Right_DayRoom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95554,6 +95787,7 @@ Transform:
   m_Children:
   - {fileID: 3000471019110788540}
   - {fileID: 5090101374058036306}
+  - {fileID: 1202301657}
   m_Father: {fileID: 8625788532504439048}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4410316575602675237
@@ -101619,7 +101853,7 @@ GameObject:
   - component: {fileID: 8310784832523046899}
   - component: {fileID: 8310784832523046903}
   - component: {fileID: 8310784832523046902}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Door_ToiletsMan
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103731,7 +103965,7 @@ GameObject:
   - component: {fileID: 5589260615939952660}
   - component: {fileID: 5589260615939952662}
   - component: {fileID: 5589260615939952661}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: DoorD_V2_Left_DinnigRoom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -110244,7 +110478,7 @@ GameObject:
   - component: {fileID: 6142605801862299933}
   - component: {fileID: 6142605801862299935}
   - component: {fileID: 6142605801862299934}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: DoorD_V2_Left_BedRoom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -134455,7 +134689,7 @@ GameObject:
   - component: {fileID: 1337821271537759909}
   - component: {fileID: 6058009343813446831}
   - component: {fileID: 7041936892878127694}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: DoorD_V2_WindowR_DinningRoom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -136429,7 +136663,7 @@ GameObject:
   - component: {fileID: 8375672774751182580}
   - component: {fileID: 8375672774751182582}
   - component: {fileID: 8375672774751182581}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Door_ToiletsWomanA
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -136453,7 +136687,7 @@ GameObject:
   - component: {fileID: 1500191130142900641}
   - component: {fileID: 7595510264810696599}
   - component: {fileID: 7595510264810696598}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Door_Office
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -178444,7 +178678,7 @@ GameObject:
   - component: {fileID: 4731372553492709907}
   - component: {fileID: 282467109525984741}
   - component: {fileID: 6340235164885294325}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: DoorD_V2_WindowL_DayRoom
   m_TagString: Untagged
   m_Icon: {fileID: 0}

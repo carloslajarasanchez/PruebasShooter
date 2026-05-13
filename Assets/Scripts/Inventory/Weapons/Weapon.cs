@@ -169,7 +169,7 @@ public abstract class Weapon : Item, IEquippable
         {
             Vector3 dir = GetShotDirection(ray.direction);
 
-            if (Physics.Raycast(ray.origin, dir, out RaycastHit hit, _weaponData.Range, _hitMask))
+            if (Physics.Raycast(ray.origin, dir, out RaycastHit hit, _weaponData.Range, _hitMask, QueryTriggerInteraction.Collide))
             {
                 Debug.DrawLine(ray.origin, hit.point, Color.red, 1f);
                 OnHit(hit, dir);
@@ -190,7 +190,7 @@ public abstract class Weapon : Item, IEquippable
         RaycastHit hit;
         Vector3 endPoint;
 
-        if (Physics.Raycast(ray.origin, ray.direction, out hit, _weaponData.Range, _hitMask))
+        if (Physics.Raycast(ray.origin, ray.direction, out hit, _weaponData.Range, _hitMask, QueryTriggerInteraction.Collide))
             endPoint = hit.point;
         else
             endPoint = ray.origin + ray.direction * _weaponData.Range;
