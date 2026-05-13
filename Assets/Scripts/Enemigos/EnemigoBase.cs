@@ -20,6 +20,11 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>, IPusheable
     private ISaveService _saveService;
     private IEventService _eventService;
 
+    // ── Cabeza (aim constraint) ───────────────────────────────────
+    [Header("Cabeza y Aim Constraint")]
+    [SerializeField] private Transform _headTransform;
+    [SerializeField] private EnemyHeadAim _headAim;
+
     // ── Patrullaje ────────────────────────────────────────────────
     [Header("Patrullaje")]
     [SerializeField] private Transform[] _patrolPoints;
@@ -52,14 +57,12 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>, IPusheable
     [SerializeField] private float _attackCooldown = 2f;
     private float _attackTimer = 0f;
 
-    private Quaternion _startRotation;
-    private int _investigationLookIndex;
-    private float _lookTimer;
     protected bool _isDead;
-
 
     // ── Propiedades ───────────────────────────────────────────────
     public string SaveId => _saveId;
+
+    private Transform DetectionOrigin => _headTransform != null ? _headTransform : transform;
 
     // ── Ciclo de vida Unity ───────────────────────────────────────
     private void Awake()
@@ -89,11 +92,12 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>, IPusheable
 
         if (Camera.main != null)
             _cameraTransform = Camera.main.transform;
+
+        if (_headAim == null)
+            _headAim = GetComponentInChildren<EnemyHeadAim>();
     }
 
     protected virtual void Update() { }
-
-
 
     // ── Vida y muerte ─────────────────────────────────────────────
     public virtual void TakeDamage(float damage)
@@ -101,9 +105,7 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>, IPusheable
         if (_isDead) return;
 
         Debug.Log($"{name} recibió {damage} de daño.");
-
         _life -= damage;
-
         HandleChaseState(true);
 
         if (_life <= 0)
@@ -120,43 +122,53 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>, IPusheable
         _animator.enabled = false;
         if (_hitRig != null) _hitRig.enabled = false;
         _agent.enabled = false;
+
+        // Apaga el aim de cabeza
+        _headAim?.SetIdle();
+
         EnableRagdoll();
     }
 
-
     private void EnableRagdoll()
     {
-        // Activa física en todos los rigidbodies de los huesos
         foreach (var rb in GetComponentsInChildren<Rigidbody>())
             rb.isKinematic = false;
 
-        // Activa todos los colliders de los huesos
         foreach (var col in GetComponentsInChildren<Collider>())
         {
             col.enabled = true;
             col.isTrigger = false;
         }
-            
-            
     }
 
     // ── Detección ─────────────────────────────────────────────────
+    /// <summary>
+    /// Cono de visión usando el forward y la posición del hueso de la cabeza.
+    /// </summary>
     protected bool IsPlayerInVisionCone(float range, float angle, float height, bool checkLOS, LayerMask obstacles)
     {
         if (player == null) return false;
 
-        Vector3 dirToPlayer = (player.transform.position - transform.position).normalized;
-        float distance = Vector3.Distance(transform.position, player.transform.position);
+        Vector3 origin = DetectionOrigin.position;
+        // Dirección forward de la cabeza para el ángulo de visión
+        Vector3 headForward = DetectionOrigin.forward;
+
+        Vector3 dirToPlayer = (player.transform.position - origin).normalized;
+        float distance = Vector3.Distance(origin, player.transform.position);
+
         if (distance > range) return false;
-        if (Vector3.Angle(transform.forward, dirToPlayer) > angle * 0.5f) return false;
+        if (Vector3.Angle(headForward, dirToPlayer) > angle * 0.5f) return false;
 
         if (checkLOS)
         {
-            Vector3 rayOrigin = transform.position + Vector3.up * height;
+            // El offset de altura ya no es necesario si usamos la cabeza directamente,
+            // pero se respeta por compatibilidad con subclases que pasen height > 0.
+            Vector3 rayOrigin = origin + Vector3.up * height;
             if (Physics.Raycast(rayOrigin, dirToPlayer, out RaycastHit hit, distance, obstacles))
             {
-                if (!hit.collider.TryGetComponent<EnemigoBase>(out _) && !hit.collider.CompareTag("Player"))
-                return false;
+                if (!hit.collider.TryGetComponent<EnemigoBase>(out _) &&
+                    !hit.collider.CompareTag("Player"))
+                    return false;
             }
         }
 
@@ -179,7 +191,8 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>, IPusheable
         if (checkLOS)
         {
             Vector3 direction = transform.position - _cameraTransform.position;
-            if (Physics.Raycast(_cameraTransform.position, direction.normalized, out RaycastHit hit, direction.magnitude, obstacles))
+            if (Physics.Raycast(_cameraTransform.position, direction.normalized,
+                                out RaycastHit hit, direction.magnitude, obstacles))
             {
                 if (!hit.collider.TryGetComponent<EnemigoBase>(out _))
                     return false;
@@ -231,6 +244,9 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>, IPusheable
             _attackTimer -= Time.deltaTime;
             _agent.speed = _speed * _chaseSpeedMultiplier;
             _agent.destination = player.transform.position;
+
+            // Cabeza sigue al jugador mientras persigue
+            _headAim?.SetTracking(player.transform);
             return;
         }
 
@@ -246,17 +262,22 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>, IPusheable
         if (_agent.hasPath) _agent.ResetPath();
         _animator.SetTrigger("attack");
         _attackTimer = _attackCooldown;
+
+        // Durante el ataque la cabeza sigue mirando al jugador
+        if (player != null)
+            _headAim?.SetTracking(player.transform);
     }
+
     private void TransitionToInvestigation()
     {
         _isChasing = false;
         _currentState = EnemyStateMachine.Investigating;
-        _startRotation = transform.rotation;
-        _investigationLookIndex = 0;
-        _lookTimer = 0f;
         _investigationTimer = 0f;
         _animator.SetBool("isChasing", false);
         _agent.SetDestination(_lastKnownPlayerPosition);
+
+        // Cabeza empieza a buscar desde la última posición conocida
+        _headAim?.SetSearching(_lastKnownPlayerPosition);
     }
 
     private void TransitionToChase()
@@ -266,6 +287,10 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>, IPusheable
         _investigationTimer = 0f;
         _currentState = EnemyStateMachine.Chasing;
         _animator.SetBool("isChasing", true);
+
+        // Cabeza apunta al jugador inmediatamente
+        if (player != null)
+            _headAim?.SetTracking(player.transform);
     }
 
     private void HandleAttackState(bool playerDetected)
@@ -274,10 +299,10 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>, IPusheable
         if (_agent.hasPath) _agent.ResetPath();
         _attackTimer -= Time.deltaTime;
 
-        // Cuando termina el cooldown vuelve a perseguir
         if (_attackTimer <= 0f)
             TransitionToChase();
     }
+
     private void HandleInvestigationState(bool playerDetected)
     {
         if (playerDetected)
@@ -299,38 +324,21 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>, IPusheable
         }
 
         _agent.speed = 0f;
-        if (_agent.hasPath) _agent.ResetPath();
         LookAround();
     }
 
     private void LookAround()
     {
-        float[] angles = { 90f, -90f, 180f };
+        
+        _headAim?.SetSearching(_lastKnownPlayerPosition);
 
-        if (_investigationLookIndex >= angles.Length)
-        {
-            _currentState = EnemyStateMachine.Idle;
-            return;
-        }
-
-        Quaternion targetRot = _startRotation * Quaternion.Euler(0f, angles[_investigationLookIndex], 0f);
-
-        transform.rotation = Quaternion.RotateTowards(
-            transform.rotation, targetRot, _investigationLookSpeed * Time.deltaTime);
-
-        if (Quaternion.Angle(transform.rotation, targetRot) < 2f)
-        {
-            _lookTimer += Time.deltaTime;
-            if (_lookTimer >= _investigationPauseTime)
-            {
-                _investigationLookIndex++;
-                _lookTimer = 0f;
-            }
-        }
     }
 
     private void Patrol()
     {
+        // En patrulla la cabeza mira al frente (idle)
+        _headAim?.SetIdle();
+
         if (_patrolPoints == null || _patrolPoints.Length == 0)
         {
             _agent.speed = 0f;
@@ -367,6 +375,7 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>, IPusheable
     {
         _eventService?.Unsubscribe<OnPlayerCrouch>(HandlePlayerCrouch);
     }
+
     public void Push(Vector3 force)
     {
         if (!_isDead) return;
@@ -374,7 +383,7 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>, IPusheable
         {
             if (!rb.isKinematic)
                 rb.AddForce(force, ForceMode.Impulse);
-                rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, 10f);
+            rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, 10f);
         }
     }
 
