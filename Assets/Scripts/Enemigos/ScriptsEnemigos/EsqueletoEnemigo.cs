@@ -76,7 +76,7 @@ public class EsqueletoEnemigo : EnemigoBase
 
         Gizmos.DrawWireCube(Vector3.zero, _detectionBoxSize);
     }
-    public override void OnHitReaction(HumanBodyBones bone, Vector3 force, Rigidbody boneRb)
+    public override void OnHitReaction(HumanBodyBones bone, Vector3 force, Rigidbody boneRb, float damage)
     {
         
     }

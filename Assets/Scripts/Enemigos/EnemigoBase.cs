@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
@@ -51,12 +52,18 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>, IPusheable
     [SerializeField] private float _investigationPauseTime = 0.5f;
     private float _investigationTimer = 0f;
     [SerializeField] private float _maxInvestigationTime = 5f;
+    [SerializeField] private float _investigationLookTime = 3f;
+    private float _lookAroundTimer = 0f;
 
     [Header("Ataque")]
     [SerializeField] private float _attackRange = 1.5f;
     [SerializeField] private float _attackCooldown = 2f;
     private float _attackTimer = 0f;
 
+    [Header("Desmembramiento")]
+    [SerializeField] private DismembermentMode _dismembermentMode = DismembermentMode.None;
+    [SerializeField] private LimbData[] _limbConfigs;
+    private Dictionary<HumanBodyBones, LimbData> _limbMap;
     protected bool _isDead;
 
     // ── Propiedades ───────────────────────────────────────────────
@@ -76,6 +83,8 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>, IPusheable
         _hitRig = GetComponent<HitReactionRig>();
         if (_hitRig == null)
             _hitRig = gameObject.AddComponent<HitReactionRig>();
+
+        InitializeLimbMap();
     }
 
     protected virtual void Start()
@@ -273,6 +282,7 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>, IPusheable
         _isChasing = false;
         _currentState = EnemyStateMachine.Investigating;
         _investigationTimer = 0f;
+        _lookAroundTimer = _investigationLookTime;
         _animator.SetBool("isChasing", false);
         _agent.SetDestination(_lastKnownPlayerPosition);
 
@@ -285,6 +295,7 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>, IPusheable
         _isChasing = true;
         _loseSightTimer = 0f;
         _investigationTimer = 0f;
+        _lookAroundTimer = 0f;
         _currentState = EnemyStateMachine.Chasing;
         _animator.SetBool("isChasing", true);
 
@@ -324,14 +335,16 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>, IPusheable
         }
 
         _agent.speed = 0f;
-        LookAround();
-    }
+        if (_agent.hasPath) _agent.ResetPath();
 
-    private void LookAround()
-    {
-        
-        _headAim?.SetSearching(_lastKnownPlayerPosition);
+        _lookAroundTimer -= Time.deltaTime;
+        if (_lookAroundTimer > 0f)
+        {
+            _headAim?.SetSearching(_lastKnownPlayerPosition);
+            return;
+        }
 
+        _currentState = EnemyStateMachine.Idle;
     }
 
     private void Patrol()
@@ -389,12 +402,117 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>, IPusheable
 
     private HitReactionRig _hitRig;
 
-    public virtual void OnHitReaction(HumanBodyBones bone, Vector3 force, Rigidbody boneRb)
+    /// <summary>Anima el hueso impactado (TriggerHit) y si el modo de desmembramiento no es None, evalua si debe cortarse.</summary>
+    public virtual void OnHitReaction(HumanBodyBones bone, Vector3 force, Rigidbody boneRb, float damage)
     {
         if (_isDead) return;
         _hitRig?.TriggerHit(bone, force);
+        if (_dismembermentMode != DismembermentMode.None)
+            EvaluateDismemberment(bone, damage, force);
     }
 
+    /// <summary>Autogenera el diccionario _limbMap a partir de los grupos oseos de HitReactionRig.
+    /// Si hay entradas en _limbConfigs (Inspector), sobreescriben los valores por defecto.</summary>
+    private void InitializeLimbMap()
+    {
+        _limbMap = new Dictionary<HumanBodyBones, LimbData>();
+
+        if (_hitRig == null) return;
+
+        // Toma los huesos raiz de cada grupo (Head, UpperChest, brazos, piernas) y crea LimbData con defaults
+        var groupRoots = _hitRig.GetBoneGroupRoots();
+        foreach (var root in groupRoots)
+        {
+            var limb = new LimbData { bone = root };
+            limb.Initialize();
+
+            // Cabeza, torso superior y columna son "centrales": si se pierden, el enemigo muere
+            if (root == HumanBodyBones.Head || root == HumanBodyBones.UpperChest || root == HumanBodyBones.Spine)
+                limb.isCentral = true;
+
+            _limbMap[root] = limb;
+        }
+
+        // Override desde el Inspector si hay configuraciones personalizadas
+        if (_limbConfigs == null || _limbConfigs.Length == 0) return;
+
+        foreach (var config in _limbConfigs)
+        {
+            if (_limbMap.TryGetValue(config.bone, out var existing))
+            {
+                existing.maxHealth = config.maxHealth;
+                existing.instantSeverForce = config.instantSeverForce;
+                existing.isCentral = config.isCentral;
+                existing.Initialize();
+            }
+            else
+            {
+                // Si el hueso no existe en los grupos, se agrega igual (ej. un grupo custom)
+                config.Initialize();
+                _limbMap[config.bone] = config;
+            }
+        }
+    }
+
+    /// <summary>Evalua si un hueso debe desmembrarse por golpe seco (instantSeverForce) o por desgaste (currentHealth <= 0).</summary>
+    private void EvaluateDismemberment(HumanBodyBones bone, float damage, Vector3 force)
+    {
+        HumanBodyBones groupRoot = ResolveGroupRoot(bone);
+
+        if (!_limbMap.TryGetValue(groupRoot, out var limb)) return;
+        if (limb.isSevered) return;
+
+        limb.currentHealth -= damage;
+
+        bool severedByForce = force.magnitude >= limb.instantSeverForce;
+        bool severedByHealth = limb.currentHealth <= 0f;
+
+        if (severedByForce || severedByHealth)
+            Dismember(limb, groupRoot, force);
+    }
+
+    /// <summary>Marca la extremidad como cortada, delega en HitReactionRig (Sever/Dangle) y mata al enemigo si es central.</summary>
+    private void Dismember(LimbData limb, HumanBodyBones groupRoot, Vector3 force)
+    {
+        limb.isSevered = true;
+
+        switch (_dismembermentMode)
+        {
+            case DismembermentMode.Dangle:
+                _hitRig?.DangleLimb(groupRoot);
+                break;
+            default:
+                _hitRig?.SeverLimb(groupRoot, force);
+                break;
+        }
+
+        if (limb.isCentral)
+            Die();
+    }
+
+    /// <summary>Mapea huesos hijos a su raiz de grupo (ej: LeftHand -> LeftUpperArm) para buscarlos en _limbMap.</summary>
+    private static HumanBodyBones ResolveGroupRoot(HumanBodyBones bone)
+    {
+        return bone switch
+        {
+            HumanBodyBones.Neck => HumanBodyBones.Head,
+            HumanBodyBones.Chest => HumanBodyBones.UpperChest,
+            HumanBodyBones.Spine => HumanBodyBones.UpperChest,
+            HumanBodyBones.LeftShoulder => HumanBodyBones.LeftUpperArm,
+            HumanBodyBones.LeftLowerArm => HumanBodyBones.LeftUpperArm,
+            HumanBodyBones.LeftHand => HumanBodyBones.LeftUpperArm,
+            HumanBodyBones.RightShoulder => HumanBodyBones.RightUpperArm,
+            HumanBodyBones.RightLowerArm => HumanBodyBones.RightUpperArm,
+            HumanBodyBones.RightHand => HumanBodyBones.RightUpperArm,
+            HumanBodyBones.LeftLowerLeg => HumanBodyBones.LeftUpperLeg,
+            HumanBodyBones.LeftFoot => HumanBodyBones.LeftUpperLeg,
+            HumanBodyBones.LeftToes => HumanBodyBones.LeftUpperLeg,
+            HumanBodyBones.RightLowerLeg => HumanBodyBones.RightUpperLeg,
+            HumanBodyBones.RightFoot => HumanBodyBones.RightUpperLeg,
+            HumanBodyBones.RightToes => HumanBodyBones.RightUpperLeg,
+            _ => bone
+        };
+    }
     protected virtual void HandlePlayerCrouch(OwnEventBase eventBase) { }
 
     // ── Guardado ──────────────────────────────────────────────────

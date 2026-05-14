@@ -16,7 +16,8 @@ public class Hitbox : MonoBehaviour
     public void ReceiveDamage(float baseDamage, Vector3 hitForce)
     {
         if (_enemy == null) return;
-        _enemy.TakeDamage(baseDamage * _damageMultiplier);
-        _enemy.OnHitReaction(_bone, hitForce, _boneRigidbody);
+        float finalDamage = baseDamage * _damageMultiplier;
+        _enemy.TakeDamage(finalDamage);
+        _enemy.OnHitReaction(_bone, hitForce, _boneRigidbody, finalDamage);
     }
 }
