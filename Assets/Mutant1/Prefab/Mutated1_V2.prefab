@@ -216,6 +216,7 @@ GameObject:
   - component: {fileID: 5885217295479226899}
   - component: {fileID: 1088979532352465658}
   - component: {fileID: 4898661665017187938}
+  - component: {fileID: 1899498475936540537}
   m_Layer: 15
   m_Name: RightArm Collider
   m_TagString: Untagged
@@ -273,6 +274,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Hitbox
   _damageMultiplier: 0.6
   _bone: 16
+--- !u!114 &1899498475936540537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1143464612526065170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69af5356876c0ff4ca03365ea5ef1e7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AttackHitbox
 --- !u!1 &1958242048321109360
 GameObject:
   m_ObjectHideFlags: 0
@@ -849,6 +862,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 48844973712467362, guid: 27c70984b9f4990489d83faa91f41371, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5663636756424582435}
+    - targetCorrespondingSourceObject: {fileID: 48844973712467362, guid: 27c70984b9f4990489d83faa91f41371, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5400846072361840836}
     - targetCorrespondingSourceObject: {fileID: -7684811895978977798, guid: 27c70984b9f4990489d83faa91f41371, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8618819175371906225}
@@ -1149,8 +1165,11 @@ MonoBehaviour:
   _investigationDistanceThreshold: 1.8
   _investigationPauseTime: 0.5
   _maxInvestigationTime: 5
+  _investigationLookTime: 3
   _attackRange: 1.9
   _attackCooldown: 2
+  _dismembermentMode: 0
+  _limbConfigs: []
   _visionRange: 10
   _visionAngle: 25
   _visionHeight: 1
@@ -1230,8 +1249,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.22749496, y: 0.70092094, z: 0.2607088}
-  m_Center: {x: -0.004466653, y: -0.10330641, z: -0.010044575}
+  m_Size: {x: 0.22749496, y: 0.89, z: 0.2607088}
+  m_Center: {x: -0.004466653, y: -0.15, z: -0.010044575}
 --- !u!114 &82603360553923787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1319,6 +1338,18 @@ CharacterJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &5400846072361840836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2225942200640526497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69af5356876c0ff4ca03365ea5ef1e7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AttackHitbox
 --- !u!4 &3055383035840774602 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3760307996819750089, guid: 27c70984b9f4990489d83faa91f41371, type: 3}

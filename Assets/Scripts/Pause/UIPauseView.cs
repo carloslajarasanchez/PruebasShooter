@@ -32,7 +32,7 @@ public class UIPauseView : MonoBehaviour
     private void OnPaused(OwnEventBase e)
     {
         _panelContainer.SetActive(true);
-        //_playerInput.DisablePlayer(); // bloquea el input del juego
+        _playerInput.SwitchControlMap(ControlMap.UI);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
@@ -40,7 +40,7 @@ public class UIPauseView : MonoBehaviour
     private void OnResumed(OwnEventBase e)
     {
         _panelContainer.SetActive(false);
-        //_playerInput.EnablePlayer(); // reactiva el input del juego
+        _playerInput.SwitchControlMap(ControlMap.Player);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }

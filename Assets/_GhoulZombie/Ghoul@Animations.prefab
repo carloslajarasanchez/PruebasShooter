@@ -829,6 +829,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 65b6e24480793fa4392fe215e6493c15, type: 2}
+    - target: {fileID: 9500000, guid: ce65fa103f0e84b4289374b2a4bf93f8, type: 3}
+      propertyPath: m_WarningMessage
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -950,6 +954,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100012, guid: ce65fa103f0e84b4289374b2a4bf93f8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4204298421715417790}
+    - targetCorrespondingSourceObject: {fileID: 100012, guid: ce65fa103f0e84b4289374b2a4bf93f8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8547180285758315605}
     - targetCorrespondingSourceObject: {fileID: 100014, guid: ce65fa103f0e84b4289374b2a4bf93f8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2450667537107431332}
@@ -962,6 +969,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100014, guid: ce65fa103f0e84b4289374b2a4bf93f8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 38521193016434139}
+    - targetCorrespondingSourceObject: {fileID: 100014, guid: ce65fa103f0e84b4289374b2a4bf93f8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 419300222944036513}
     - targetCorrespondingSourceObject: {fileID: 100000, guid: ce65fa103f0e84b4289374b2a4bf93f8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3108214781050850865}
@@ -998,6 +1008,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100072, guid: ce65fa103f0e84b4289374b2a4bf93f8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 402626568099505596}
+    - targetCorrespondingSourceObject: {fileID: 100072, guid: ce65fa103f0e84b4289374b2a4bf93f8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8759100366503359788}
     - targetCorrespondingSourceObject: {fileID: 100074, guid: ce65fa103f0e84b4289374b2a4bf93f8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4750303755063699770}
@@ -1010,6 +1023,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100074, guid: ce65fa103f0e84b4289374b2a4bf93f8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3225031972750563825}
+    - targetCorrespondingSourceObject: {fileID: 100074, guid: ce65fa103f0e84b4289374b2a4bf93f8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2181508722104032457}
   m_SourcePrefab: {fileID: 100100000, guid: ce65fa103f0e84b4289374b2a4bf93f8, type: 3}
 --- !u!1 &5661261544942206479 stripped
 GameObject:
@@ -1075,14 +1091,29 @@ MonoBehaviour:
   _investigationDistanceThreshold: 1.5
   _investigationPauseTime: 0.5
   _maxInvestigationTime: 5
+  _investigationLookTime: 3
   _attackRange: 1.5
   _attackCooldown: 2
-  _visionRange: 10
-  _visionAngle: 30
+  _dismembermentMode: 2
+  _limbConfigs:
+  - bone: 4
+    maxHealth: 10
+    instantSeverForce: 3
+    isCentral: 0
+    currentHealth: 0
+    isSevered: 0
+  - bone: 1
+    maxHealth: 10
+    instantSeverForce: 3
+    isCentral: 0
+    currentHealth: 0
+    isSevered: 0
+  _visionRange: 7
+  _visionAngle: 60
   _visionHeight: 1
-  _rearDetectionRange: 3
-  _crouchVisionRangeMultiplier: 0.5
-  _crouchVisionAngleMultiplier: 0.6
+  _rearDetectionRange: 2
+  _crouchVisionRangeMultiplier: 0.63
+  _crouchVisionAngleMultiplier: 0.57
   _checkLineOfSight: 1
   _layerMaskObstacles:
     serializedVersion: 2
@@ -1526,6 +1557,18 @@ CharacterJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &419300222944036513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5661261544942206865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69af5356876c0ff4ca03365ea5ef1e7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AttackHitbox
 --- !u!1 &5661261544942206867 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100012, guid: ce65fa103f0e84b4289374b2a4bf93f8, type: 3}
@@ -1641,6 +1684,18 @@ CharacterJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &8547180285758315605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5661261544942206867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69af5356876c0ff4ca03365ea5ef1e7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AttackHitbox
 --- !u!1 &5661261544942206869 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100010, guid: ce65fa103f0e84b4289374b2a4bf93f8, type: 3}
@@ -2092,6 +2147,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Hitbox
   _damageMultiplier: 1
   _bone: 18
+--- !u!114 &2181508722104032457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5661261544942206933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69af5356876c0ff4ca03365ea5ef1e7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AttackHitbox
 --- !u!1 &5661261544942206935 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100072, guid: ce65fa103f0e84b4289374b2a4bf93f8, type: 3}
@@ -2207,6 +2274,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Hitbox
   _damageMultiplier: 1
   _bone: 16
+--- !u!114 &8759100366503359788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5661261544942206935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69af5356876c0ff4ca03365ea5ef1e7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AttackHitbox
 --- !u!1 &5661261544942206937 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100070, guid: ce65fa103f0e84b4289374b2a4bf93f8, type: 3}

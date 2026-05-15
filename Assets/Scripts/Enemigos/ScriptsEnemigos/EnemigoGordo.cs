@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemigoGordo : EnemigoBase
+public class EnemigoGordo : BaseEnemy
 {
     [Header("Vision")]
     [SerializeField] private float _visionRange = 15f;

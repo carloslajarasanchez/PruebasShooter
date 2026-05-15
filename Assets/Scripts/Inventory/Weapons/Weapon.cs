@@ -221,7 +221,7 @@ public abstract class Weapon : Item, IEquippable
 
         if (hit.collider.TryGetComponent<Hitbox>(out var hitbox))
             hitbox.ReceiveDamage(_weaponData.Damage, hitForce);
-        else if (hit.collider.TryGetComponent<EnemigoBase>(out var enemy))
+        else if (hit.collider.TryGetComponent<BaseEnemy>(out var enemy))
             enemy.TakeDamage(_weaponData.Damage);
     }
 

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Ghoul : EnemigoBase
+public class Ghoul : BaseEnemy
 {
     [Header("Vision")]
     [SerializeField] private float _visionRange = 15f;

@@ -1,14 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>, IPusheable
+public class BaseEnemy : MonoBehaviour, ISavable<EnemyState>, IPusheable
 {
     // ── Configuración general ─────────────────────────────────────
     [SerializeField] private float _life;
-    [SerializeField] private float _damage;
+    [SerializeField] private int _damage;
     [SerializeField] protected float _speed;
     [SerializeField] private string _saveId;
     [SerializeField] protected Animator _animator;
@@ -20,6 +21,7 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>, IPusheable
     public GameObject player;
     private ISaveService _saveService;
     private IEventService _eventService;
+    private IPlayer _player;
 
     // ── Cabeza (aim constraint) ───────────────────────────────────
     [Header("Cabeza y Aim Constraint")]
@@ -59,6 +61,10 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>, IPusheable
     [SerializeField] private float _attackRange = 1.5f;
     [SerializeField] private float _attackCooldown = 2f;
     private float _attackTimer = 0f;
+    private bool _hasDealtDamage;
+
+    public bool CanDealDamage { get; protected set; }
+    public int GetDamage() => _damage;
 
     [Header("Desmembramiento")]
     [SerializeField] private DismembermentMode _dismembermentMode = DismembermentMode.None;
@@ -80,6 +86,7 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>, IPusheable
         _saveService = AppContainer.Get<ISaveService>();
         _animator = GetComponent<Animator>();
         _eventService = AppContainer.Get<IEventService>();
+        _player = AppContainer.Get<IPlayer>();
         _hitRig = GetComponent<HitReactionRig>();
         if (_hitRig == null)
             _hitRig = gameObject.AddComponent<HitReactionRig>();
@@ -175,7 +182,7 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>, IPusheable
             Vector3 rayOrigin = origin + Vector3.up * height;
             if (Physics.Raycast(rayOrigin, dirToPlayer, out RaycastHit hit, distance, obstacles))
             {
-                if (!hit.collider.TryGetComponent<EnemigoBase>(out _) &&
+                if (!hit.collider.TryGetComponent<BaseEnemy>(out _) &&
                     !hit.collider.CompareTag("Player"))
                     return false;
             }
@@ -203,7 +210,7 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>, IPusheable
             if (Physics.Raycast(_cameraTransform.position, direction.normalized,
                                 out RaycastHit hit, direction.magnitude, obstacles))
             {
-                if (!hit.collider.TryGetComponent<EnemigoBase>(out _))
+                if (!hit.collider.TryGetComponent<BaseEnemy>(out _))
                     return false;
             }
         }
@@ -271,6 +278,7 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>, IPusheable
         if (_agent.hasPath) _agent.ResetPath();
         _animator.SetTrigger("attack");
         _attackTimer = _attackCooldown;
+        _hasDealtDamage = false;
 
         // Durante el ataque la cabeza sigue mirando al jugador
         if (player != null)
@@ -312,6 +320,15 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>, IPusheable
 
         if (_attackTimer <= 0f)
             TransitionToChase();
+    }
+
+    // ── Llamados por Animation Events ──────────────────────
+    public void EnableDamage() => CanDealDamage = true;
+    public void DisableDamage() => CanDealDamage = false;
+    public void OnAttackFinished()
+    {
+        CanDealDamage = false;
+        TransitionToChase();
     }
 
     private void HandleInvestigationState(bool playerDetected)
@@ -522,4 +539,5 @@ public class EnemigoBase : MonoBehaviour, ISavable<EnemyState>, IPusheable
     {
         if (state.IsDead) Die();
     }
+
 }

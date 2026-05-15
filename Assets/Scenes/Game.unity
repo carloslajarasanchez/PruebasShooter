@@ -9736,6 +9736,10 @@ PrefabInstance:
       propertyPath: '_patrolPoints.Array.data[7]'
       value: 
       objectReference: {fileID: 642494369}
+    - target: {fileID: 5702471046277070994, guid: 275e058f5be6fd7459e80acfdba9addf, type: 3}
+      propertyPath: m_WarningMessage
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -24935,22 +24939,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1695840346990680756, guid: 583088178b985c240ae07dbdb883c84d, type: 3}
-      propertyPath: _visionAngle
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 1695840346990680756, guid: 583088178b985c240ae07dbdb883c84d, type: 3}
-      propertyPath: _dismembermentMode
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1695840346990680756, guid: 583088178b985c240ae07dbdb883c84d, type: 3}
-      propertyPath: _rearDetectionRange
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1695840346990680756, guid: 583088178b985c240ae07dbdb883c84d, type: 3}
-      propertyPath: _limbConfigs.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1695840346990680756, guid: 583088178b985c240ae07dbdb883c84d, type: 3}
       propertyPath: '_patrolPoints.Array.data[0]'
       value: 
       objectReference: {fileID: 1777962626}
@@ -24978,30 +24966,6 @@ PrefabInstance:
       propertyPath: '_patrolPoints.Array.data[6]'
       value: 
       objectReference: {fileID: 1942853438}
-    - target: {fileID: 1695840346990680756, guid: 583088178b985c240ae07dbdb883c84d, type: 3}
-      propertyPath: _limbConfigs.Array.data[0].bone
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 1695840346990680756, guid: 583088178b985c240ae07dbdb883c84d, type: 3}
-      propertyPath: _limbConfigs.Array.data[1].bone
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1695840346990680756, guid: 583088178b985c240ae07dbdb883c84d, type: 3}
-      propertyPath: _limbConfigs.Array.data[0].maxHealth
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 1695840346990680756, guid: 583088178b985c240ae07dbdb883c84d, type: 3}
-      propertyPath: _limbConfigs.Array.data[1].maxHealth
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 1695840346990680756, guid: 583088178b985c240ae07dbdb883c84d, type: 3}
-      propertyPath: _limbConfigs.Array.data[0].instantSeverForce
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1695840346990680756, guid: 583088178b985c240ae07dbdb883c84d, type: 3}
-      propertyPath: _limbConfigs.Array.data[1].instantSeverForce
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 5661261544942206479, guid: 583088178b985c240ae07dbdb883c84d, type: 3}
       propertyPath: m_Name
       value: Ghoul@Animations
@@ -76765,11 +76729,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4688587177700726413, guid: aaf2bd88298ede54c9500997cab217c6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.55
+      value: 4.91
       objectReference: {fileID: 0}
     - target: {fileID: 4688587177700726413, guid: aaf2bd88298ede54c9500997cab217c6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 5.3
+      value: 5.279
       objectReference: {fileID: 0}
     - target: {fileID: 4688587177700726413, guid: aaf2bd88298ede54c9500997cab217c6, type: 3}
       propertyPath: m_LocalRotation.w

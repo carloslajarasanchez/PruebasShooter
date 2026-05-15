@@ -16,18 +16,16 @@ public class InventoryService : IInventoryService
 
     public void AddItem(Item item)
     {
-        //_eventService.Publish(GameEvents.OnInventoryChanged);
+        Items.Add(item);
         _eventService.Publish(_inventoryChangedEvent);
         Debug.Log("Adding item: " + item.name);
-        Items.Add(item);
     }
 
     public void RemoveItem(Item item)
     {
-        //_eventService.Publish(GameEvents.OnInventoryChanged);
+        Items.Remove(item);
         _eventService.Publish(_inventoryChangedEvent);
         Debug.Log("Removing item: " + item.name); 
-        Items.Remove(item);
     }
 
     /// <summary>

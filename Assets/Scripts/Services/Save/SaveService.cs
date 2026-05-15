@@ -215,7 +215,7 @@ public class SaveService : ISaveService
 
         // ---------------- ENEMIES ----------------
 
-        var enemies = Object.FindObjectsByType<EnemigoBase>(FindObjectsSortMode.None);
+        var enemies = Object.FindObjectsByType<BaseEnemy>(FindObjectsSortMode.None);
 
         foreach (var enemy in enemies)
         {

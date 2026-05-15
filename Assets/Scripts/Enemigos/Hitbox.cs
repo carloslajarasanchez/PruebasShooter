@@ -4,12 +4,12 @@ public class Hitbox : MonoBehaviour
 {
     [SerializeField] private float _damageMultiplier = 1f;
     [SerializeField] private HumanBodyBones _bone;
-    private EnemigoBase _enemy;
+    private BaseEnemy _enemy;
     private Rigidbody _boneRigidbody;
 
     private void Awake()
     {
-        _enemy = GetComponentInParent<EnemigoBase>();
+        _enemy = GetComponentInParent<BaseEnemy>();
         _boneRigidbody = GetComponentInParent<Rigidbody>();
     }
 

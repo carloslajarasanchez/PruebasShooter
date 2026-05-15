@@ -1,27 +1,22 @@
 using UnityEngine;
 using TMPro;
 
-/// <summary>
-/// UI que muestra la munición actual del arma equipada.
-/// Se suscribe a eventos de equipar/desequipar y cambios de munición.
-/// El color cambia de blanco → naranja → rojo según las balas restantes.
-/// </summary>
 public class WeaponAmmoUI : MonoBehaviour
 {
     [Header("UI References")]
     [SerializeField] private GameObject _ammoPanel;
     [SerializeField] private TextMeshProUGUI _currentAmmoText;
     [SerializeField] private TextMeshProUGUI _maxAmmoText;
-    [SerializeField] private TextMeshProUGUI _separatorText; // El "/"
+    [SerializeField] private TextMeshProUGUI _separatorText;
 
     [Header("Color Settings")]
     [SerializeField] private Color _fullAmmoColor = Color.white;
-    [SerializeField] private Color _midAmmoColor = new Color(1f, 0.6f, 0f); // Naranja
+    [SerializeField] private Color _midAmmoColor = new Color(1f, 0.6f, 0f);
     [SerializeField] private Color _lowAmmoColor = Color.red;
 
     [Header("Thresholds (%)")]
-    [SerializeField][Range(0f, 1f)] private float _lowAmmoThreshold = 0.25f;   // 25% o menos = rojo
-    [SerializeField][Range(0f, 1f)] private float _midAmmoThreshold = 0.5f;    // 50% o menos = naranja
+    [SerializeField][Range(0f, 1f)] private float _lowAmmoThreshold = 0.25f;
+    [SerializeField][Range(0f, 1f)] private float _midAmmoThreshold = 0.5f;
 
     private IEventService _eventService;
     private IEquipService _equipService;
@@ -33,7 +28,6 @@ public class WeaponAmmoUI : MonoBehaviour
         _equipService = AppContainer.Get<IEquipService>();
         _inventoryService = AppContainer.Get<IInventoryService>();
 
-        // Ocultar panel al inicio
         if (_ammoPanel != null)
             _ammoPanel.SetActive(false);
     }
@@ -43,6 +37,7 @@ public class WeaponAmmoUI : MonoBehaviour
         _eventService.Subscribe<OnItemEquipped>(OnItemEquipped);
         _eventService.Subscribe<OnItemUnequipped>(OnItemUnequippedUI);
         _eventService.Subscribe<OnAmmoChanged>(OnAmmoChangedUI);
+        _eventService.Subscribe<OnInventoryChanged>(OnInventoryChangedUI);
     }
 
     private void OnDisable()
@@ -50,35 +45,34 @@ public class WeaponAmmoUI : MonoBehaviour
         _eventService.Unsubscribe<OnItemEquipped>(OnItemEquipped);
         _eventService.Unsubscribe<OnItemUnequipped>(OnItemUnequippedUI);
         _eventService.Unsubscribe<OnAmmoChanged>(OnAmmoChangedUI);
+        _eventService.Unsubscribe<OnInventoryChanged>(OnInventoryChangedUI);
     }
 
     private void OnItemEquipped(OwnEventBase evt)
     {
         OnItemEquipped equipEvt = evt as OnItemEquipped;
-        // Solo mostrar UI si el item equipado es un arma
         if (equipEvt.Item is Weapon weapon)
         {
             ShowAmmoPanel();
-            UpdateAmmoDisplay(weapon.CurrentAmmo, weapon.MaxAmmo);
+            RefreshAmmoDisplay();
         }
     }
 
     private void OnItemUnequippedUI(OwnEventBase evt)
     {
         OnItemUnequipped events = evt as OnItemUnequipped;
-        // Ocultar UI cuando se desequipa cualquier item
-        // (por si acaso se desequipa un arma)
         if (events.Item is Weapon)
-        {
             HideAmmoPanel();
-        }
     }
 
     private void OnAmmoChangedUI(OwnEventBase evt)
     {
-        OnAmmoChanged events = evt as OnAmmoChanged;
-        // Actualizar los números y el color
-        UpdateAmmoDisplay(events.CurrentAmmo, events.MaxAmmo);
+        RefreshAmmoDisplay();
+    }
+
+    private void OnInventoryChangedUI(OwnEventBase evt)
+    {
+        RefreshAmmoDisplay();
     }
 
     private void ShowAmmoPanel()
@@ -93,16 +87,19 @@ public class WeaponAmmoUI : MonoBehaviour
             _ammoPanel.SetActive(false);
     }
 
-    private void UpdateAmmoDisplay(int currentAmmo, int maxAmmo)
+    private void RefreshAmmoDisplay()
     {
+        if (_equipService.CurrentItem is not Weapon weapon) return;
+
+        int totalReserve = GetTotalReserveAmmo(weapon.WeaponData.WeaponType);
+
         if (_currentAmmoText != null)
-            _currentAmmoText.text = currentAmmo.ToString();
+            _currentAmmoText.text = weapon.CurrentAmmo.ToString();
 
         if (_maxAmmoText != null)
-            _maxAmmoText.text = maxAmmo.ToString();
+            _maxAmmoText.text = totalReserve.ToString();
 
-        // Calcular color según el porcentaje de munición
-        Color targetColor = CalculateAmmoColor(currentAmmo, maxAmmo);
+        Color targetColor = CalculateAmmoColor(weapon.CurrentAmmo, weapon.MaxAmmo);
 
         if (_currentAmmoText != null)
             _currentAmmoText.color = targetColor;
@@ -110,10 +107,19 @@ public class WeaponAmmoUI : MonoBehaviour
         if (_separatorText != null)
             _separatorText.color = targetColor;
 
-        // El máximo siempre en blanco o también con el color
-        // (puedes comentar esta línea si prefieres que maxAmmo no cambie de color)
         if (_maxAmmoText != null)
             _maxAmmoText.color = targetColor;
+    }
+
+    private int GetTotalReserveAmmo(WeaponTypeEnum weaponType)
+    {
+        int total = 0;
+        foreach (Item item in _inventoryService.Items)
+        {
+            if (item is BulletBase bullet && bullet.Type == weaponType)
+                total += bullet.BulletAmount;
+        }
+        return total;
     }
 
     private Color CalculateAmmoColor(int current, int max)
@@ -123,16 +129,10 @@ public class WeaponAmmoUI : MonoBehaviour
         float percentage = (float)current / max;
 
         if (percentage <= _lowAmmoThreshold)
-        {
-            return _lowAmmoColor; // Rojo
-        }
+            return _lowAmmoColor;
         else if (percentage <= _midAmmoThreshold)
-        {
-            return _midAmmoColor; // Naranja
-        }
+            return _midAmmoColor;
         else
-        {
-            return _fullAmmoColor; // Blanco
-        }
+            return _fullAmmoColor;
     }
 }

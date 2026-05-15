@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EsqueletoEnemigo : EnemigoBase
+public class EsqueletoEnemigo : BaseEnemy
 {
     [Header("Deteccion")]
     [SerializeField] private Vector3 _detectionBoxSize = new Vector3(8f, 3f, 8f);
@@ -34,6 +34,7 @@ public class EsqueletoEnemigo : EnemigoBase
         {
             _currentState = EnemyStateMachine.Idle;
             _agent.speed = 0f;
+            CanDealDamage = false;
 
             if (_agent.hasPath)
                 _agent.ResetPath();
@@ -49,6 +50,7 @@ public class EsqueletoEnemigo : EnemigoBase
         {
             _currentState = EnemyStateMachine.Idle;
             _agent.speed = _lookAtSpeed;
+            CanDealDamage = false;
 
             if (_agent.hasPath)
                 _agent.ResetPath();
@@ -58,6 +60,7 @@ public class EsqueletoEnemigo : EnemigoBase
 
         // Perseguir jugador
         _currentState = EnemyStateMachine.Chasing;
+        CanDealDamage = true;
         _agent.speed = _speed;
         _agent.destination = player.transform.position;
     }
