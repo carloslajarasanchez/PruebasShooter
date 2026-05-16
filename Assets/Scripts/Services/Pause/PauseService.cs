@@ -3,6 +3,7 @@ using UnityEngine;
 public class PauseService : IPauseService
 {
     public bool IsPaused { get; private set; }
+    public bool IsPauseBlocked { get; set; }
 
     private IEventService _eventService;
 
@@ -15,6 +16,7 @@ public class PauseService : IPauseService
     public void Pause()
     {
         if (IsPaused) return;
+        if (IsPauseBlocked) return;
         IsPaused = true;
         Time.timeScale = 0f;
         _eventService.Publish(new OnGamePaused());

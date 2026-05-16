@@ -100,6 +100,18 @@
             "key": "_saveTapeDescription" , 
 			"value":"Typewriter ribbon. A scarce resource required to record your progress and ensure your survival."
         },{
+            "key": "_yes" , 
+			"value":"Yes"
+        },{
+            "key": "_no" , 
+			"value":"No"
+        },{
+            "key": "_saveConfirm" , 
+			"value":"Save game?\nTapes available: {0}\n(One tape will be consumed)"
+        },{
+            "key": "_noTapes" , 
+			"value":"No save tapes available"
+        },{
             "key": "_shotgunBulletsName" , 
 			"value":"12-Gauge Shells"
         },{

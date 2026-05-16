@@ -100,6 +100,18 @@
             "key": "_saveTapeDescription" , 
 			"value":"Tinta para máquina de escribir. Un recurso escaso necesario para registrar tus progresos y asegurar tu supervivencia."
         },{
+            "key": "_yes" , 
+			"value":"Sí"
+        },{
+            "key": "_no" , 
+			"value":"No"
+        },{
+            "key": "_saveConfirm" , 
+			"value":"¿Guardar partida?\nCintas disponibles: {0}\n(Se consumirá una cinta)"
+        },{
+            "key": "_noTapes" , 
+			"value":"No tienes cintas para guardar"
+        },{
             "key": "_shotgunBulletsName" , 
 			"value":"Cartuchos de calibre 12"
         },{
