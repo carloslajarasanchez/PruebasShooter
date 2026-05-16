@@ -16,4 +16,5 @@ public interface IGameState
 
     void SetFlags(Dictionary<string, bool> flags);
     void SetTriggers(Dictionary<string, bool> triggers);
+    void Clear();
 }

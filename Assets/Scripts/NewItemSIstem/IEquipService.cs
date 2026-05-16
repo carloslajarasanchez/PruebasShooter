@@ -12,4 +12,5 @@ public interface IEquipService
     void SwapWithPrevious();
     void Unequip();
     void UseCurrent();
+    void Clear();
 }

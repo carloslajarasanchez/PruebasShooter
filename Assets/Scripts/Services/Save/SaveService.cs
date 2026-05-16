@@ -11,6 +11,7 @@ public class SaveService : ISaveService
     private IGameState _gameState;
     private IInventoryService _inventoryService;
     private IEquipService _equipService;
+    private IPlayer _player;
 
     private string SavePath => Application.persistentDataPath + "/save.json";
 
@@ -19,6 +20,7 @@ public class SaveService : ISaveService
         _gameState = AppContainer.Get<IGameState>();
         _inventoryService = AppContainer.Get<IInventoryService>();
         _equipService = AppContainer.Get<IEquipService>();
+        _player = AppContainer.Get<IPlayer>();
     }
 
     // ---------------- SAVE ----------------
@@ -91,7 +93,8 @@ public class SaveService : ISaveService
                 y = pos.y,
                 z = pos.z,
                 playerRotationY = player.transform.eulerAngles.y,
-                cameraRotationX = cameraRotationX
+                cameraRotationX = cameraRotationX,
+                lives = _player.Lives
             };
         }
 
@@ -168,6 +171,8 @@ public class SaveService : ISaveService
 
         if (_data.player != null)
         {
+            _player.SetLives(_data.player.lives);
+
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             if (player != null)
             {
@@ -186,6 +191,8 @@ public class SaveService : ISaveService
 
         Debug.Log("Game Loaded");
     }
+    public void ClearStates() => _states.Clear();
+
     // ---------------- RESTORE SCENE ----------------
     public void RestoreScene()
     {

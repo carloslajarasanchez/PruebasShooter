@@ -21,6 +21,10 @@ public class DeactivateInventory : MonoBehaviour
         _playerInput.Actions.Player.Inventory.performed -= OpenInventory;
         //_playerInput.Actions.UI.Inventory.performed -= CloseInventory;
     }
+    private void OnDestroy()
+    {
+        _playerInput.Actions.UI.Inventory.performed -= CloseInventory;
+    }
 
     private void OpenInventory(InputAction.CallbackContext context)
     {

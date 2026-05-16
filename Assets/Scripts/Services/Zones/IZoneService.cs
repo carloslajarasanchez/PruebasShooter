@@ -6,4 +6,5 @@ public interface IZoneService
     void RegisterZone(string id, GameObject root);
     void EnterZone(string id);
     void ExitZone(string id);
+    void Clear();
 }

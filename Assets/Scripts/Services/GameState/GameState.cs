@@ -52,6 +52,12 @@ public class GameState : IGameState
         return flags.TryGetValue(key, out var value) && value;
     }
 
+    public void Clear()
+    {
+        flags.Clear();
+        triggers.Clear();
+    }
+
     public void SetFlag(string key, bool value)
     {
         if (flags.TryGetValue(key, out var current) && current == value)

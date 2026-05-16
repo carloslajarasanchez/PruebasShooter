@@ -32,6 +32,8 @@ public class InventoryService : IInventoryService
     /// Devuelve el primer item del inventario que sea de tipo T y cumpla el predicado.
     /// Devuelve null si no encuentra ninguno.
     /// </summary>
+    public void Clear() => Items.Clear();
+
     public T GetItem<T>(Func<T, bool> predicate) where T : class
     {
         foreach (Item item in Items)

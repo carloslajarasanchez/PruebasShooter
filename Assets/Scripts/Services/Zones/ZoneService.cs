@@ -51,4 +51,6 @@ public class ZoneService : IZoneService
         if (zone.refCount == 0)
             zone.root.SetActive(false);
     }
+
+    public void Clear() => zones.Clear();
 }

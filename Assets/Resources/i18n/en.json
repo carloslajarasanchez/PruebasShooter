@@ -117,6 +117,9 @@
         },{
             "key": "_shotgunBulletsDescription" , 
 			"value":"Heavy shotgun ammunition. Crude and devastating; the best answer for whatever lurks in the dark."
+        },{
+            "key": "_reintentar" , 
+			"value":"Restart"
         }			
     ]
 }

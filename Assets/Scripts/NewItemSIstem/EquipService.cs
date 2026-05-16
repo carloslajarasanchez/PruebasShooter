@@ -22,7 +22,7 @@ public class EquipService : IEquipService
         _defaultLayer = LayerMask.NameToLayer("Default");
 
         if (_handLayer == -1)
-            _logService.Add<EquipService>("Layer 'Hand' no existe. Créalo en Project Settings > Tags and Layers.");
+            _logService.Add<EquipService>("Layer 'Hand' no existe. Crï¿½alo en Project Settings > Tags and Layers.");
     }
 
     /// <summary>
@@ -47,7 +47,7 @@ public class EquipService : IEquipService
         if (CurrentItem != null && CurrentItem != item)
             PreviousItem = CurrentItem;
 
-        // Desequipar el actual sin perder su referencia aún
+        // Desequipar el actual sin perder su referencia aï¿½n
         UnequipCurrent();
         if(CurrentItem is Weapon previousWeapon)
             previousWeapon.OnUnequipped();
@@ -80,6 +80,14 @@ public class EquipService : IEquipService
         UnequipCurrent();
         _eventService.Publish(new OnItemUnequipped { Item = CurrentItem });
         CurrentItem = null;
+    }
+
+    public void Clear()
+    {
+        CurrentItem = null;
+        PreviousItem = null;
+        ItemStorage = null;
+        Hand = null;
     }
 
     public void UseCurrent()

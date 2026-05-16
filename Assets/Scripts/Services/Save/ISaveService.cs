@@ -14,5 +14,6 @@ public interface ISaveService
     bool TryGetState<T>(string id, out T state);
 
     void SetState<T>(string id, T state);
+    void ClearStates();
 
 }

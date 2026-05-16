@@ -9,6 +9,7 @@ public class InitializeGame : MonoBehaviour
     private ILogService _logService;
     private IGameState _gameState;
     private IAudioService _audioService;
+    private IPlayer _player;
 
 
     private void Awake()
@@ -19,12 +20,15 @@ public class InitializeGame : MonoBehaviour
         _logService = AppContainer.Get<ILogService>();
         _gameState = AppContainer.Get<IGameState>();
         _audioService = AppContainer.Get<IAudioService>();
+        _player = AppContainer.Get<IPlayer>();
     }
     private void Start()
     {
         _playerInput.EnablePlayer();
         _zoneService.Initialize();
         _saveService.Load();
+        if (_player.Lives <= 0)
+            _player.ResetPlayer();
         _logService.Add<InitializeGame>($"PersistentDataPath: \n {Application.persistentDataPath}");
 
         _audioService.PlayBackgroundMusic(SoundType.Asylum);

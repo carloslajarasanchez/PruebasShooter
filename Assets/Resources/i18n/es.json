@@ -117,6 +117,9 @@
         },{
             "key": "_shotgunBulletsDescription" , 
 			"value":"Munición pesada para escopeta. Tosca y devastadora; la mejor respuesta para lo que acecha en la oscuridad."
+        },{
+            "key": "_reintentar" , 
+			"value":"Reintentar"
         }	
 	]
 }

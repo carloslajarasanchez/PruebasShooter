@@ -10,7 +10,7 @@ public class EventService : IEventService
         var type = action.GetType();
         if (this._events.ContainsKey(type))
         {
-            foreach (var handler in _events[type].ToArray())// Se convierte la lista a un array para evitar problemas de modificación durante la iteración
+            foreach (var handler in _events[type].ToArray())// Se convierte la lista a un array para evitar problemas de modificaciï¿½n durante la iteraciï¿½n
             {
                 handler?.Invoke(action);
             }
@@ -34,5 +34,10 @@ public class EventService : IEventService
         {
             this._events[type].Remove(action);
         }
+    }
+
+    public void Clear()
+    {
+        _events.Clear();
     }
 }

@@ -38,6 +38,8 @@ public class Player : IPlayer
     }
 
 
+    public void SetLives(int amount) => Lives = amount;
+
     public void ResetPlayer()
     {
         Lives = 100;

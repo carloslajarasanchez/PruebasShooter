@@ -6,4 +6,5 @@ public interface IInventoryService
     public void AddItem(Item item);
     public void RemoveItem(Item item);
     T GetItem<T>(System.Func<T, bool> predicate) where T : class;
+    void Clear();
 }
