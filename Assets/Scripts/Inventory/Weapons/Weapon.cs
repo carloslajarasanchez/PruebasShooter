@@ -168,7 +168,7 @@ public abstract class Weapon : Item, IEquippable
         for (int i = 0; i < _weaponData.PelletCount; i++)
         {
             Vector3 dir = GetShotDirection(ray.direction);
-
+                
             if (Physics.Raycast(ray.origin, dir, out RaycastHit hit, _weaponData.Range, _hitMask, QueryTriggerInteraction.Collide))
             {
                 Debug.DrawLine(ray.origin, hit.point, Color.red, 1f);
@@ -186,7 +186,7 @@ public abstract class Weapon : Item, IEquippable
         Camera cam = Camera.main;
         if (cam == null) return;
 
-        Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0.5f));
+        Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
         RaycastHit hit;
         Vector3 endPoint;
 

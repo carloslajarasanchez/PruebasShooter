@@ -376,7 +376,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.74, y: 0.53, z: 0.65}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.15, z: 0}
 --- !u!114 &1629240822313282803
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1066,7 +1066,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a92a51930dac991459ed44c91a7cdd13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Ghoul
-  _life: 50
+  _life: 30
   _damage: 10
   _speed: 2
   _saveId: gei
@@ -1084,7 +1084,7 @@ MonoBehaviour:
   - {fileID: 0}
   _patrolWaitTime: 4
   _patrolStopDistance: 1.4
-  _loseSightTime: 2
+  _loseSightTime: 4
   _chaseSpeedMultiplier: 1.4
   _investigationSpeed: 0
   _investigationLookSpeed: 120
@@ -1108,9 +1108,9 @@ MonoBehaviour:
     isCentral: 0
     currentHealth: 0
     isSevered: 0
-  _visionRange: 7
-  _visionAngle: 60
-  _visionHeight: 1
+  _visionRange: 10
+  _visionAngle: 50
+  _visionHeight: 0
   _rearDetectionRange: 2
   _crouchVisionRangeMultiplier: 0.63
   _crouchVisionAngleMultiplier: 0.57
@@ -2018,7 +2018,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.25
+  m_Radius: 0.31
   m_Center: {x: 0.08, y: 0.02, z: 0.08}
 --- !u!114 &675640347290516144
 MonoBehaviour:

@@ -18,6 +18,17 @@ public class Ghoul : BaseEnemy
     [SerializeField] private bool _checkLineOfSight = true;
     [SerializeField] private LayerMask _layerMaskObstacles = ~0;
 
+    [Header("Vision Original")]
+    private float _originalVisionRange;
+    private float _originalVisionAngle;
+
+    protected override void Start()
+    {
+        base.Start();
+        _originalVisionRange = _visionRange;
+        _originalVisionAngle = _visionAngle;
+    }
+
     protected override void Update()
     {
         if (player == null || _isDead) return;
@@ -54,8 +65,12 @@ public class Ghoul : BaseEnemy
     {
         if (eventBase is OnPlayerCrouch crouchEvent)
         {
-            _visionRange = crouchEvent.IsCrouching ? _visionAngle * _crouchVisionRangeMultiplier : _visionAngle;
-            _visionAngle = crouchEvent.IsCrouching ? _visionRange * _crouchVisionAngleMultiplier : _visionAngle;
+            _visionRange = crouchEvent.IsCrouching
+                ? _originalVisionRange * _crouchVisionRangeMultiplier
+                : _originalVisionRange;
+            _visionAngle = crouchEvent.IsCrouching
+                ? _originalVisionAngle * _crouchVisionAngleMultiplier
+                : _originalVisionAngle;
         }
     }
 
