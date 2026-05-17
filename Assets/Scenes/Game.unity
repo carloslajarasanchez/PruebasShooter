@@ -4114,6 +4114,32 @@ Transform:
   - {fileID: 6618369133248677675}
   m_Father: {fileID: 3694677771921547474}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &545329805 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3197355903493588481, guid: c927720429289884ab09c06624b6adb1, type: 3}
+  m_PrefabInstance: {fileID: 6079402664302728694}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &545329808
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 545329805}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.1, y: 0.1, z: 0.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &547431898
 GameObject:
   m_ObjectHideFlags: 0
@@ -4656,6 +4682,7 @@ GameObject:
   - component: {fileID: 618748169}
   - component: {fileID: 618748168}
   - component: {fileID: 618748167}
+  - component: {fileID: 618748170}
   m_Layer: 5
   m_Name: ContinueButton
   m_TagString: Untagged
@@ -4778,6 +4805,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 618748165}
   m_CullTransparentMesh: 1
+--- !u!114 &618748170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 618748165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4306930d3efab3847abe30a620208b2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonEffect
+  hoverSound: 3
+  clickSound: 2
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  glowColor: {r: 1, g: 1, b: 1, a: 1}
+  glowTransitionSpeed: 8
+  shakeStrength: 5
+  shakeDuration: 0.2
+  shakeVibrato: 10
+  hoverScale: 1.05
+  scaleSpeed: 8
 --- !u!1 &619195461
 GameObject:
   m_ObjectHideFlags: 0
@@ -9113,6 +9162,7 @@ GameObject:
   - component: {fileID: 1259242541}
   - component: {fileID: 1259242540}
   - component: {fileID: 1259242543}
+  - component: {fileID: 1259242544}
   m_Layer: 5
   m_Name: SpanishButton
   m_TagString: Untagged
@@ -9236,6 +9286,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChangeLanguage
   _language: es
+--- !u!114 &1259242544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1259242538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4306930d3efab3847abe30a620208b2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonEffect
+  hoverSound: 3
+  clickSound: 2
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  glowColor: {r: 1, g: 1, b: 1, a: 1}
+  glowTransitionSpeed: 8
+  shakeStrength: 5
+  shakeDuration: 0.2
+  shakeVibrato: 10
+  hoverScale: 1.05
+  scaleSpeed: 8
 --- !u!1 &1266578255
 GameObject:
   m_ObjectHideFlags: 0
@@ -9565,6 +9637,8 @@ MonoBehaviour:
   _canBePushed: 1
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!59 &1284823476
 HingeJoint:
   m_ObjectHideFlags: 0
@@ -14307,6 +14381,7 @@ GameObject:
   - component: {fileID: 1912234377}
   - component: {fileID: 1912234376}
   - component: {fileID: 1912234379}
+  - component: {fileID: 1912234380}
   m_Layer: 5
   m_Name: ExitButton
   m_TagString: Untagged
@@ -14430,6 +14505,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LoadSceneButton
   _sceneName: 02_MainMenu
+--- !u!114 &1912234380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1912234374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4306930d3efab3847abe30a620208b2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonEffect
+  hoverSound: 3
+  clickSound: 2
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  glowColor: {r: 1, g: 1, b: 1, a: 1}
+  glowTransitionSpeed: 8
+  shakeStrength: 5
+  shakeDuration: 0.2
+  shakeVibrato: 10
+  hoverScale: 1.05
+  scaleSpeed: 8
 --- !u!1 &1917359245
 GameObject:
   m_ObjectHideFlags: 0
@@ -15738,6 +15835,7 @@ GameObject:
   - component: {fileID: 2134424455}
   - component: {fileID: 2134424454}
   - component: {fileID: 2134424457}
+  - component: {fileID: 2134424458}
   m_Layer: 5
   m_Name: EnglishButton
   m_TagString: Untagged
@@ -15861,6 +15959,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChangeLanguage
   _language: en
+--- !u!114 &2134424458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2134424452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4306930d3efab3847abe30a620208b2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonEffect
+  hoverSound: 3
+  clickSound: 2
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  glowColor: {r: 1, g: 1, b: 1, a: 1}
+  glowTransitionSpeed: 8
+  shakeStrength: 5
+  shakeDuration: 0.2
+  shakeVibrato: 10
+  hoverScale: 1.05
+  scaleSpeed: 8
 --- !u!1 &2138257572
 GameObject:
   m_ObjectHideFlags: 0
@@ -43353,6 +43473,8 @@ MonoBehaviour:
   _canBePushed: 1
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!4 &1502320287885743846
 Transform:
   m_ObjectHideFlags: 0
@@ -86937,6 +87059,8 @@ MonoBehaviour:
   _canBePushed: 1
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &3873455924571784114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117432,6 +117556,8 @@ MonoBehaviour:
   _canBePushed: 1
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &5555702594211329684
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118313,6 +118439,8 @@ MonoBehaviour:
   _canBePushed: 1
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &5589260615939952661
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123693,6 +123821,8 @@ MonoBehaviour:
   _canBePushed: 1
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &5906666295636298205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125060,6 +125190,7 @@ GameObject:
   - component: {fileID: 9006715768977639032}
   - component: {fileID: 9006715768977639034}
   - component: {fileID: 9006715768977639033}
+  - component: {fileID: 9006715768977639035}
   m_Layer: 0
   m_Name: Door_Stock
   m_TagString: Untagged
@@ -127155,6 +127286,66 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5916040234318080220}
   m_Mesh: {fileID: 4300000, guid: d6f2c9324b03e8b4d93c47c464c73709, type: 3}
+--- !u!1001 &6079402664302728694
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2866229989856536982, guid: c927720429289884ab09c06624b6adb1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 22.408298
+      objectReference: {fileID: 0}
+    - target: {fileID: 2866229989856536982, guid: c927720429289884ab09c06624b6adb1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.0433
+      objectReference: {fileID: 0}
+    - target: {fileID: 2866229989856536982, guid: c927720429289884ab09c06624b6adb1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -4.457
+      objectReference: {fileID: 0}
+    - target: {fileID: 2866229989856536982, guid: c927720429289884ab09c06624b6adb1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.70710784
+      objectReference: {fileID: 0}
+    - target: {fileID: 2866229989856536982, guid: c927720429289884ab09c06624b6adb1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2866229989856536982, guid: c927720429289884ab09c06624b6adb1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2866229989856536982, guid: c927720429289884ab09c06624b6adb1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.70710576
+      objectReference: {fileID: 0}
+    - target: {fileID: 2866229989856536982, guid: c927720429289884ab09c06624b6adb1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2866229989856536982, guid: c927720429289884ab09c06624b6adb1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2866229989856536982, guid: c927720429289884ab09c06624b6adb1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3197355903493588481, guid: c927720429289884ab09c06624b6adb1, type: 3}
+      propertyPath: m_Name
+      value: StorageKey
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3197355903493588481, guid: c927720429289884ab09c06624b6adb1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 545329808}
+  m_SourcePrefab: {fileID: 100100000, guid: c927720429289884ab09c06624b6adb1, type: 3}
 --- !u!108 &6081857582785499013
 Light:
   m_ObjectHideFlags: 0
@@ -128225,6 +128416,8 @@ MonoBehaviour:
   _canBePushed: 1
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &6142605801862299934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130025,6 +130218,8 @@ MonoBehaviour:
   _canBePushed: 1
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &6241489659313479567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131936,6 +132131,8 @@ MonoBehaviour:
   _canBePushed: 0
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &6332429747623647145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138722,6 +138919,8 @@ MonoBehaviour:
   _canBePushed: 1
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &6672990648934178542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139019,6 +139218,8 @@ MonoBehaviour:
   _canBePushed: 0
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &6676879478190069297
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142785,6 +142986,8 @@ MonoBehaviour:
   _canBePushed: 1
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &6881684997355473271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149545,6 +149748,8 @@ MonoBehaviour:
   _canBePushed: 1
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!59 &7270239697225869178
 HingeJoint:
   m_ObjectHideFlags: 0
@@ -157568,6 +157773,8 @@ MonoBehaviour:
   _canBePushed: 0
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &7643921351451302927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160940,6 +161147,8 @@ MonoBehaviour:
   _canBePushed: 0
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &7798316244802667865
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164699,6 +164908,8 @@ MonoBehaviour:
   _canBePushed: 0
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &7949543232143540461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167583,6 +167794,8 @@ MonoBehaviour:
   _canBePushed: 1
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &8071955975641159642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -171660,6 +171873,8 @@ MonoBehaviour:
   _canBePushed: 0
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &8275657268580266768
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172699,6 +172914,8 @@ MonoBehaviour:
   _canBePushed: 1
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!59 &8310784832523046900
 HingeJoint:
   m_ObjectHideFlags: 0
@@ -173586,6 +173803,8 @@ MonoBehaviour:
   _canBePushed: 1
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &8342895562711203832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173812,6 +174031,8 @@ MonoBehaviour:
   _canBePushed: 0
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &8344145818870745610
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174617,6 +174838,8 @@ MonoBehaviour:
   _canBePushed: 1
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &8375672774751182581
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175367,6 +175590,8 @@ MonoBehaviour:
   _canBePushed: 1
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &8403426155546413936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179094,6 +179319,8 @@ MonoBehaviour:
   _canBePushed: 1
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!59 &8586942277925724479
 HingeJoint:
   m_ObjectHideFlags: 0
@@ -180086,6 +180313,8 @@ MonoBehaviour:
   _canBePushed: 1
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &8624616192988649871
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184157,6 +184386,8 @@ MonoBehaviour:
   _canBePushed: 1
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &8831570278926677415
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186205,6 +186436,8 @@ MonoBehaviour:
   _canBePushed: 1
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &8911582210886771436
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187298,6 +187531,8 @@ MonoBehaviour:
   _canBePushed: 0
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &8962271175822194516
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188338,9 +188573,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbe5cfb0139626a44b90c519f49479c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoorController
-  _canBePushed: 1
+  _canBePushed: 0
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 11400000, guid: c15212ffa591cde44af2405849878d7c, type: 2}
 --- !u!114 &9006715768977639033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188450,6 +188687,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!65 &9006715768977639035
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5965524463021393229}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.056931, y: 2.098418, z: 1}
+  m_Center: {x: -0.52694654, y: -0.90949404, z: 0.63}
 --- !u!4 &9007969434992307242
 Transform:
   m_ObjectHideFlags: 0
@@ -192699,3 +192957,4 @@ SceneRoots:
   - {fileID: 3394814623738823971}
   - {fileID: 526420111886427525}
   - {fileID: 2055079244}
+  - {fileID: 6079402664302728694}

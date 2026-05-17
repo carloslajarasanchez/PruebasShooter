@@ -2,7 +2,7 @@
 - Project name: PruebasLoquero
 - Unity version: Unity 6000.3.12f1
 - Active game object:
-  - Name: Door_Stock
+  - Name: ExitButton
   - Tag: Untagged
-  - Layer: Default
+  - Layer: UI
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->

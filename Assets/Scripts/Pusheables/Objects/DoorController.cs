@@ -26,7 +26,7 @@ public class DoorController : PusheableObject, ISavable<DoorState>
         base.Awake();
         _saveService = AppContainer.Get<ISaveService>();
         _worldAudio = GetComponent<WorldAudioSource>();
-        _inventoryService = AppContainer.Get<InventoryService>();
+        _inventoryService = AppContainer.Get<IInventoryService>();
         _logService = AppContainer.Get<ILogService>();
         // Seguridad: si no tiene ID, se asigna uno en editor
 #if UNITY_EDITOR
@@ -94,17 +94,33 @@ public class DoorController : PusheableObject, ISavable<DoorState>
 
     private void CheckKey()
     {
+        // Verificaciones de seguridad
+        if (_inventoryService == null)
+        {
+            _logService.Add<DoorController>("InventoryService es null en DoorController");
+            return;
+        }
+
+        if (_inventoryService.Items == null)
+        {
+            _logService.Add<DoorController>("InventoryService.Items es null");
+            return;
+        }
+
+        // Buscar la llave en el inventario
+        bool hasKey = false;
         foreach (Item item in _inventoryService.Items)
         {
             if (item is Key key && key.GetTypeKey() == _requiredKeyType)
             {
+                hasKey = true;
                 this.CanBePushed = true;
-                return; // Salir si encuentra la llave
+                break; // Salir del bucle
             }
         }
 
-        // No tiene la llave necesaria - solo mostrar mensaje si la puerta está cerrada
-        if (!CanBePushed)
+        // Si no tiene la llave Y la puerta está cerrada, mostrar mensaje
+        if (!hasKey && !CanBePushed)
         {
             InitWorkflow();
         }

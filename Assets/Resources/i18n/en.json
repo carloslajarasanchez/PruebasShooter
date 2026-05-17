@@ -129,6 +129,12 @@
         },{
             "key": "_doorStepName" , 
 			"value":"Locked door"
+        },{
+            "key": "_storeKeyDescription" , 
+			"value":"Small key made of cast iron"
+        },{
+            "key": "_storeKeyName" , 
+			"value":"Store key"
         }					
     ]
 }

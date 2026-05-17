@@ -129,6 +129,12 @@
         },{
             "key": "_doorStepName" , 
 			"value":"Puerta bloqueada"
+        },{
+            "key": "_storeKeyDescription" , 
+			"value":"Pequeña llave hecha de hierro fundido"
+        },{
+            "key": "_storeKeyName" , 
+			"value":"Llave almacen"
         }		
 	]
 }
