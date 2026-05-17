@@ -32,6 +32,7 @@ public class InventoryController : MonoBehaviour
     private void OnEnable()
     {
         _input.Player.Interact.performed += CatchItem;
+        _eventService.Subscribe<OnGamePaused>(OnPaused);
     }
 
     private void OnDisable()
@@ -39,6 +40,7 @@ public class InventoryController : MonoBehaviour
         if (_input == null) return;
 
         _input.Player.Interact.performed -= CatchItem;
+        _eventService.Unsubscribe<OnGamePaused>(OnPaused);
     }
 
     private void Update()
@@ -116,6 +118,18 @@ public class InventoryController : MonoBehaviour
                 Debug.Log("Attempting to catch item...");
                 _itemToCatch.Catch();
             }
+        }
+    }
+
+    private void OnPaused(OwnEventBase e)
+    {
+        if (_isDetecting)
+        {
+            _isDetecting = false;
+            _isCatcheable = false;
+            _itemToCatch = null;
+            _saveMachineToInteract = null;
+            _eventService.Publish(_catchableLostEvent);
         }
     }
 
