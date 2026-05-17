@@ -1067,7 +1067,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Ghoul
   _life: 30
-  _damage: 10
+  _damage: 20
   _speed: 2
   _saveId: gei
   _animator: {fileID: 0}
@@ -1092,8 +1092,8 @@ MonoBehaviour:
   _investigationPauseTime: 0.5
   _maxInvestigationTime: 5
   _investigationLookTime: 3
-  _attackRange: 1.5
-  _attackCooldown: 2
+  _attackRange: 1.7
+  _attackCooldown: 1
   _dismembermentMode: 2
   _limbConfigs:
   - bone: 4
