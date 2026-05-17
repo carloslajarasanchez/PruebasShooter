@@ -1140,7 +1140,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemigoGordo
   _life: 150
-  _damage: 20
+  _damage: 40
   _speed: 1
   _saveId: 
   _animator: {fileID: 0}
@@ -1158,7 +1158,7 @@ MonoBehaviour:
   - {fileID: 0}
   _patrolWaitTime: 5
   _patrolStopDistance: 1.7
-  _loseSightTime: 2
+  _loseSightTime: 3
   _chaseSpeedMultiplier: 1.4
   _investigationSpeed: 0
   _investigationLookSpeed: 120
@@ -1166,13 +1166,13 @@ MonoBehaviour:
   _investigationPauseTime: 0.5
   _maxInvestigationTime: 5
   _investigationLookTime: 3
-  _attackRange: 1.9
+  _attackRange: 1.8
   _attackCooldown: 2
   _dismembermentMode: 0
   _limbConfigs: []
   _visionRange: 10
   _visionAngle: 25
-  _visionHeight: 1
+  _visionHeight: 0
   _rearDetectionRange: 2
   _crouchVisionRangeMultiplier: 0.5
   _crouchVisionAngleMultiplier: 0.6

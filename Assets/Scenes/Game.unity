@@ -9618,6 +9618,8 @@ MonoBehaviour:
   _canBePushed: 1
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!59 &1284823476
 HingeJoint:
   m_ObjectHideFlags: 0
@@ -10509,10 +10511,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3989542457443652721, guid: 275e058f5be6fd7459e80acfdba9addf, type: 3}
-      propertyPath: _loseSightTime
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3989542457443652721, guid: 275e058f5be6fd7459e80acfdba9addf, type: 3}
       propertyPath: '_patrolPoints.Array.data[0]'
       value: 
       objectReference: {fileID: 376343509}
@@ -10544,10 +10542,6 @@ PrefabInstance:
       propertyPath: '_patrolPoints.Array.data[7]'
       value: 
       objectReference: {fileID: 642494369}
-    - target: {fileID: 5702471046277070994, guid: 275e058f5be6fd7459e80acfdba9addf, type: 3}
-      propertyPath: m_WarningMessage
-      value: 
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -43445,6 +43439,8 @@ MonoBehaviour:
   _canBePushed: 1
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!4 &1502320287885743846
 Transform:
   m_ObjectHideFlags: 0
@@ -87029,6 +87025,8 @@ MonoBehaviour:
   _canBePushed: 1
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &3873455924571784114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117524,6 +117522,8 @@ MonoBehaviour:
   _canBePushed: 1
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &5555702594211329684
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118405,6 +118405,8 @@ MonoBehaviour:
   _canBePushed: 1
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &5589260615939952661
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123785,6 +123787,8 @@ MonoBehaviour:
   _canBePushed: 1
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &5906666295636298205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128317,6 +128321,8 @@ MonoBehaviour:
   _canBePushed: 1
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &6142605801862299934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130117,6 +130123,8 @@ MonoBehaviour:
   _canBePushed: 1
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &6241489659313479567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132028,6 +132036,8 @@ MonoBehaviour:
   _canBePushed: 0
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &6332429747623647145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138814,6 +138824,8 @@ MonoBehaviour:
   _canBePushed: 1
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &6672990648934178542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139111,6 +139123,8 @@ MonoBehaviour:
   _canBePushed: 0
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &6676879478190069297
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142877,6 +142891,8 @@ MonoBehaviour:
   _canBePushed: 1
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &6881684997355473271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149637,6 +149653,8 @@ MonoBehaviour:
   _canBePushed: 1
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!59 &7270239697225869178
 HingeJoint:
   m_ObjectHideFlags: 0
@@ -157660,6 +157678,8 @@ MonoBehaviour:
   _canBePushed: 0
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &7643921351451302927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -161032,6 +161052,8 @@ MonoBehaviour:
   _canBePushed: 0
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &7798316244802667865
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164791,6 +164813,8 @@ MonoBehaviour:
   _canBePushed: 0
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &7949543232143540461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167675,6 +167699,8 @@ MonoBehaviour:
   _canBePushed: 1
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &8071955975641159642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -171752,6 +171778,8 @@ MonoBehaviour:
   _canBePushed: 0
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &8275657268580266768
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172791,6 +172819,8 @@ MonoBehaviour:
   _canBePushed: 1
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!59 &8310784832523046900
 HingeJoint:
   m_ObjectHideFlags: 0
@@ -173678,6 +173708,8 @@ MonoBehaviour:
   _canBePushed: 1
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &8342895562711203832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173904,6 +173936,8 @@ MonoBehaviour:
   _canBePushed: 0
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &8344145818870745610
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174709,6 +174743,8 @@ MonoBehaviour:
   _canBePushed: 1
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &8375672774751182581
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175459,6 +175495,8 @@ MonoBehaviour:
   _canBePushed: 1
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &8403426155546413936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179186,6 +179224,8 @@ MonoBehaviour:
   _canBePushed: 1
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!59 &8586942277925724479
 HingeJoint:
   m_ObjectHideFlags: 0
@@ -180178,6 +180218,8 @@ MonoBehaviour:
   _canBePushed: 1
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &8624616192988649871
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184249,6 +184291,8 @@ MonoBehaviour:
   _canBePushed: 1
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &8831570278926677415
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186297,6 +186341,8 @@ MonoBehaviour:
   _canBePushed: 1
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &8911582210886771436
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187390,6 +187436,8 @@ MonoBehaviour:
   _canBePushed: 0
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &8962271175822194516
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188433,6 +188481,8 @@ MonoBehaviour:
   _canBePushed: 1
   saveId: 
   soundCooldown: 1.5
+  _requiredKeyType: 0
+  _workflowConfig: {fileID: 0}
 --- !u!114 &9006715768977639033
 MonoBehaviour:
   m_ObjectHideFlags: 0
