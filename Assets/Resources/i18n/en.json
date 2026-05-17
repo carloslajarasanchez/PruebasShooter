@@ -123,6 +123,12 @@
         },{
             "key": "_sonido" , 
 			"value":"Sound"
-        }			
+        },{
+            "key": "_doorStoreStepDescription" , 
+			"value":"You need the warehouse key to open the door"
+        },{
+            "key": "_doorStepName" , 
+			"value":"Locked door"
+        }					
     ]
 }

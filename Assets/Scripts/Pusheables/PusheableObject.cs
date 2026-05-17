@@ -4,7 +4,11 @@ public class PusheableObject : MonoBehaviour, IPusheable
 {
     [SerializeField] private bool _canBePushed;
     private Rigidbody _rigidbody;
-    public bool CanBePushed => _canBePushed;
+    public bool CanBePushed
+    {
+        get { return _canBePushed; }
+        set { _canBePushed = value; }
+    }
 
     private protected virtual void Awake()
     {
