@@ -123,6 +123,12 @@
         },{
             "key": "_sonido" , 
 			"value":"Sonido"
-        }	
+        },{
+            "key": "_doorStoreStepDescription" , 
+			"value":"Hace falta la llave del almacen para abrir la puerta"
+        },{
+            "key": "_doorStepName" , 
+			"value":"Puerta bloqueada"
+        }		
 	]
 }
