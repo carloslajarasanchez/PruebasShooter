@@ -9,6 +9,19 @@ public class AudioService : MonoBehaviour, IAudioService
     private int _poolSize = 9;
     private GameObject _audioSourceContainer;
     private AudioSource _backgroundMusic;
+    private float _bgBaseVolume;
+    private float _masterVolume = 1f;
+
+    public float MasterVolume
+    {
+        get => _masterVolume;
+        set
+        {
+            _masterVolume = Mathf.Clamp01(value);
+            if (_backgroundMusic != null)
+                _backgroundMusic.volume = _bgBaseVolume * _masterVolume;
+        }
+    }
 
     public void Initialize(ISoundLibrary library, GameObject go)
     {
@@ -43,10 +56,16 @@ public class AudioService : MonoBehaviour, IAudioService
     public void PlayBackgroundMusic(SoundType type)
     {
         if (this._backgroundMusic.isPlaying)
-            return;
+            this._backgroundMusic.Stop();
 
         var data = _library.Get(type);
-        this._backgroundMusic.volume = data.volume;
+        if (data == null)
+        {
+            Debug.LogError($"No SoundData found for {type}");
+            return;
+        }
+        _bgBaseVolume = data.volume;
+        this._backgroundMusic.volume = _bgBaseVolume * _masterVolume;
         this._backgroundMusic.clip = data.clips[0];
         this._backgroundMusic.loop = data.loop;
         this._backgroundMusic.Play();
@@ -57,7 +76,7 @@ public class AudioService : MonoBehaviour, IAudioService
         var data = _library.Get(type);
         if (data == null || data.clips.Length == 0) return;
 
-        // Si ya está sonando, lo reutilizamos
+        // Si ya estï¿½ sonando, lo reutilizamos
         if (!_activeSounds.TryGetValue(type, out var source) || source == null)
         {
             source = GetFreeSource();
@@ -65,7 +84,7 @@ public class AudioService : MonoBehaviour, IAudioService
         }
 
         source.clip = data.clips[Random.Range(0, data.clips.Length)];
-        source.volume = data.volume;
+        source.volume = data.volume * _masterVolume;
         source.pitch = pitchOverride >= 0f ? pitchOverride : data.pitch;
         source.loop = loop;
         source.Play();

@@ -120,6 +120,9 @@
         },{
             "key": "_reintentar" , 
 			"value":"Reintentar"
+        },{
+            "key": "_sonido" , 
+			"value":"Sonido"
         }	
 	]
 }

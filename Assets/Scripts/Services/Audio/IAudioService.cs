@@ -1,5 +1,7 @@
 public interface IAudioService
 {
+    float MasterVolume { get; set; }
+
     void PlayBackgroundMusic(SoundType type);
     void Play(SoundType type);
     void PlayLoop(SoundType type);

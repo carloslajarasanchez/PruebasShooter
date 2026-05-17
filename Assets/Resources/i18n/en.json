@@ -120,6 +120,9 @@
         },{
             "key": "_reintentar" , 
 			"value":"Restart"
+        },{
+            "key": "_sonido" , 
+			"value":"Sound"
         }			
     ]
 }

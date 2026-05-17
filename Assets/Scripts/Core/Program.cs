@@ -5,6 +5,7 @@ public static class Program
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     public static void Main()
     {
+        AppContainer.Register<ISceneService>(() => new SceneService());
         // LogService se encarga de gestionar todos los logs de la aplicación
         AppContainer.Register<ILogService>(() => new LogService());
 
