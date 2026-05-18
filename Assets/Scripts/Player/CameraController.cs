@@ -53,6 +53,9 @@ public class CameraController : MonoBehaviour
     private float _stepBobCurrentY;
     private bool _isCrouching;
 
+    private float _currentRecoilKick;
+    private float _recoilRecoverySpeed = 10f;
+
     private Transform _playerBody;
     private PlayerInputActions _input;
     private FootstepController _footstepController;
@@ -79,12 +82,14 @@ public class CameraController : MonoBehaviour
     {
         _events.Subscribe<OnPlayerCrouch>(OnCrouch);
         _events.Subscribe<OnPlayerStand>(OnStand);
+        _events.Subscribe<OnWeaponRecoil>(OnRecoil);
     }
 
     private void OnDisable()
     {
         _events.Unsubscribe<OnPlayerCrouch>(OnCrouch);
         _events.Unsubscribe<OnPlayerStand>(OnStand);
+        _events.Unsubscribe<OnWeaponRecoil>(OnRecoil);
     }
 
     private void FixedUpdate()
@@ -110,6 +115,15 @@ public class CameraController : MonoBehaviour
         _isCrouching = false;
         _targetCameraY = standingCameraY;
         _isTransitioning = true;
+    }
+
+    private void OnRecoil(OwnEventBase parameters)
+    {
+        if (parameters is OnWeaponRecoil recoil)
+        {
+            _currentRecoilKick += recoil.RecoilAmount;
+            _recoilRecoverySpeed = recoil.RecoverySpeed;
+        }
     }
 
     // ── Transición de altura ─────────────────────────────────────────────────
@@ -160,6 +174,8 @@ public class CameraController : MonoBehaviour
         _currentVerticalAngle = Mathf.Lerp(
             _currentVerticalAngle, _targetVerticalAngle, verticalSmoothSpeed * Time.deltaTime);
 
+        _currentRecoilKick = Mathf.Lerp(_currentRecoilKick, 0f, _recoilRecoverySpeed * Time.deltaTime);
+
         // Tilt lateral — se inclina en dirección contraria al giro para dar sensación de peso
         _targetTilt = -delta.x * tiltAmount;
         _currentTilt = Mathf.Lerp(_currentTilt, _targetTilt, tiltSmoothSpeed * Time.deltaTime);
@@ -167,7 +183,7 @@ public class CameraController : MonoBehaviour
         if (Mathf.Abs(delta.x) < 0.01f)
             _currentTilt = Mathf.Lerp(_currentTilt, 0f, tiltReturnSpeed * Time.deltaTime);
 
-        transform.localEulerAngles = new Vector3(_currentVerticalAngle, 0f, _currentTilt);
+        transform.localEulerAngles = new Vector3(_currentVerticalAngle - _currentRecoilKick, 0f, _currentTilt);
     }
 
     // ── Step Bob ─────────────────────────────────────────────────────────────

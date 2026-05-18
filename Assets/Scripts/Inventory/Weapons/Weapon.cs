@@ -120,6 +120,7 @@ public abstract class Weapon : Item, IEquippable
         _eventService.Publish(new OnWeaponFired());
         _eventService.Publish(new OnAmmoChanged { CurrentAmmo = CurrentAmmo, MaxAmmo = MaxAmmo });
         _eventService.Publish(new OnPlayerShoot());
+        _eventService.Publish(new OnWeaponRecoil { RecoilAmount = _weaponData.CameraRecoil, RecoverySpeed = _weaponData.RecoilRecoverySpeed });
 
         if (CurrentAmmo == 0)
             StartCoroutine(AutoReloadCoroutine());
