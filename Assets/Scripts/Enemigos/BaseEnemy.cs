@@ -431,8 +431,13 @@ public class BaseEnemy : MonoBehaviour, ISavable<EnemyState>, IPusheable
 
     public virtual void OnHitReaction(HumanBodyBones bone, Vector3 force, Rigidbody boneRb, float damage)
     {
-        if (_isDead) return;
-        _hitRig?.TriggerHit(bone, force);
+        if (_isDead)
+        {
+            Push(force*0.5f);
+            return;
+        }
+
+        _hitRig?.TriggerHit(bone, force*Time.deltaTime);
         if (_dismembermentMode != DismembermentMode.None)
             EvaluateDismemberment(bone, damage, force);
     }
