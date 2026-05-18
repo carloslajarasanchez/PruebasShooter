@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
     {
         if (_input == null) return;
 
-        _input.Player.Jump.performed += OnJumpPerformed;
+        //_input.Player.Jump.performed += OnJumpPerformed;
         _input.Player.Crouch.performed += OnCrouchPerformed;
     }
 
@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour
     {
         if (_input == null) return;
 
-        _input.Player.Jump.performed -= OnJumpPerformed;
+        //_input.Player.Jump.performed -= OnJumpPerformed;
         _input.Player.Crouch.performed -= OnCrouchPerformed;
     }
 

@@ -19,29 +19,29 @@ public class Player : IPlayer
         if (Time.time < _nextDamageTime) return;
         _nextDamageTime = Time.time + _damageCooldown;
 
-        Lives -= amount;
+        Lives = Mathf.Max(0, Lives - amount);
 
         if (Lives <= 0)
             _eventService.Publish(new OnGameOver());
 
-        _eventService.Publish(new OnLivesChanged());
+        _eventService.Publish(new OnLivesChanged { CurrentLives = Lives, MaxLives = 100 });
     }
 
-    /// <summary>
-    /// A�ade vidas al player
-    /// </summary>
-    /// <param name="amount"></param>
     public void AddLives(int amount)
     {
-        Lives += amount;
-        _eventService.Publish(new OnLivesChanged());
+        Lives = Mathf.Min(100, Lives + amount);
+        _eventService.Publish(new OnLivesChanged { CurrentLives = Lives, MaxLives = 100 });
     }
 
-
-    public void SetLives(int amount) => Lives = amount;
+    public void SetLives(int amount)
+    {
+        Lives = Mathf.Clamp(amount, 0, 100);
+        _eventService.Publish(new OnLivesChanged { CurrentLives = Lives, MaxLives = 100 });
+    }
 
     public void ResetPlayer()
     {
         Lives = 100;
+        _eventService.Publish(new OnLivesChanged { CurrentLives = Lives, MaxLives = 100 });
     }
 }

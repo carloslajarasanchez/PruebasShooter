@@ -77,6 +77,8 @@ public class ButtonEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     {
         _audioService.Play(clickSound);
 
+        if (!gameObject.activeInHierarchy) return;
+
         if (_shakeCoroutine != null)
             StopCoroutine(_shakeCoroutine);
         _shakeCoroutine = StartCoroutine(ShakeCoroutine());
@@ -90,7 +92,7 @@ public class ButtonEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
         while (elapsed < shakeDuration)
         {
-            float strength = Mathf.Lerp(shakeStrength, 0f, elapsed / shakeDuration); // se atenúa
+            float strength = Mathf.Lerp(shakeStrength, 0f, elapsed / shakeDuration); // se atenï¿½a
             float offsetX = Random.Range(-strength, strength);
             float offsetY = Random.Range(-strength, strength);
 

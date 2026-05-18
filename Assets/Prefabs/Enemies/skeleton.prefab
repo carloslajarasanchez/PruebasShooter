@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EsqueletoEnemigo
   _life: 1.01e+11
-  _damage: 10
+  _damage: 80
   _speed: 4
   _saveId: 
   _animator: {fileID: 0}

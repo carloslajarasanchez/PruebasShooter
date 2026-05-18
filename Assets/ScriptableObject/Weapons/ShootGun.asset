@@ -28,3 +28,5 @@ MonoBehaviour:
   WeaponType: 1
   CasingPrefab: {fileID: 4624410897263763386, guid: 15ceea7039ad5e547ac261619653bf00, type: 3}
   CasingEjectPoint: {fileID: 0}
+  CameraRecoil: 15
+  RecoilRecoverySpeed: 2
