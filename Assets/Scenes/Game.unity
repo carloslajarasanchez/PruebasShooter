@@ -4438,7 +4438,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3466482764460773027, guid: 76ac2744e5266084dbe2f6c6003e10bc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.763
+      value: 0.861
       objectReference: {fileID: 0}
     - target: {fileID: 3466482764460773027, guid: 76ac2744e5266084dbe2f6c6003e10bc, type: 3}
       propertyPath: m_LocalPosition.z
@@ -8836,7 +8836,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7187184208953611711, guid: 6a82ab575b68e9942b96821e5aba99b6, type: 3}
       propertyPath: saveId
-      value: saveTape02
+      value: saveTape01
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -15448,7 +15448,6 @@ GameObject:
   - component: {fileID: 1932773835}
   - component: {fileID: 1932773837}
   - component: {fileID: 1932773836}
-  - component: {fileID: 1932773838}
   m_Layer: 5
   m_Name: Texto
   m_TagString: Untagged
@@ -15577,19 +15576,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1932773834}
   m_CullTransparentMesh: 1
---- !u!114 &1932773838
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1932773834}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c8a460fe9a0f8241979811272fd5266, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TranslatableItem
-  _key: _noTapes
 --- !u!1 &1934355276
 GameObject:
   m_ObjectHideFlags: 0
@@ -180525,7 +180511,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7187184208953611711, guid: 6a82ab575b68e9942b96821e5aba99b6, type: 3}
       propertyPath: saveId
-      value: saveTape01
+      value: saveTape02
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

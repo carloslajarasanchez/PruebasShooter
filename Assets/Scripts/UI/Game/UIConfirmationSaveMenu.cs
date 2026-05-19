@@ -28,39 +28,49 @@ public class UIConfirmationSaveMenu : MonoBehaviour
         _panel.SetActive(false);
         _yesButton.onClick.AddListener(OnYesPressed);
         _noButton.onClick.AddListener(OnNoPressed);
+        UpdateTapeUI();
     }
 
     private void OnEnable()
     {
         _eventService.Subscribe<OnLanguageChanged>(OnLanguageChanged);
+        _eventService.Subscribe<OnInventoryChanged>(OnInventoryChanged);
     }
 
     private void OnDisable()
     {
         _eventService.Unsubscribe<OnLanguageChanged>(OnLanguageChanged);
+        _eventService.Unsubscribe<OnInventoryChanged>(OnInventoryChanged);
     }
 
-    public void Show(SaveMachine machine)
+    private void OnInventoryChanged(OwnEventBase e)
     {
-        _currentMachine = machine;
+        UpdateTapeUI();
+    }
 
+    private void UpdateTapeUI()
+    {
         int tapeCount = 0;
         foreach (var item in _inventoryService.Items)
         {
             if (item is SaveTape) tapeCount++;
         }
-
         _cachedTapeCount = tapeCount;
+        _yesButton.gameObject.SetActive(tapeCount > 0);
+    }
 
-        if (tapeCount == 0)
+    public void Show(SaveMachine machine)
+    {
+        _currentMachine = machine;
+        UpdateTapeUI();
+
+        if (_cachedTapeCount == 0)
         {
             _confirmationText.text = _translationService.Get("_noTapes");
-            _yesButton.gameObject.SetActive(false);
         }
         else
         {
-            _confirmationText.text = string.Format(_translationService.Get("_saveConfirm"), tapeCount);
-            _yesButton.gameObject.SetActive(true);
+            _confirmationText.text = string.Format(_translationService.Get("_saveConfirm"), _cachedTapeCount);
         }
 
         _panel.SetActive(true);

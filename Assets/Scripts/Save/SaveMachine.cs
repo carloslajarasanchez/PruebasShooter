@@ -7,5 +7,6 @@ public class SaveMachine : MonoBehaviour
     public void OpenMenu()
     {
         _confirmationMenu.Show(this);
+
     }
 }
