@@ -30,10 +30,10 @@ El proyecto utiliza una **arquitectura orientada a servicios** con un **Service 
 Assets/
 ├── Scripts/                          # CÓDIGO DEL JUEGO - Todos los sistemas
 │   ├── Alert/                        # Sistema de alertas en pantalla
-│   ├── Audio/                        # Sistema de audio y footstep controller
+│   ├── Audio/                        # Sistema de audio
 │   ├── Core/                         # Service locator y punto de entrada
 │   ├── Enemigos/                     # Sistema de enemigos y combate
-│   │   ├── ScriptsEnemigos/          # Implementaciones concretas de enemigos
+│   │   └── ScriptsEnemigos/          # Implementaciones concretas de enemigos
 │   ├── FootStep/                     # Sonidos de pasos por superficie
 │   ├── Initialize/                   # Inicialización de escena
 │   ├── Input/                        # Gestión de input (Unity Input System)
@@ -46,13 +46,13 @@ Assets/
 │   ├── Player/                       # Movimiento del jugador y cámara
 │   ├── Pusheables/                   # Objetos empujables
 │   │   └── Objects/                  # Puertas y objetos específicos
-│   ├── Save/                         # Interfaces de guardado
+│   ├── Save/                         # Componentes de mundo para guardado (SaveMachine, ISavable)
 │   ├── Services/                     # SERVICIOS (arquitectura orientada a servicios)
 │   │   ├── Alerts/                   # Servicio de alertas
 │   │   ├── Audio/                    # Servicio de audio
 │   │   ├── Configuration/            # Servicio de configuración
 │   │   ├── Events/                   # Servicio de eventos publish-subscribe
-│   │   │   └── EventS/               # Clases de eventos concretos (23 eventos)
+│   │   │   └── EventS/               # Clases de eventos concretos (24 eventos)
 │   │   ├── GameState/                # Servicio de estado del juego (flags/triggers)
 │   │   ├── Inventory/                # Servicio de inventario
 │   │   ├── Log/                      # Servicio de logging
@@ -75,40 +75,81 @@ Assets/
 │   │   └── Steps/                    # Pasos concretos del tutorial
 │   └── Zones/                        # Componentes de zonas en escena
 │
-├── InputAction/                      # Actions del Unity Input System (autogenerado)
-├── Resources/                        # Archivos cargados en runtime (i18n, etc.)
-├── ScriptableObject/                 # ScriptableObjects del juego (datos de items, armas, audio)
+├── Prefabs/                          # Prefabs del juego organizados por tipo
+│   ├── Asylum/                       # Prefabs del escenario asilo
+│   ├── Enemies/                      # Prefabs de enemigos
+│   ├── Items/                        # Prefabs de objetos/items
+│   ├── UI/                           # Prefabs de interfaz de usuario
+│   └── Weapons/                      # Prefabs de armas
 │
-├── Scenes/                           # Escenas del proyecto
-├── Prefabs/                          # Prefabs del juego
-├── Materials/                        # Materiales
-├── PhysicsMaterials/                 # Physics materials para detección de superficies
-├── Sounds/                           # Archivos de audio
-├── AudioUI/                          # Audio para UI
-├── Sprites/                          # Sprites/UI assets
+├── Scenes/                           # Escenas .unity + assets asociados por escena
+│   ├── 02_MainMenu.unity             # Escena del menú principal
+│   ├── 03_Options.unity              # Escena de opciones
+│   ├── Game.unity                    # Escena principal del juego
+│   ├── 00_LogoDisplay.unity          # Escena de logo inicial
+│   ├── 01_SelectLanguage.unity       # Escena de selección de idioma
+│   ├── 02_MainMenu/                  # Assets específicos del menú principal
+│   ├── 03_Options/                   # Assets específicos de opciones
+│   └── Game/                         # Assets específicos de la escena del juego
+│
+├── ScriptableObject/                 # Datos configurables desde el editor
+│   ├── Door/                         # Configuración de puertas/tutoriales
+│   ├── FootstepController/           # Superficies y sonidos de pasos
+│   ├── Items/                        # Datos de items (ItemData)
+│   ├── Sounds/                       # Librerías de sonidos (SoundLibrary)
+│   └── Weapons/                      # Datos de armas (WeaponData)
+│
+├── Resources/                        # Archivos cargados en runtime
+│   └── i18n/                         # Traducciones JSON por idioma
+│
+├── Models/                           # Modelos 3D propios del proyecto
+│   ├── Materials/                    # Materiales de modelos
+│   └── Textures/                     # Texturas de modelos
+│
+├── PackagesDownloaded/               # Assets de terceros descargados
+│   ├── Abandoned_Asylum/             # Escenario del asilo abandonado
+│   ├── AudioUI/                      # Sonidos de interfaz
+│   ├── Horror Ambient Album - 060319/# Música ambiental
+│   ├── inkRibbon/                    # Modelo de cinta de tinta
+│   ├── kOsmaragd/                    # Asset de terceros
+│   ├── Low_Poly_flashlight_v01/      # Modelo de linterna
+│   ├── ModelosEnemigos/              # Modelos 3D de enemigos
+│   ├── Mutant1/                      # Modelo de mutante
+│   ├── PS1 Cans Asset Pack/          # Asset pack de latas
+│   ├── PSXAmmoBoxes/                 # Asset pack de cajas de munición
+│   ├── PSXMiscGuns/                  # Asset pack de armas
+│   ├── TypeWriter/                   # Efecto typewriter para texto
+│   └── _GhoulZombie/                 # Modelo de ghoul
+│
+├── Sounds/                           # Archivos de audio del juego
+│   ├── AudioInterface/               # Sonidos de interfaz
+│   ├── AudioUI/                      # Sonidos de UI
+│   ├── FootStep/                     # Sonidos de pasos por superficie
+│   ├── Music/                        # Música ambiental y de menú
+│   ├── Objects/                      # Sonidos de objetos (puertas, etc.)
+│   └── Weapons/                      # Sonidos de armas
+│       ├── Pistol/                   # Disparos de pistola
+│       └── Shootgun/                 # Disparos de escopeta
+│
+├── Sprites/                          # Sprites y texturas 2D
+│   ├── Crosshair/                    # Sprites de miras/puntería
+│   ├── Objects/                      # Sprites de objetos
+│   ├── Textures/                     # Texturas 2D adicionales
+│   ├── UI/                           # Sprites de interfaz
+│   └── Weapons/                      # Sprites de armas
+│
+├── Materials/                        # Materiales del proyecto
+├── PhysicsMaterials/                 # Physics materials (superficies)
 ├── Fonts/                            # Fuentes del juego
 ├── Fuentes/                          # Fuentes adicionales
-├── Imagenes/                         # Imágenes varias
-│
-├── ModelosEnemigos/                  # Modelos 3D de enemigos
-├── Mutant1/                          # Modelo de mutante
-├── _GhoulZombie/                     # Modelo de ghoul
-├── _Recovery/                        # Modelo de recovery
-├── Low_Poly_flashlight_v01/          # Modelo de linterna
-├── kOsmaragd/                        # Asset de terceros
-├── Abandoned_Asylum/                 # Assets del escenario asilo
-├── Horror Ambient Album - 060319/    # Música ambiental
-├── PS1 Cans Asset Pack/              # Asset pack de latas
-├── PSXAmmoBoxes/                     # Asset pack de cajas de munición
-├── PSXMiscGuns/                      # Asset pack de armas
-│
-├── RenderTexture/                    # Render textures para cámaras
-├── Settings/                         # Configuraciones de Unity (URP, input, etc.)
+├── RenderTexture/                    # Render textures (preview items, etc.)
+├── Settings/                         # Configuraciones de Unity (URP, etc.)
 ├── Standard Assets/                  # Assets estándar de Unity
 ├── TextMesh Pro/                     # Plugin de TextMeshPro
-├── TypeWriter/                       # Efecto typewriter para texto
-├── TutorialInfo/                     # Info de tutoriales de Unity
-└── inkRibbon/                        # Asset de cinta de tinta
+├── TutorialInfo/                     # Recursos de tutoriales de Unity
+├── InputAction/                      # Actions del Unity Input System
+├── _Recovery/                        # Copias de seguridad de escenas
+└── InputSystem_Actions.inputactions  # Input actions del proyecto
 ```
 
 ### Resumen de carpetas principales
@@ -118,11 +159,14 @@ Assets/
 | **Scripts/** | Todo el código C# del juego, organizado por sistemas |
 | **Scripts/Services/** | Servicios reutilizables con interfaces (arquitectura orientada a servicios) |
 | **Scripts/UI/** | Toda la interfaz de usuario dividida en HUD, menú principal y efectos |
+| **Prefabs/** | Prefabs organizados por tipo (asilo, enemigos, items, UI, armas) |
+| **Scenes/** | Escenas .unity en la raíz + carpetas con assets específicos por escena |
+| **ScriptableObject/** | Datos configurables desde el editor (items, armas, sonidos, puertas) |
 | **Resources/** | Archivos JSON de traducción (i18n) cargados en runtime |
-| **ScriptableObject/** | Datos configurables desde el editor (items, armas, sonidos) |
-| **Scenes/** | Escenas del juego (menú, nivel principal, etc.) |
-| **Prefabs/** | Prefabs reutilizables del juego |
-| **ModelosEnemigos/, Mutant1/, etc.** | Modelos 3D y assets de terceros (no requieren modificación) |
+| **Models/** | Modelos 3D propios (llaves, escopeta, etc.) |
+| **PackagesDownloaded/** | Todos los assets de terceros agrupados (modelos, audio, escenario) |
+| **Sounds/** | Archivos de audio organizados por categoría |
+| **Sprites/** | Sprites organizados por uso (crosshair, objetos, UI, armas) |
 
 ---
 
@@ -132,14 +176,16 @@ Assets/
 
 ### ScriptableObjects (Assets configurables)
 
-| ScriptableObject | Qué configura |
-|---|---|
-| **ItemData** | Nombre, descripción, icono sprite, modelo 3D de cada item |
-| **WeaponData** | Munición máxima, fire rate, tiempo de recarga, rango, daño, modo auto/semi, pellet count, spread angle, tipo de arma, prefab de casquillo |
-| **SoundLibrary** | Base de datos completa de sonidos mapeados por tipo |
-| **SoundData** | AudioClip(s), volumen, pitch, variación de pitch, loop |
-| **FootstepSurface** | Mapeo de PhysicsMaterials a tipos de sonido de pasos |
-| **DoorWorkflowConfig** | Configuración de tutoriales específicos de puertas |
+Los ScriptableObjects están organizados en `Assets/ScriptableObject/` por categoria:
+
+| Carpeta | ScriptableObject | Qué configura | Ejemplos .asset |
+|---|---|---|---|
+| **Items/** | `ItemData` | Nombre, descripción, icono sprite, modelo 3D de cada item | `HealthPotion`, `StorageKey`, `PistoleBullets`, `ShotgunBullets`, `Save Tape` |
+| **Weapons/** | `WeaponData` | Munición máxima, fire rate, tiempo de recarga, rango, daño, modo auto/semi, pellet count, spread angle, tipo de arma, prefab de casquillo | `Pistole`, `ShootGun` |
+| **Sounds/** | `SoundLibrary` | Base de datos completa de sonidos mapeados por tipo | _(ver SoundData)_ |
+| **Sounds/** | `SoundData` | AudioClip(s), volumen, pitch, variación de pitch, loop | `PistoleShootData`, `ShootgunShootData`, `ConcreteFootData`, `WoodFootData`, `UIClickData`, `AsylumAmbienceData`, etc. |
+| **FootstepController/** | `FootstepSurface` | Mapeo de PhysicsMaterials a tipos de sonido de pasos | `FootstepSurface` |
+| **Door/** | `DoorWorkflowConfig` | Configuración de tutoriales específicos de puertas | `StorageDoorWorkflow` |
 
 ### Componentes en Inspector (MonoBehaviours)
 
@@ -182,9 +228,9 @@ Assets/
 - `Workflow`: lista de steps configurables en inspector
 - Cada Step: nombre, descripción, mensaje de alerta
 
-**Servicios (en GameObjects de escena):**
-- `SaveMachine`: SaveId único para guardado
-- `InitializeGame`: escena de inicio, configuración de tutorial
+**Componentes de escena:**
+- `SaveMachine` (`Scripts/Save/SaveMachine.cs`): SaveId único para guardado
+- `InitializeGame` (`Scripts/Initialize/InitializeGame.cs`): escena de inicio, configuración de tutorial
 
 ---
 
@@ -462,16 +508,19 @@ Usa **Unity Animation Rigging** para crear constraints en runtime:
 
 ### 9. Sistema de Guardado/Carga
 
-**Archivos:**
-- `Scripts/Save/SaveMachine.cs`
-- `Scripts/Save/ISavable.cs`
-- `Scripts/Services/Save/SaveService.cs`
-- `Scripts/Services/Save/SaveData.cs`
-- `Scripts/Services/Save/EntryS/DoorSaveEntry.cs`
-- `Scripts/Services/Save/EntryS/EnemySaveEntry.cs`
-- `Scripts/Services/Save/EntryS/FlagEntry.cs`
-- `Scripts/Services/Save/EntryS/ItemSaveEntry.cs`
-- `Scripts/Services/Save/EntryS/PlayerSaveEntry.cs`
+**Archivos (organizados por carpeta):**
+
+`Scripts/Save/` — Componentes de mundo que se colocan en escena:
+- `SaveMachine.cs`: Objeto interactivo para guardar partida
+- `ISavable.cs`: Interfaz genérica para objetos que guardan/restauran estado
+
+`Scripts/Services/Save/` — Lógica del servicio de guardado:
+- `SaveService.cs`: Orquesta la persistencia y carga
+- `ISaveService.cs`: Interfaz del servicio
+- `SaveData.cs`: Contenedor de datos serializados
+
+`Scripts/Services/Save/EntryS/` — Tipos de entrada de guardado:
+- `DoorSaveEntry.cs`, `EnemySaveEntry.cs`, `FlagEntry.cs`, `ItemSaveEntry.cs`, `PlayerSaveEntry.cs`
 
 **Cómo funciona:**
 
