@@ -40,4 +40,3 @@ public class DeactivateUI : MonoBehaviour
         gameObject.SetActive(true);
     }
 }
-

@@ -48,6 +48,4 @@ public class UIPauseView : MonoBehaviour
     // Enlaza este método al botón Continuar en el Inspector
     public void OnContinueClicked() => _pauseService.Resume();
 
-    // Enlaza este método al botón Salir en el Inspector
-    public void OnQuitClicked() => Application.Quit();
 }

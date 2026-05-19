@@ -67,6 +67,7 @@ public class UIInventory : MonoBehaviour
     private void ForceCloseInventory()
     {
         _inventoryPanel.SetActive(false);
+        _playerInput.SwitchControlMap(ControlMap.UI);
         _itemDetail.Hide();
         _selectedUIItem = null;
         ClearGrid();
@@ -84,8 +85,8 @@ public class UIInventory : MonoBehaviour
             UIItem uiItem = child.GetComponent<UIItem>();
             if (uiItem != null)
             {
-                // Lo marcamos como seleccionado si es el que se puls�
-                // (UIItem guarda su propio _item, pero aqu� lo detectamos comparando)
+                // Lo marcamos como seleccionado si es el que se pulsó
+                // (UIItem guarda su propio _item, pero aquí lo detectamos comparando)
             }
         }
 
@@ -110,7 +111,7 @@ public class UIInventory : MonoBehaviour
 
         if (playerInventory == null || playerInventory.Count == 0)
         {
-            Debug.Log("Inventario vac�o.");
+            Debug.Log("Inventario vacío.");
             return;
         }
 
