@@ -80,7 +80,7 @@ public class Workflow
     private async void CompleteWorkflow()
     {
         await Task.Delay(TimeSpan.FromSeconds(2f));
-        _alertService.Show("¡Has completado el tutorial!", "¡Felicidades!");
+        //_alertService.Show("¡Has completado el tutorial!", "¡Felicidades!");
         await Task.Delay(TimeSpan.FromSeconds(3f)); // tiempo para leer el mensaje
         _eventService.Publish(new OnAlertMessageReceived(null, null)); // cierra el alert
         OnComplete?.Invoke();

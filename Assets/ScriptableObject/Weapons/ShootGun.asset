@@ -15,7 +15,7 @@ MonoBehaviour:
   ItemName: _shotgunName
   Description: "arma de fuego de dise\xF1o con dos ca\xF1ones horizontales"
   Icon: {fileID: 21300000, guid: 94a5b5b192be6e249b8cc767e17db86e, type: 3}
-  ModelPrefab: {fileID: 4694857792581119042, guid: ef650763d5f4fda4fa1ac0311858b1ed, type: 3}
+  ModelPrefab: {fileID: 919132149155446097, guid: 35e1bc2e36ab79a4eb7f75f85d444d49, type: 3}
   MaxAmmo: 4
   FireRate: 0.8
   ReloadTime: 3
@@ -26,7 +26,7 @@ MonoBehaviour:
   PelletCount: 8
   SpreadAngle: 15
   WeaponType: 1
-  CasingPrefab: {fileID: 4624410897263763386, guid: 15ceea7039ad5e547ac261619653bf00, type: 3}
+  CasingPrefab: {fileID: 1687618474281703272, guid: 55ece30e8b7f9ea418bba457e7aaa7a5, type: 3}
   CasingEjectPoint: {fileID: 0}
   CameraRecoil: 15
   RecoilRecoverySpeed: 2
