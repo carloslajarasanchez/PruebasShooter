@@ -434,7 +434,7 @@ Usa **Unity Animation Rigging** para crear constraints en runtime:
 - `Scripts/Audio/SoundData.cs`
 - `Scripts/Audio/SoundType.cs`
 - `Scripts/Audio/ISoundLibrary.cs`
-- `Scripts/Audio/WorldAudioSource.cs`
+- `Scripts/Audio/WorldAudioSurce.cs`
 - `Scripts/Audio/InitializerMusicScene.cs`
 - `Scripts/FootStep/FootstepController.cs`
 - `Scripts/FootStep/FootstepSurface.cs`
@@ -519,7 +519,7 @@ Publica `OnFlagChangedEvent` y `OnTriggerChangedEvent` cuando cambian, permitien
 - `Scripts/Services/Events/EventService.cs`
 - `Scripts/Services/Events/IEventService.cs`
 - `Scripts/Services/Events/OwnEventBase.cs`
-- `Scripts/Services/Events/EventS/` (23 clases de eventos)
+- `Scripts/Services/Events/EventS/` (24 clases de eventos)
 
 **Cómo funciona:**
 
@@ -530,8 +530,8 @@ Publica `OnFlagChangedEvent` y `OnTriggerChangedEvent` cuando cambian, permitien
 - `Unsubscribe<T>(Action<T>)`: elimina un handler
 - Convierte a array durante iteración para evitar problemas de modificación concurrente
 
-**Los 23 eventos:**
-`OnAlertMessageReceived`, `OnAmmoChanged`, `OnCatchableDetected`, `OnCatchableLost`, `OnDoorLocked`, `OnEnemyKilled`, `OnFirstEquipItem`, `OnFirstSelectedItem`, `OnFlagChangedEvent`, `OnGameOver`, `OnGamePaused`, `OnGameResumed`, `OnInventoryChanged`, `OnLanguageChanged`, `OnLivesChanged`, `OnPlayerCrouch`, `OnPlayerStand`, `OnPlayerShoot`, `OnTriggerChangedEvent`, `OnWeaponChanged`, `OnWeaponFired`, `OnWeaponReloaded`, `OnWeaponReloading`
+**Los 24 eventos:**
+`OnAlertMessageReceived`, `OnAmmoChanged`, `OnCatchableDetected`, `OnCatchableLost`, `OnDoorLocked`, `OnEnemyKilled`, `OnFirstEquipItem`, `OnFirstSelectedItem`, `OnFlagChangedEvent`, `OnGameOver`, `OnGamePaused`, `OnGameResumed`, `OnInventoryChanged`, `OnLanguageChanged`, `OnLivesChanged`, `OnPlayerCrouch`, `OnPlayerShoot`, `OnPlayerStand`, `OnTriggerChangedEvent`, `OnWeaponChanged`, `OnWeaponFired`, `OnWeaponRecoil`, `OnWeaponReloaded`, `OnWeaponReloading`
 
 ---
 
@@ -560,10 +560,11 @@ Publica `OnFlagChangedEvent` y `OnTriggerChangedEvent` cuando cambian, permitien
 - `Scripts/UI/Game/UIItem.cs`
 - `Scripts/UI/Game/UIItemDetail.cs`
 - `Scripts/UI/Game/WeaponAmmoUI.cs`
+- `Scripts/UI/Game/HealthBarUI.cs`
 - `Scripts/UI/Game/ItemDetector.cs`
 - `Scripts/UI/Game/UIGameOverView.cs`
 - `Scripts/UI/Game/UIConfirmationSaveMenu.cs`
-- `Scripts/UI/Game/DeactivateInventory.cs`
+- `Scripts/UI/Game/DeactivateUI.cs`
 - `Scripts/UI/Game/GoToMainMenu.cs`
 
 **Archivos Menú Principal:**
@@ -587,7 +588,8 @@ Publica `OnFlagChangedEvent` y `OnTriggerChangedEvent` cuando cambian, permitien
 - `ItemDetector`: Icono de crosshair. Cambia sprite al mirar items recogibles (suscrito a OnCatchableDetected/Lost).
 - `UIGameOverView`: Pantalla de muerte. Animación (player rota 90°), luego panel con Restart/Quit. Limpia servicios al reiniciar.
 - `UIConfirmationSaveMenu`: Diálogo de guardado. Verifica SaveTape, lo consume, muestra texto traducido.
-- `DeactivateInventory`: Toggle del GameObject según estado del inventario.
+- `DeactivateUI`: Toggle del GameObject según input de inventario/pausa. Bloquea apertura de inventario si el juego está en pausa y viceversa.
+- `HealthBarUI`: Muestra la vida actual del jugador en el HUD.
 - `GoToMainMenu`: Limpia servicios y carga escena "02_MainMenu".
 
 **Menú Principal:**
