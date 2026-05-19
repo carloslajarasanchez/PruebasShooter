@@ -18,6 +18,7 @@ public class DoorController : PusheableObject, ISavable<DoorState>
     private ISaveService _saveService;
     private IInventoryService _inventoryService;
     private ILogService _logService;
+    private IEventService _eventService;
     private WorldAudioSource _worldAudio;
     private float _lastSoundTime = -Mathf.Infinity; // permite sonar desde el primer push
 
@@ -27,6 +28,7 @@ public class DoorController : PusheableObject, ISavable<DoorState>
         _saveService = AppContainer.Get<ISaveService>();
         _worldAudio = GetComponent<WorldAudioSource>();
         _inventoryService = AppContainer.Get<IInventoryService>();
+        _eventService = AppContainer.Get<IEventService>();
         _logService = AppContainer.Get<ILogService>();
         // Seguridad: si no tiene ID, se asigna uno en editor
 #if UNITY_EDITOR
@@ -90,6 +92,11 @@ public class DoorController : PusheableObject, ISavable<DoorState>
             return;
 
         CheckKey();  
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        _eventService.Publish(new OnDoorLocked());
     }
 
     private void CheckKey()

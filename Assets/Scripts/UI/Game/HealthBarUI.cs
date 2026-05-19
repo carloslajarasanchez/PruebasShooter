@@ -1,22 +1,28 @@
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class HealthBarUI : MonoBehaviour
 {
-    [SerializeField] private Image _healthImage;
-    [SerializeField] private TextMeshProUGUI _healthText;
+    //[SerializeField] private Image _healthImage;
+    [SerializeField] private Slider _healthSlider;
 
-    [Header("Colores del texto")]
-    [SerializeField] private Color _normalColor = Color.white;
+    [Header("Colores del slider")]
+    [SerializeField] private Color _normalColor = Color.green;
     [SerializeField] private Color _warningColor = new Color(1f, 0.6f, 0f);
     [SerializeField] private Color _dangerColor = Color.red;
 
     private IEventService _eventService;
+    private Image _sliderFillImage;
 
     private void Awake()
     {
         _eventService = AppContainer.Get<IEventService>();
+
+        // Obtener la imagen de relleno del slider
+        if (_healthSlider != null)
+        {
+            _sliderFillImage = _healthSlider.fillRect.GetComponent<Image>();
+        }
     }
 
     private void Start()
@@ -42,18 +48,31 @@ public class HealthBarUI : MonoBehaviour
             SetHealthUI(evt.CurrentLives, evt.MaxLives);
         }
     }
+
     private void SetHealthUI(int currentLives, int maxLives)
     {
         float healthPercent = currentLives / (float)maxLives;
 
-        _healthImage.fillAmount = healthPercent;
-
-        if (_healthText != null)
+        // Actualizar la imagen antigua (por si la quieres mantener)
+        /*if (_healthImage != null)
         {
-            _healthText.text = currentLives.ToString();
+            _healthImage.fillAmount = healthPercent;
+        }*/
 
-            Color targetColor = healthPercent > 0.5f ? _normalColor : healthPercent > 0.2f ? _warningColor : _dangerColor;
-            _healthText.color = targetColor;
+        // Actualizar el slider
+        if (_healthSlider != null)
+        {
+            _healthSlider.maxValue = maxLives;
+            _healthSlider.value = currentLives;
+
+            // Cambiar color según el porcentaje de vida
+            if (_sliderFillImage != null)
+            {
+                Color targetColor = healthPercent > 0.5f ? _normalColor
+                                  : healthPercent > 0.2f ? _warningColor
+                                  : _dangerColor;
+                _sliderFillImage.color = targetColor;
+            }
         }
     }
 }
