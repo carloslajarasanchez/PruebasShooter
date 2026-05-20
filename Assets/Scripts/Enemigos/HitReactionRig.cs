@@ -111,7 +111,7 @@ public class HitReactionRig : MonoBehaviour
     }
 
     /// <summary>
-    /// Busca el Joint en el Transform de cada hueso ra�z de grupo.
+    /// Busca el Joint en el Transform de cada hueso raíz de grupo.
     /// Funciona independientemente de si el esqueleto tiene UpperChest o no.
     /// </summary>
     private void DiscoverJoints()
@@ -217,6 +217,8 @@ public class HitReactionRig : MonoBehaviour
         damper.weight = 1f;
     }
 
+    // Libera el Rigidbody de un hueso para que caiga por gravedad (modo Dangle).
+    // A diferencia de Sever, no aplica fuerza de impulso.
     private void ReleaseRigidbodyDangle(HumanBodyBones bone)
     {
         var boneTransform = _animator.GetBoneTransform(bone);
@@ -251,6 +253,7 @@ public class HitReactionRig : MonoBehaviour
         }
     }
 
+    // Libera el Rigidbody de un hueso y le aplica un impulso para que salga volando (modo Sever).
     private void ReleaseRigidbodies(HumanBodyBones bone, Vector3 force)
     {
         var boneTransform = _animator.GetBoneTransform(bone);
@@ -492,6 +495,8 @@ public class HitReactionRig : MonoBehaviour
         _boneToGroupRoot[HumanBodyBones.RightToes] = HumanBodyBones.RightUpperLeg;
     }
 
+    // Devuelve los huesos raíz de cada grupo definido en _boneGroups.
+    // Usado por BaseEnemy.InitializeLimbMap() para construir el mapa de extremidades.
     public HumanBodyBones[] GetBoneGroupRoots()
     {
         var roots = new HumanBodyBones[_boneGroups.Length];

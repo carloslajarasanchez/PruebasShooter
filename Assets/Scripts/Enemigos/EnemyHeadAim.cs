@@ -29,7 +29,7 @@ public class EnemyHeadAim : MonoBehaviour
 
 
     // ── Estado interno ────────────────────────────────────────────
-    public enum HeadMode { Idle, Tracking, Searching,Scanning }
+    public enum HeadMode { Idle, Tracking, Searching }
 
     private HeadMode _mode = HeadMode.Idle;
     private Transform _playerTransform;
@@ -92,7 +92,7 @@ public class EnemyHeadAim : MonoBehaviour
         if (_playerTransform == null) { SetIdle(); return; }
 
         // Apunta al centro de masa del jugador (pelvis aprox.)
-        _targetPosition = _playerTransform.position + Vector3.up * 1.2f;
+        _targetPosition = _playerTransform.position + Vector3.up*0.8f;
     }
 
     private void UpdateSearching()

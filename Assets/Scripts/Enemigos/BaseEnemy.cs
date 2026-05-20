@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -21,7 +19,6 @@ public class BaseEnemy : MonoBehaviour, ISavable<EnemyState>, IPusheable
     public GameObject player;
     private ISaveService _saveService;
     private IEventService _eventService;
-    private IPlayer _player;
 
     // ── Cabeza (aim constraint) ───────────────────────────────────
     [Header("Cabeza y Aim Constraint")]
@@ -43,26 +40,22 @@ public class BaseEnemy : MonoBehaviour, ISavable<EnemyState>, IPusheable
     [SerializeField] private float _chaseSpeedMultiplier = 1.2f;
 
     private float _loseSightTimer;
-    protected bool _isChasing;
     protected Vector3 _lastKnownPlayerPosition;
 
     // ── Investigación ─────────────────────────────────────────────
     [Header("Investigacion")]
     [SerializeField] private float _investigationSpeed;
-    [SerializeField] private float _investigationLookSpeed = 120f;
     [SerializeField] private float _investigationDistanceThreshold = 1.5f;
-    [SerializeField] private float _investigationPauseTime = 0.5f;
     private float _investigationTimer = 0f;
     [SerializeField] private float _maxInvestigationTime = 5f;
     [SerializeField] private float _investigationLookTime = 3f;
     private float _lookAroundTimer = 0f;
-    private bool _searchingStarted = false;
 
+    // ── Ataque ────────────────────────────────────────────────────
     [Header("Ataque")]
     [SerializeField] private float _attackRange = 1.5f;
     [SerializeField] private float _attackCooldown = 2f;
     private float _attackTimer = 0f;
-    private bool _hasDealtDamage;
 
     public bool CanDealDamage { get; protected set; }
     public int GetDamage() => _damage;
@@ -71,6 +64,7 @@ public class BaseEnemy : MonoBehaviour, ISavable<EnemyState>, IPusheable
     [SerializeField] private DismembermentMode _dismembermentMode = DismembermentMode.None;
     [SerializeField] private LimbData[] _limbConfigs;
     private Dictionary<HumanBodyBones, LimbData> _limbMap;
+    private HitReactionRig _hitRig;
     protected bool _isDead;
 
     // ── Propiedades ───────────────────────────────────────────────
@@ -88,7 +82,6 @@ public class BaseEnemy : MonoBehaviour, ISavable<EnemyState>, IPusheable
         _saveService = AppContainer.Get<ISaveService>();
         _animator = GetComponent<Animator>();
         _eventService = AppContainer.Get<IEventService>();
-        _player = AppContainer.Get<IPlayer>();
         _hitRig = GetComponent<HitReactionRig>();
         if (_hitRig == null)
             _hitRig = gameObject.AddComponent<HitReactionRig>();
@@ -152,6 +145,8 @@ public class BaseEnemy : MonoBehaviour, ISavable<EnemyState>, IPusheable
         EnableRagdoll();
     }
 
+    // Activa el modo ragdoll: suelta los Rigidbodies (isKinematic = false)
+    // y activa todos los Colliders como sólidos para que el cuerpo caiga con físicas reales.
     private void EnableRagdoll()
     {
         foreach (var rb in GetComponentsInChildren<Rigidbody>())
@@ -165,6 +160,21 @@ public class BaseEnemy : MonoBehaviour, ISavable<EnemyState>, IPusheable
     }
 
     // ── Detección ─────────────────────────────────────────────────
+    // Cada enemigo puede definir su propio rango, ángulo y altura de visión.
+    // El cono se calcula desde la cabeza (DetectionOrigin). Si checkLOS está activo,
+    // se lanza un raycast para verificar que no haya obstáculos entre el enemigo y el jugador.
+    // Además se contempla detección trasera (IsPlayerInRearRange) para ataques por la espalda,
+    // y detección del jugador mirando al enemigo (IsPlayerLookingAtMe), usado por ejemplo
+    // en enemigos tipo "Weeping Angel" que se congelan cuando el jugador los mira.
+    // ───────────────────────────────────────────────────────────────
+
+    // Detecta si el jugador está dentro del cono de visión frontal.
+    // Parámetros:
+    //   range  - distancia máxima de detección.
+    //   angle  - apertura del cono (grados). 360 = omnidireccional.
+    //   height - offset vertical opcional para el raycast (compatibilidad subclases).
+    //   checkLOS - si true, verifica línea de visión con raycast.
+    //   obstacles - LayerMask para obstáculos que bloquean la visión.
     protected bool IsPlayerInVisionCone(float range, float angle, float height, bool checkLOS, LayerMask obstacles)
     {
         if (player == null) return false;
@@ -190,6 +200,8 @@ public class BaseEnemy : MonoBehaviour, ISavable<EnemyState>, IPusheable
             Vector3 rayOrigin = origin + Vector3.up * height;
             if (Physics.Raycast(rayOrigin, dirToPlayer, out RaycastHit hit, distance, obstacles))
             {
+                // Si el rayo golpea algo que no sea el propio enemigo ni el jugador,
+                // significa que hay un obstáculo bloqueando la visión.
                 if (!hit.collider.TryGetComponent<BaseEnemy>(out _) &&
                     !hit.collider.CompareTag("Player"))
                     return false;
@@ -199,12 +211,17 @@ public class BaseEnemy : MonoBehaviour, ISavable<EnemyState>, IPusheable
         return true;
     }
 
+    // Detecta si el jugador está dentro del rango de proximidad trasera.
+    // Útil para evitar que el jugador se acerque por detrás sin ser detectado.
     protected bool IsPlayerInRearRange(float range)
     {
         if (player == null) return false;
         return Vector3.Distance(transform.position, player.transform.position) <= range;
     }
 
+    // Detecta si el jugador está mirando directamente a este enemigo.
+    // Funciona calculando el ángulo entre la cámara del jugador y la dirección hacia el enemigo.
+    // Útil para comportamientos como "Weeping Angel" (EsqueletoEnemigo).
     protected bool IsPlayerLookingAtMe(float fovAngle, bool checkLOS, LayerMask obstacles)
     {
         if (_cameraTransform == null || player == null) return false;
@@ -218,6 +235,7 @@ public class BaseEnemy : MonoBehaviour, ISavable<EnemyState>, IPusheable
             if (Physics.Raycast(_cameraTransform.position, direction.normalized,
                                 out RaycastHit hit, direction.magnitude, obstacles))
             {
+                // Si el raygo golpea algo que no es el enemigo, la línea de visión está bloqueada.
                 if (!hit.collider.TryGetComponent<BaseEnemy>(out _))
                     return false;
             }
@@ -288,7 +306,6 @@ public class BaseEnemy : MonoBehaviour, ISavable<EnemyState>, IPusheable
         if (_agent.hasPath) _agent.ResetPath();
         _animator.SetTrigger("attack");
         _attackTimer = _attackCooldown;
-        _hasDealtDamage = false;
 
         if (player != null)
             _headAim?.SetTracking(player.transform);
@@ -296,25 +313,20 @@ public class BaseEnemy : MonoBehaviour, ISavable<EnemyState>, IPusheable
 
     private void TransitionToInvestigation()
     {
-        _isChasing = false;
         _currentState = EnemyStateMachine.Investigating;
         _investigationTimer = 0f;
         _lookAroundTimer = _investigationLookTime;
-        _searchingStarted = false;
         _animator.SetBool("isChasing", false);
         _agent.SetDestination(_lastKnownPlayerPosition);
 
         _headAim?.SetSearching(_lastKnownPlayerPosition);
-        _searchingStarted = true;
     }
 
     private void TransitionToChase()
     {
-        _isChasing = true;
         _loseSightTimer = 0f;
         _investigationTimer = 0f;
         _lookAroundTimer = 0f;
-        _searchingStarted = false;
         _currentState = EnemyStateMachine.Chasing;
         _animator.SetBool("isChasing", true);
 
@@ -370,7 +382,6 @@ public class BaseEnemy : MonoBehaviour, ISavable<EnemyState>, IPusheable
         _lookAroundTimer -= Time.deltaTime;
         if (_lookAroundTimer <= 0f)
         {
-            _searchingStarted = false;
             _currentState = EnemyStateMachine.Idle;
             _headAim?.SetIdle();
         }
@@ -416,6 +427,8 @@ public class BaseEnemy : MonoBehaviour, ISavable<EnemyState>, IPusheable
         _eventService?.Unsubscribe<OnPlayerCrouch>(HandlePlayerCrouch);
     }
 
+    // Aplica una fuerza física a todos los Rigidbodies del enemigo (solo cuando está muerto).
+    // Implementa IPusheable para permitir empujar cadáveres con físicas.
     public void Push(Vector3 force)
     {
         if (!_isDead) return;
@@ -427,8 +440,9 @@ public class BaseEnemy : MonoBehaviour, ISavable<EnemyState>, IPusheable
         }
     }
 
-    private HitReactionRig _hitRig;
-
+    // Reacción al recibir un impacto: activa la animación procedural de golpe en el hueso
+    // correspondiente (TriggerHit) y evalúa si la extremidad debe desmembrarse.
+    // Si el enemigo ya está muerto, aplica una pequeña fuerza física (Push) en lugar de la reacción.
     public virtual void OnHitReaction(HumanBodyBones bone, Vector3 force, Rigidbody boneRb, float damage)
     {
         if (_isDead)
@@ -442,6 +456,9 @@ public class BaseEnemy : MonoBehaviour, ISavable<EnemyState>, IPusheable
             EvaluateDismemberment(bone, damage, force);
     }
 
+    // Inicializa el diccionario de extremidades (LimbData) a partir de los grupos de huesos
+    // definidos en HitReactionRig. Luego aplica la configuración personalizada de _limbConfigs
+    // (vida por extremidad, fuerza de sever, etc.) si existe.
     private void InitializeLimbMap()
     {
         _limbMap = new Dictionary<HumanBodyBones, LimbData>();
@@ -480,6 +497,9 @@ public class BaseEnemy : MonoBehaviour, ISavable<EnemyState>, IPusheable
         }
     }
 
+    // Evalúa si una extremidad debe desmembrarse tras recibir daño.
+    // Se desprende si el acumulado de daño supera su vida (currentHealth <= 0)
+    // o si la fuerza del impacto supera instantSeverForce de un solo golpe.
     private void EvaluateDismemberment(HumanBodyBones bone, float damage, Vector3 force)
     {
         HumanBodyBones groupRoot = ResolveGroupRoot(bone);
@@ -495,6 +515,10 @@ public class BaseEnemy : MonoBehaviour, ISavable<EnemyState>, IPusheable
             Dismember(limb, groupRoot, force);
     }
 
+    // Ejecuta el desmembramiento de una extremidad según el modo configurado:
+    // - Dangle: la extremidad queda colgando con físicas (DampedTransform).
+    // - Sever (por defecto): el CharacterJoint se destruye y la extremidad sale volando.
+    // Si la extremidad es central (cabeza, torso), el enemigo muere al desmembrarse.
     private void Dismember(LimbData limb, HumanBodyBones groupRoot, Vector3 force)
     {
         limb.isSevered = true;
@@ -513,6 +537,9 @@ public class BaseEnemy : MonoBehaviour, ISavable<EnemyState>, IPusheable
             Die();
     }
 
+    // Resuelve cualquier hueso hijo a la raíz de su grupo anatómico.
+    // Por ejemplo: LeftHand → LeftUpperArm, Chest → UpperChest, Neck → Head.
+    // Esto asegura que el daño en un hueso hijo afecte al grupo completo.
     private static HumanBodyBones ResolveGroupRoot(HumanBodyBones bone)
     {
         return bone switch
@@ -536,11 +563,15 @@ public class BaseEnemy : MonoBehaviour, ISavable<EnemyState>, IPusheable
         };
     }
 
+    // Las subclases overridean este método para ajustar la detección
+    // (rango, ángulo de visión) cuando el jugador se agacha.
     protected virtual void HandlePlayerCrouch(OwnEventBase eventBase) { }
 
     // ── Guardado ──────────────────────────────────────────────────
+    // Captura el estado actual del enemigo para persistencia (solo importa si está muerto).
     public EnemyState SaveState() => new EnemyState { IsDead = _life <= 0 };
 
+    // Restaura el estado guardado: si el enemigo estaba muerto, lo marca como tal.
     public void RestoreState(EnemyState state)
     {
         if (state.IsDead) Die();

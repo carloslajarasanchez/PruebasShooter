@@ -1,5 +1,7 @@
 using UnityEngine;
 
+// Enemigo tipo "Weeping Angel": se congela cuando el jugador lo mira (IsPlayerLookingAtMe)
+// y persigue cuando no. Usa detección por caja (Physics.CheckBox) en lugar de cono de visión.
 public class EsqueletoEnemigo : BaseEnemy
 {
     [Header("Deteccion")]
@@ -79,6 +81,7 @@ public class EsqueletoEnemigo : BaseEnemy
 
         Gizmos.DrawWireCube(Vector3.zero, _detectionBoxSize);
     }
+    // El esqueleto no tiene reacción de golpe procedural (se desintegra al morir directamente).
     public override void OnHitReaction(HumanBodyBones bone, Vector3 force, Rigidbody boneRb, float damage)
     {
         

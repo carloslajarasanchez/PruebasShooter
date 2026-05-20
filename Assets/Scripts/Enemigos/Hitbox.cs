@@ -1,5 +1,8 @@
 using UnityEngine;
 
+// Hitbox asignada a cada hueso del enemigo. Recibe el daño desde el sistema de armas (Weapon.cs),
+// lo multiplica por el factor de la zona (_damageMultiplier) y reenvía el resultado al BaseEnemy.
+// También informa del impacto a OnHitReaction para activar animaciones procedurales y desmembramiento.
 public class Hitbox : MonoBehaviour
 {
     [SerializeField] private float _damageMultiplier = 1f;

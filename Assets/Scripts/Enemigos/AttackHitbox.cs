@@ -1,5 +1,8 @@
 using UnityEngine;
 
+// Collider de ataque del enemigo (trigger). Cuando el jugador está dentro y el enemigo
+// puede hacer daño (CanDealDamage), resta vidas al jugador. Activado/desactivado por
+// Animation Events (EnableDamage/DisableDamage en BaseEnemy).
 public class AttackHitbox : MonoBehaviour
 {
     private BaseEnemy _enemy;

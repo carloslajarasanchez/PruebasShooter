@@ -1,5 +1,7 @@
 using UnityEngine;
 
+// Enemigo de tipo "Gordo": detección por cono de visión frontal + rango trasero.
+// Ajusta su visión cuando el jugador se agacha (HandlePlayerCrouch).
 public class EnemigoGordo : BaseEnemy
 {
     [Header("Vision")]
@@ -61,6 +63,8 @@ public class EnemigoGordo : BaseEnemy
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, _rearDetectionRange);
     }
+    // Reduce el rango y ángulo de visión cuando el jugador está agachado,
+    // aplicando los multiplicadores de sigilo configurados.
     protected override void HandlePlayerCrouch(OwnEventBase eventBase)
     {
         if (eventBase is OnPlayerCrouch crouchEvent)

@@ -1,5 +1,7 @@
 using UnityEngine;
 
+// Enemigo de tipo Ghoul: misma mecánica de detección que EnemigoGordo
+// (cono de visión frontal + detección trasera + sigilo al agacharse).
 public class Ghoul : BaseEnemy
 {
     [Header("Vision")]
@@ -61,6 +63,8 @@ public class Ghoul : BaseEnemy
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, _rearDetectionRange);
     }
+    // Reduce el rango y ángulo de visión cuando el jugador está agachado,
+    // aplicando los multiplicadores de sigilo configurados.
     protected override void HandlePlayerCrouch(OwnEventBase eventBase)
     {
         if (eventBase is OnPlayerCrouch crouchEvent)
